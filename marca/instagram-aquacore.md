@@ -41,3 +41,9 @@ Watch the series · How it works · Pilot · About us · Partner
 1. EP01 (gancho de la serie)
 2. Carrusel "Who we are" (problema → solución → piloto)
 3. EP03 "Clear ≠ safe" (el mensaje más compartible)
+
+## Datos oficiales (web aquacoreglobal.com)
+- Precio público: 0,50 € por persona al mes (6 € al año; unos 6.000 € al año por cada 1.000 personas), con 100–150 L por persona al mes (4–6 pastillas).
+- 0,35 € es solo para inversores: no usarlo en contenido público.
+- Dióxido de cloro (ClO2): bacterias, virus y parásitos (Giardia, Cryptosporidium); funciona en agua turbia (se recomienda prefiltrar si está muy contaminada).
+- Tiempo de contacto: 30 min; hasta 4 h para máxima protección frente a parásitos. Vida útil: 2–5 años.
