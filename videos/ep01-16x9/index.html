@@ -418,7 +418,7 @@
       tl.fromTo("#e1", { y: 30, opacity: 0 }, { y: 0, opacity: 1, duration: 0.35 }, 41.9);
       tl.fromTo("#e2", { y: 30, opacity: 0 }, { y: 0, opacity: 1, duration: 0.35 }, 42.1);
       pop("#e3", 42.4);
-      tl.fromTo("#logo", { rotation: 0 }, { rotation: 360, duration: 1.2, ease: "power2.inOut" }, 42.6);
+      tl.fromTo("#logo", { scale: 1 }, { scale: 1.06, duration: 0.6, yoyo: true, repeat: 1, ease: "sine.inOut" }, 42.6);
 
       /* ================= captions ================= */
       const LINES = [

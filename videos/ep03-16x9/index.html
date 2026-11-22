@@ -332,7 +332,7 @@
       tl.fromTo("#e1", { y: 30, opacity: 0 }, { y: 0, opacity: 1, duration: 0.35 }, 40.0);
       tl.fromTo("#e2", { y: 30, opacity: 0 }, { y: 0, opacity: 1, duration: 0.35 }, 40.2);
       pop("#e3", 40.5);
-      tl.fromTo("#logo", { rotation: 0 }, { rotation: 360, duration: 1.2, ease: "power2.inOut" }, 40.7);
+      tl.fromTo("#logo", { scale: 1 }, { scale: 1.06, duration: 0.6, yoyo: true, repeat: 1, ease: "sine.inOut" }, 40.7);
 
       /* ================= captions ================= */
       const KEY = /^(germs|tiny|hundreds|pinhead|clear|cloudy|hide|treatment|eyes|nose|taste|safe|risk|warning|toilets|animals|tanks|pipes|floods|rain|test|lab|kit|coli|faecal|chemicals|nitrates|arsenic|time|seasons|boiling|filters|chlorine|tablets|next)$/i;
