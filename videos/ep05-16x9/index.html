@@ -1,0 +1,387 @@
+<!doctype html>
+<html lang="en" data-resolution="landscape" data-format="landscape">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1920, height=1080" />
+    <title>More Than a Well</title>
+    <script src="assets/vendor/gsap.min.js"></script>
+    <style>
+      @font-face { font-family: "Hand"; src: url("assets/fonts/patrick-hand-latin-400-normal.woff2") format("woff2"); font-weight: 400; }
+      @font-face { font-family: "Cap"; src: url("assets/fonts/nunito-latin-900-normal.woff2") format("woff2"); font-weight: 900; }
+      @font-face { font-family: "Cap"; src: url("assets/fonts/nunito-latin-800-normal.woff2") format("woff2"); font-weight: 800; }
+      :root { --ground: #ffffff; --ink: #111418; --blue: #1e7fd8; --sky: #dff2fc; --muted: #8b96a3; --W: 1080px; --H: 1920px; }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { margin: 0; width: var(--W); height: var(--H); overflow: hidden; background: var(--ground); }
+      #root { position: relative; width: 100%; height: 100%; background: var(--ground); font-family: "Hand", sans-serif; color: var(--ink); overflow: hidden; }
+      #stage { position: absolute; width: 1080px; height: 1080px; left: 0; top: 300px; transform-origin: 0 0; overflow: hidden; }
+      #caps { position: absolute; left: 60px; width: 960px; top: 1420px; height: 260px; }
+      #tag { position: absolute; left: 0; width: 1080px; top: 150px; text-align: center; }
+      html[data-format="landscape"] { --W: 1920px; --H: 1080px; }
+      html[data-format="landscape"] #stage { left: 70px; top: 43px; }
+      html[data-format="landscape"] #caps { left: 1120px; width: 740px; top: 360px; height: 420px; }
+      html[data-format="landscape"] #tag { left: 1120px; width: 740px; top: 150px; }
+      html[data-format="landscape"] .cap { font-size: 84px; }
+      html[data-format="landscape"] .pill { font-size: 28px; }
+      .scene { position: absolute; inset: 0; width: 1080px; height: 1080px; overflow: hidden; }
+      .cam { position: absolute; left: 0; top: 0; width: 1080px; height: 1080px; transform-origin: 0 0; }
+      .abs { position: absolute; }
+      svg { overflow: visible; }
+      .pill { white-space: nowrap; display: inline-flex; align-items: center; gap: 14px; padding: 10px 28px; border: 5px solid var(--ink); border-radius: 999px; font-family: "Cap"; font-weight: 900; font-size: 34px; letter-spacing: 0.04em; background: #fff; }
+      .pill b { color: var(--blue); }
+      .label { font-family: "Hand"; font-size: 66px; line-height: 1; text-align: center; }
+      .small { font-family: "Hand"; font-size: 48px; line-height: 1; text-align: center; }
+      .chip { font-family: "Cap"; font-weight: 900; font-size: 52px; letter-spacing: 0.06em; padding: 8px 30px; border-radius: 18px; background: var(--blue); color: #fff; border: 5px solid var(--ink); }
+      .card { background: #fff; border: 8px solid var(--ink); border-radius: 28px; text-align: center; }
+      .cap { position: absolute; left: 0; right: 0; top: 50%; transform: translateY(-50%); text-align: center; font-family: "Cap"; font-weight: 900; font-size: 76px; line-height: 1.12; color: var(--ink); opacity: 0; }
+      .cap span { display: inline-block; margin: 0 0.06em; }
+      .cap span.k { color: var(--blue); }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="38" data-width="1920" data-height="1080">
+      <audio id="vo" class="clip" src="assets/voice.wav" data-start="0" data-duration="38" data-track-index="9"></audio>
+      <div id="tag" class="clip" data-start="0" data-duration="34.4" data-track-index="8">
+        <div class="pill">EP. 5 · <b>WATER:</b> WHAT WE DON'T SEE</div>
+      </div>
+      <div id="stage">
+        <div id="s0" class="scene clip" data-start="0" data-duration="4.75" data-track-index="1"><div class="cam"></div></div>
+        <div id="s1" class="scene clip" data-start="4.75" data-duration="2.6" data-track-index="1"><div class="cam"></div></div>
+        <div id="s2" class="scene clip" data-start="7.35" data-duration="5.75" data-track-index="1"><div class="cam"></div></div>
+        <div id="s3" class="scene clip" data-start="13.1" data-duration="4.9" data-track-index="1"><div class="cam"></div></div>
+        <div id="s4" class="scene clip" data-start="18.0" data-duration="5.15" data-track-index="1"><div class="cam"></div></div>
+        <div id="s5" class="scene clip" data-start="23.15" data-duration="3.0" data-track-index="1"><div class="cam"></div></div>
+        <div id="s6" class="scene clip" data-start="26.15" data-duration="2.95" data-track-index="1"><div class="cam"></div></div>
+        <div id="s7" class="scene clip" data-start="29.1" data-duration="5.3" data-track-index="1"><div class="cam"></div></div>
+        <div id="s8" class="scene clip" data-start="34.4" data-duration="3.6" data-track-index="1"><div class="cam"></div></div>
+      </div>
+      <div id="caps"></div>
+    </div>
+
+    <script>
+      /* ================= helpers ================= */
+      const INK = "#111418", BLUE = "#1e7fd8", SKY = "#dff2fc", MUTED = "#8b96a3", DIRT = "#8a7660", GRAY = "#4a4f57";
+      let seed = 11;
+      const rnd = () => ((seed = (seed * 16807) % 2147483647) / 2147483647);
+      const $$ = (s) => Array.from(document.querySelectorAll(s));
+      const cam = (id) => document.getElementById(id).getElementsByClassName("cam")[0];
+      const add = (id, html) => cam(id).insertAdjacentHTML("beforeend", html);
+      const addTop = (id, html) => document.getElementById(id).insertAdjacentHTML("beforeend", html);
+      const focus = (px, py, s) => ({ x: 540 - px * s, y: 540 - py * s, scale: s });
+
+      /* voice lines: [start, duration, text]; word times are estimated from these */
+      const LINES = [
+        [0.4, 3.86, "A new well. Everyone celebrates. But a few years later... it's broken."],
+        [4.75, 2.09, "Finding water is only the beginning."],
+        [7.35, 5.27, "First, location. Too close to toilets or animals, and the water gets contaminated."],
+        [13.1, 4.39, "Then, protection. A sealed cover and a concrete base keep dirty water out."],
+        [18.0, 4.67, "Pumps break. Without spare parts and someone trained to fix them, the well goes silent."],
+        [23.15, 2.52, "And the water must be tested, again and again."],
+        [26.15, 2.47, "A well works when the community can look after it."],
+        [29.1, 5.08, "But people need safe water today. What can be done while the network arrives? Next episode."],
+      ];
+      const TIMED = LINES.map(([start, dur, text]) => {
+        const words = text.split(" ");
+        const wts = words.map((w) => w.replace(/[^\w']/g, "").length + 3 + (/[.?!…]$/.test(w) ? 7 : /[,:]$/.test(w) ? 4 : 0));
+        const total = wts.reduce((a, b) => a + b, 0);
+        let t = start + 0.1; const span = dur - 0.25;
+        return words.map((w, i) => { const d = (wts[i] / total) * span; const o = { w, t, d }; t += d; return o; });
+      });
+      // time the voice says `word` (nth match) in line li
+      const W = (li, word, nth = 0) => {
+        const m = TIMED[li].filter((x) => x.w.toLowerCase().replace(/[^\w']/g, "") === word.toLowerCase());
+        return (m[nth] || m[0]).t;
+      };
+
+      function figure(id, { left, top, w, prop = "", face = "smile", cane = false }) {
+        const h = w * 1.8;
+        const propSvg =
+          prop === "glass"
+            ? `<g class="prop"><path d="M136 188 L172 188 L167 236 L141 236 Z" fill="#fff" stroke="${INK}" stroke-width="6" stroke-linejoin="round"/><path d="M139 204 L169 204 L167 236 L141 236 Z" fill="${SKY}" stroke="none"/><path d="M139 204 Q154 198 169 204" stroke="${BLUE}" stroke-width="5" fill="none"/></g>`
+            : prop === "lens"
+            ? `<g class="prop"><line x1="144" y1="210" x2="160" y2="186" stroke="${INK}" stroke-width="10" stroke-linecap="round"/><circle cx="176" cy="160" r="30" fill="${SKY}" fill-opacity="0.7" stroke="${INK}" stroke-width="8"/></g>`
+            : cane
+            ? `<g class="prop"><path d="M144 210 L150 340 M144 210 q-6 -16 8 -18" stroke="${INK}" stroke-width="8" fill="none" stroke-linecap="round"/></g>`
+            : "";
+        const show = (n) => (n === face ? 1 : 0);
+        return `<div id="${id}" class="abs" style="left:${left}px;top:${top}px;width:${w}px;height:${h}px">
+        <svg viewBox="0 0 200 360" width="${w}" height="${h}">
+          <g fill="none" stroke="${INK}" stroke-width="8" stroke-linecap="round" stroke-linejoin="round">
+            <path class="hdrop" d="M100 0 C94 12 86 20 86 28 a14 14 0 0 0 28 0 C114 20 106 12 100 0 Z" fill="${BLUE}" stroke-width="5"/>
+            <line x1="100" y1="126" x2="100" y2="240"/>
+            <line x1="100" y1="240" x2="66" y2="340"/><line x1="100" y1="240" x2="134" y2="340"/>
+            <g class="armL"><line x1="100" y1="150" x2="56" y2="210"/></g>
+            <g class="armR"><line x1="100" y1="150" x2="144" y2="210"/>${propSvg}</g>
+            <circle cx="100" cy="80" r="46" fill="#fff"/>
+            <g class="eyes" stroke="none" fill="${INK}"><circle cx="84" cy="76" r="6.5"/><circle cx="116" cy="76" r="6.5"/></g>
+            <g class="f-smile" opacity="${show("smile")}"><path d="M84 98 Q100 114 116 98"/></g>
+            <g class="f-o" opacity="${show("o")}"><circle cx="100" cy="104" r="9"/><path d="M72 58 L92 52 M108 52 L128 58" stroke-width="6"/></g>
+            <g class="f-hmm" opacity="${show("hmm")}"><path d="M88 106 L114 100"/><path d="M74 60 L92 58 M108 54 L126 50" stroke-width="6"/></g>
+            <g class="f-worry" opacity="${show("worry")}"><path d="M84 108 Q92 99 100 105 Q108 111 116 102"/><path d="M74 56 L92 63 M108 63 L126 56" stroke-width="6"/><path class="sweat" d="M146 54 C142 62 138 66 138 71 a8 8 0 0 0 16 0 C154 66 150 62 146 54 Z" fill="${SKY}" stroke="${BLUE}" stroke-width="4"/></g>
+            <g class="f-sick" opacity="${show("sick")}"><path d="M76 70 L92 80 M92 70 L76 80 M108 70 L124 80 M124 70 L108 80" stroke-width="6"/><path d="M84 108 Q92 99 100 105 Q108 111 116 102"/></g>
+          </g>
+        </svg></div>`;
+      }
+      function setFace(tl, id, face, t) {
+        ["smile", "o", "hmm", "worry", "sick"].forEach((f) => tl.set(`#${id} .f-${f}`, { opacity: f === face ? 1 : 0 }, t));
+        if (face === "sick") tl.set(`#${id} .eyes`, { opacity: 0 }, t); else tl.set(`#${id} .eyes`, { opacity: 1 }, t);
+      }
+      function glass(id, { left, top, w, extra = "" }) {
+        const h = w * 1.375;
+        return `<div id="${id}" class="abs" style="left:${left}px;top:${top}px;width:${w}px;height:${h}px">
+        <svg viewBox="0 0 160 220" width="${w}" height="${h}">
+          <path d="M26 66 L134 66 L124 206 L36 206 Z" fill="${SKY}"/>
+          <path class="wave" d="M26 66 Q53 56 80 66 T134 66" stroke="${BLUE}" stroke-width="6" fill="none" stroke-linecap="round"/>
+          <g class="inside">${extra}</g>
+          <path d="M18 10 L142 10 L126 210 L34 210 Z" fill="none" stroke="${INK}" stroke-width="8" stroke-linejoin="round"/>
+          <path d="M40 28 L50 190" stroke="#fff" stroke-width="7" stroke-linecap="round"/>
+        </svg></div>`;
+      }
+      // germs
+      const bacterium = (x, y, s, cls = "") =>
+        `<g class="${cls}" transform="translate(${x} ${y}) scale(${s})"><g class="wig"><rect x="-26" y="-13" width="52" height="26" rx="13" fill="#fff" stroke="${INK}" stroke-width="4.5"/><circle cx="-8" cy="-2" r="3" fill="${INK}"/><circle cx="8" cy="3" r="3" fill="${BLUE}"/><path d="M26 0 q7 -7 14 0 t12 0 M-26 0 q-7 7 -14 0 t-12 0" stroke="${INK}" stroke-width="3.5" fill="none" stroke-linecap="round"/></g></g>`;
+      const virus = (x, y, s, cls = "") => {
+        let sp = "";
+        for (let a = 0; a < 360; a += 45) { const r = (a * Math.PI) / 180; sp += `<line x1="${Math.cos(r) * 18}" y1="${Math.sin(r) * 18}" x2="${Math.cos(r) * 28}" y2="${Math.sin(r) * 28}"/><circle cx="${Math.cos(r) * 30}" cy="${Math.sin(r) * 30}" r="4" fill="${BLUE}"/>`; }
+        return `<g class="${cls}" transform="translate(${x} ${y}) scale(${s})"><g class="wig" stroke="${INK}" stroke-width="4">${sp}<circle r="18" fill="#fff"/><circle cx="-5" cy="-3" r="3" fill="${INK}" stroke="none"/><circle cx="6" cy="-3" r="3" fill="${INK}" stroke="none"/></g></g>`;
+      };
+      const parasite = (x, y, s, cls = "") =>
+        `<g class="${cls}" transform="translate(${x} ${y}) scale(${s})"><g class="wig"><path d="M-40 0 C-30 -18 -15 18 0 0 C15 -18 30 18 40 0" stroke="${INK}" stroke-width="14" fill="none" stroke-linecap="round"/><path d="M-40 0 C-30 -18 -15 18 0 0 C15 -18 30 18 40 0" stroke="#fff" stroke-width="5" fill="none" stroke-linecap="round"/><circle cx="40" cy="-2" r="3" fill="${INK}"/></g></g>`;
+      const dropPath = (x, y, s, fill, cls, stroke = INK) =>
+        `<g transform="translate(${x} ${y})"><path class="${cls}" transform="scale(${s})" d="M0 -18 C-5 -8 -11 -2 -11 5 a11 11 0 0 0 22 0 C11 -2 5 -8 0 -18 Z" fill="${fill}" stroke="${stroke}" stroke-width="3.5"/></g>`;
+
+      const tl = gsap.timeline({ paused: true });
+      const pop = (sel, t, extra = {}) => tl.fromTo(sel, { scale: 0, opacity: 0, transformOrigin: "50% 50%" }, { scale: 1, opacity: 1, duration: 0.35, ease: "back.out(2.2)", ...extra }, t);
+      const wiggle = (sel, t, dur) => tl.fromTo(sel, { rotation: -12 }, { rotation: 12, duration: 0.25, ease: "sine.inOut", yoyo: true, repeat: Math.max(1, Math.floor(dur / 0.25)), svgOrigin: "0 0" }, t);
+      const shake = (sel, t, n = 5, a = 1) => tl.fromTo(sel, { rotation: 0 }, { rotation: a, duration: 0.05, yoyo: true, repeat: n, ease: "none" }, t);
+
+      /* ---- shared drawings for this episode ---- */
+      // hand pump on a well (viewBox-free group, origin at base centre); broken=true shows a cracked, drooping version
+      const pump = (id, x, y, s) => `<g id="${id}" transform="translate(${x} ${y}) scale(${s})">
+          <path class="apron" d="M-150 0 L150 0 L130 30 L-130 30 Z" fill="#e9edf1" stroke="${INK}" stroke-width="8" stroke-linejoin="round"/>
+          <rect x="-26" y="-190" width="52" height="190" rx="8" fill="#fff" stroke="${INK}" stroke-width="8"/>
+          <path d="M-26 -140 L-70 -140 L-70 -120 L-26 -120" fill="#fff" stroke="${INK}" stroke-width="8" stroke-linejoin="round"/>
+          <g class="handle"><line x1="10" y1="-180" x2="130" y2="-230" stroke="${INK}" stroke-width="12" stroke-linecap="round"/></g>
+          <g class="flow"><path d="M-62 -116 C-64 -90 -68 -70 -66 -30" stroke="${BLUE}" stroke-width="12" fill="none" stroke-linecap="round"/></g>
+          <g class="crack" opacity="0"><path d="M-10 -150 L6 -120 L-8 -96 L8 -70" stroke="${INK}" stroke-width="5" fill="none"/><path d="M40 -10 L60 12 L50 28" stroke="${INK}" stroke-width="5" fill="none"/></g>
+        </g>`;
+      const person = (id, left, top, w, face = "smile") => figure(id, { left, top, w, face });
+
+      /* ================= S0 · hook: new well → broken (0 – 4.75) ================= */
+      add("s0", `<svg class="abs" style="left:0;top:0" width="1080" height="1080" viewBox="0 0 1080 1080">
+        <line x1="0" y1="760" x2="1080" y2="760" stroke="${INK}" stroke-width="8"/>
+        ${pump("p0", 540, 760, 1.6)}
+        <g id="ribbon"><path d="M300 520 Q540 560 780 520" stroke="${BLUE}" stroke-width="14" fill="none"/><path d="M520 520 l-30 50 M560 520 l30 50" stroke="${BLUE}" stroke-width="10"/></g>
+        <g id="confetti">${Array.from({ length: 16 }, (_, i) => `<rect x="${160 + rnd() * 760}" y="${80 + rnd() * 200}" width="16" height="10" fill="${i % 2 ? BLUE : "#ffd34d"}" transform="rotate(${rnd() * 90} ${160 + i * 40} 120)"/>`).join("")}</g>
+        <g id="web" opacity="0" stroke="${MUTED}" stroke-width="3" fill="none"><path d="M560 470 L640 470 M560 470 L560 550 M560 470 L620 530"/><path d="M580 470 Q575 490 560 490 M600 470 Q595 510 560 510 M620 470 Q615 530 560 530"/></g>
+      </svg>`);
+      add("s0", person("c1", 90, 540, 130) + person("c2", 860, 540, 130));
+      addTop("s0", `<div id="yrs0" class="abs" style="left:0;top:60px;width:1080px;text-align:center;opacity:0"><span class="chip" style="font-size:64px;background:${INK}">A FEW YEARS LATER…</span></div>`);
+      tl.fromTo("#s0 .cam", focus(540, 560, 1.15), { ...focus(540, 560, 1.0), duration: 1.5, ease: "power2.out" }, 0);
+      tl.fromTo("#confetti rect", { y: -200, opacity: 0 }, { y: 120, opacity: 1, duration: 1.2, ease: "power1.in", stagger: 0.04 }, 0.2);
+      tl.fromTo(["#c1 .armL", "#c1 .armR", "#c2 .armL", "#c2 .armR"], { rotation: 0 }, { rotation: (i) => (i % 2 ? -110 : 110), svgOrigin: "100 150", duration: 0.25, yoyo: true, repeat: 5 }, W(0, "celebrates") - 0.3);
+      tl.fromTo("#p0 .handle", { rotation: 0 }, { rotation: 14, svgOrigin: "10 -180", duration: 0.25, yoyo: true, repeat: 5 }, 0.3);
+      const late = W(0, "few") - 0.2;
+      tl.fromTo("#yrs0", { y: -100, opacity: 0 }, { y: 0, opacity: 1, duration: 0.3, ease: "back.out(2)" }, late);
+      tl.to(["#confetti", "#ribbon"], { opacity: 0, duration: 0.2 }, late);
+      tl.to(["#c1", "#c2"], { opacity: 0, duration: 0.2 }, late);
+      tl.to("#p0 .flow", { opacity: 0, duration: 0.1 }, W(0, "broken") - 0.2);
+      tl.to("#p0 .crack", { opacity: 1, duration: 0.1 }, W(0, "broken") - 0.2);
+      tl.to("#p0 .handle", { rotation: 55, svgOrigin: "10 -180", duration: 0.35, ease: "bounce.out" }, W(0, "broken") - 0.2);
+      tl.to("#web", { opacity: 1, duration: 0.3 }, W(0, "broken"));
+      tl.to("#s0 .cam", { ...focus(560, 520, 1.3), duration: 0.6, ease: "power2.inOut" }, W(0, "broken") - 0.2);
+
+      /* ================= S1 · only the beginning (4.75 – 7.35) ================= */
+      const stepIc = [
+        `<path d="M0 -26 C-16 -26 -24 -12 -24 0 C-24 18 0 36 0 36 C0 36 24 18 24 0 C24 -12 16 -26 0 -26 Z" fill="#fff" stroke="${INK}" stroke-width="6"/><circle r="8" fill="${BLUE}"/>`,
+        `<path d="M0 -30 L24 -20 L24 4 C24 20 0 32 0 32 C0 32 -24 20 -24 4 L-24 -20 Z" fill="#fff" stroke="${INK}" stroke-width="6" stroke-linejoin="round"/>`,
+        `<path d="M-20 20 L10 -10 M6 -24 a14 14 0 1 0 18 18 l-8 -2 l-6 -8 Z" stroke="${INK}" stroke-width="7" fill="#fff" stroke-linecap="round" stroke-linejoin="round"/>`,
+        `<path d="M-8 -30 L-8 16 a8 8 0 0 0 16 0 L8 -30 M-14 -30 L14 -30" stroke="${INK}" stroke-width="6" fill="#fff" stroke-linecap="round"/>`,
+        `<circle cx="-14" cy="-10" r="10" fill="#fff" stroke="${INK}" stroke-width="5"/><circle cx="14" cy="-10" r="10" fill="#fff" stroke="${INK}" stroke-width="5"/><path d="M-28 24 Q-14 4 0 24 Q14 4 28 24" fill="none" stroke="${INK}" stroke-width="5"/>`,
+      ];
+      add("s1", `<svg class="abs" style="left:0;top:0" width="1080" height="1080" viewBox="0 0 1080 1080">
+        <path id="road" d="M120 620 C320 560 420 700 600 640 S880 560 1000 600" fill="none" stroke="${INK}" stroke-width="8" stroke-dasharray="24 16" stroke-linecap="round"/>
+        <g id="start1"><path d="M120 600 C108 580 96 568 96 552 a24 24 0 0 1 48 0 C144 568 132 580 120 600 Z" fill="${BLUE}" stroke="${INK}" stroke-width="6"/><line x1="120" y1="600" x2="120" y2="460" stroke="${INK}" stroke-width="7"/><path d="M120 460 L190 480 L120 500 Z" fill="#ffd34d" stroke="${INK}" stroke-width="5"/></g>
+        ${[[300, 600], [460, 660], [620, 630], [780, 590], [940, 590]].map(([x, y], i) => `<g class="ms" transform="translate(${x} ${y - 90})" opacity="0.25">${stepIc[i]}</g>`).join("")}
+      </svg>`);
+      addTop("s1", `<div id="beg" class="abs" style="left:0;top:200px;width:1080px;text-align:center;opacity:0"><span class="chip" style="font-size:66px">STEP 1 OF MANY</span></div>`);
+      tl.fromTo("#s1 .cam", focus(160, 560, 1.8), { ...focus(160, 560, 1.8), duration: 0.01 }, 4.75);
+      pop("#start1", 4.8);
+      tl.to("#s1 .cam", { ...focus(560, 600, 1.0), duration: 1.4, ease: "power2.inOut" }, W(1, "only") - 0.3);
+      tl.fromTo("#road", { strokeDashoffset: 400 }, { strokeDashoffset: 0, duration: 2.0, ease: "none" }, 4.75);
+      tl.fromTo("#s1 .ms", { opacity: 0 }, { opacity: 0.3, duration: 0.2, stagger: 0.15 }, W(1, "only"));
+      tl.fromTo("#beg", { scale: 1.8, opacity: 0, rotation: -4 }, { scale: 1, opacity: 1, rotation: -4, duration: 0.25, ease: "back.out(3)" }, W(1, "beginning"));
+
+      /* ================= S2 · location (7.35 – 13.1) ================= */
+      const latrine = (x, y) => `<g transform="translate(${x} ${y})"><rect x="-40" y="-90" width="80" height="90" fill="#fff" stroke="${INK}" stroke-width="7"/><path d="M-50 -90 L50 -90 L0 -130 Z" fill="#fff" stroke="${INK}" stroke-width="7" stroke-linejoin="round"/><path d="M-12 -150 q-8 -12 0 -24 M14 -150 q-8 -12 0 -24" stroke="${DIRT}" stroke-width="5" fill="none"/></g>`;
+      const cow = (x, y) => `<g transform="translate(${x} ${y})" stroke="${INK}" stroke-width="7" fill="#fff" stroke-linejoin="round" stroke-linecap="round"><rect x="-70" y="-70" width="120" height="60" rx="18"/><path d="M-50 -10 L-50 30 M-30 -10 L-30 30 M20 -10 L20 30 M40 -10 L40 30"/><rect x="40" y="-90" width="48" height="42" rx="12"/><path d="M48 -90 l-8 -14 M80 -90 l8 -14"/><circle cx="58" cy="-72" r="3" fill="${INK}"/><path d="M-30 -50 a10 8 0 1 0 0.1 0" fill="${INK}"/></g>`;
+      add("s2", `<svg class="abs" style="left:0;top:0" width="1080" height="1080" viewBox="0 0 1080 1080">
+        <line x1="0" y1="760" x2="1080" y2="760" stroke="${INK}" stroke-width="8"/>
+        <g id="near"><g id="nr1" class="nr">${latrine(230, 760)}</g><g id="nr2" class="nr">${cow(860, 760)}</g></g>
+        <g id="wellL">${pump("p2", 540, 760, 1.0)}</g>
+        <g id="arrowsL" stroke="${DIRT}" stroke-width="10" fill="none" stroke-linecap="round" stroke-dasharray="20 14"><path d="M290 780 Q400 860 500 790"/><path d="M800 790 Q690 870 590 800"/></g>
+        <g id="bad" opacity="0">${[0, 1, 2].map((i) => `<path transform="translate(${510 + i * 25} 700)" d="M0 -14 C-4 -6 -9 -2 -9 4 a9 9 0 0 0 18 0 C9 -2 4 -6 0 -14 Z" fill="${GRAY}" stroke="${INK}" stroke-width="3"/>`).join("")}</g>
+        <g id="dist" opacity="0" stroke="${BLUE}" stroke-width="8" stroke-linecap="round"><line x1="270" y1="880" x2="720" y2="880"/><path d="M290 860 L270 880 L290 900 M700 860 L720 880 L700 900" fill="none"/></g>
+      </svg>`);
+      addTop("s2", `<div id="loc" class="abs" style="left:40px;top:40px"><div class="chip">1 · LOCATION</div></div>`);
+      add("s2", `<div id="okL" class="abs label" style="left:760px;top:300px;font-size:150px;color:${BLUE};opacity:0">✓</div>`);
+      tl.fromTo("#s2 .cam", focus(540, 620, 1.2), { ...focus(540, 620, 1.0), duration: 1.0, ease: "power2.out" }, 7.35);
+      pop("#loc", 7.4);
+      tl.set(["#near", "#arrowsL"], { opacity: 0 }, 7.35);
+      tl.fromTo("#near .nr", { opacity: 0, y: 60 }, { opacity: 1, y: 0, duration: 0.3, stagger: 0.4 }, W(2, "toilets") - 0.2);
+      tl.set("#near", { opacity: 1 }, W(2, "toilets") - 0.2);
+      tl.to("#arrowsL", { opacity: 1, duration: 0.2 }, W(2, "contaminated") - 0.5);
+      tl.fromTo("#arrowsL", { strokeDashoffset: 200 }, { strokeDashoffset: 0, duration: 1.0, ease: "none" }, W(2, "contaminated") - 0.5);
+      tl.to("#bad", { opacity: 1, duration: 0.2 }, W(2, "contaminated"));
+      tl.to("#s2 .cam", { ...focus(540, 660, 1.3), duration: 0.5, ease: "power2.inOut" }, W(2, "contaminated") - 0.2);
+      // fix: keep toilets and animals far from the well
+      const fixT = 12.25;
+      tl.to(["#arrowsL", "#bad"], { opacity: 0, duration: 0.15 }, fixT);
+      tl.to("#s2 .cam", { ...focus(540, 620, 0.85), duration: 0.4, ease: "power2.inOut" }, fixT);
+      tl.to("#nr1", { x: -180, duration: 0.4, ease: "power2.out" }, fixT);
+      tl.to("#nr2", { x: 160, duration: 0.4, ease: "power2.out" }, fixT);
+      tl.to("#okL", { opacity: 1, duration: 0.2 }, fixT + 0.3);
+
+      /* ================= S3 · protection (13.1 – 18.0) ================= */
+      let dirtyDrops = "";
+      for (let i = 0; i < 6; i++) dirtyDrops += `<g class="dd"><path transform="translate(${360 + (i % 3) * 30} ${250 + i * 8})" d="M0 -14 C-4 -6 -9 -2 -9 4 a9 9 0 0 0 18 0 C9 -2 4 -6 0 -14 Z" fill="${GRAY}" stroke="${INK}" stroke-width="3"/></g>`;
+      add("s3", `<svg class="abs" style="left:0;top:0" width="1080" height="1080" viewBox="0 0 1080 1080">
+        <rect x="0" y="420" width="1080" height="660" fill="#f4f6f8"/>
+        <line x1="0" y1="420" x2="1080" y2="420" stroke="${INK}" stroke-width="8"/>
+        <rect x="470" y="420" width="140" height="600" fill="#fff"/>
+        <rect x="470" y="880" width="140" height="140" fill="${SKY}"/>
+        <line x1="470" y1="340" x2="470" y2="1020" stroke="${INK}" stroke-width="10"/><line x1="610" y1="340" x2="610" y2="1020" stroke="${INK}" stroke-width="10"/>
+        <g id="apron3"><path d="M250 420 L830 420 L810 380 L270 380 Z" fill="#d9dee4" stroke="${INK}" stroke-width="8" stroke-linejoin="round"/></g>
+        <g id="cover3"><rect x="450" y="310" width="180" height="34" rx="6" fill="${BLUE}" stroke="${INK}" stroke-width="8"/><rect x="510" y="290" width="60" height="22" rx="6" fill="#fff" stroke="${INK}" stroke-width="6"/></g>
+        ${dirtyDrops}
+      </svg>`);
+      addTop("s3", `<div id="prot" class="abs" style="left:40px;top:40px"><div class="chip">2 · PROTECTION</div></div>`);
+      add("s3", `<div id="lc3" class="abs small" style="left:660px;top:250px;opacity:0">sealed cover</div><div id="la3" class="abs small" style="left:700px;top:440px;opacity:0">concrete base</div>`);
+      tl.fromTo("#s3 .cam", focus(540, 500, 1.2), { ...focus(540, 560, 1.0), duration: 1.5, ease: "power1.inOut" }, 13.1);
+      pop("#prot", 13.15);
+      tl.set(["#cover3", "#apron3"], { opacity: 0 }, 13.1);
+      // first: open well, dirty drops fall in
+      $$(".dd").forEach((d, i) => tl.fromTo(d, { x: 0, y: 0, opacity: 1 }, { x: 140, y: 620, duration: 0.8, ease: "power1.in" }, 13.3 + i * 0.12));
+      tl.fromTo("#cover3", { y: -300, opacity: 0 }, { y: 0, opacity: 1, duration: 0.4, ease: "bounce.out" }, W(3, "sealed") - 0.2);
+      tl.fromTo("#apron3", { scaleX: 0, opacity: 0 }, { scaleX: 1, opacity: 1, svgOrigin: "540 400", duration: 0.4, ease: "back.out(2)" }, W(3, "concrete") - 0.1);
+      pop("#lc3", W(3, "sealed")); pop("#la3", W(3, "concrete"));
+      // second wave: drops bounce off
+      $$(".dd").forEach((d, i) => {
+        const t = W(3, "dirty") - 0.3 + i * 0.1;
+        tl.fromTo(d, { x: 0, y: -200, opacity: 1 }, { x: 60, y: 90, duration: 0.4, ease: "power1.in", immediateRender: false }, t);
+        tl.to(d, { x: (i % 2 ? -260 : 420), y: 60, opacity: 0, duration: 0.5, ease: "power1.out" }, t + 0.4);
+      });
+
+      /* ================= S4 · maintenance (18.0 – 23.15) ================= */
+      add("s4", `<svg class="abs" style="left:0;top:0" width="1080" height="1080" viewBox="0 0 1080 1080"><line x1="0" y1="800" x2="1080" y2="800" stroke="${INK}" stroke-width="8"/>${pump("p4", 540, 800, 1.7)}
+        <g id="bolt4" opacity="0"><path d="M700 330 L660 410 L700 410 L660 490" stroke="#ffd34d" stroke-width="14" fill="none" stroke-linecap="round"/><path d="M700 330 L660 410 L700 410 L660 490" stroke="${INK}" stroke-width="4" fill="none"/></g>
+        <g id="mute" opacity="0" transform="translate(830 250)" stroke="${INK}" stroke-width="8" fill="#fff" stroke-linejoin="round" stroke-linecap="round"><path d="M-40 -20 L-20 -20 L10 -46 L10 46 L-20 20 L-40 20 Z"/><path d="M30 -20 L70 20 M70 -20 L30 20" stroke="${BLUE}" stroke-width="10"/></g>
+      </svg>`);
+      addTop("s4", `<div id="mnt" class="abs" style="left:40px;top:40px"><div class="chip">3 · MAINTENANCE</div></div>`);
+      const box = `<svg viewBox="0 0 160 130" width="200" height="162"><g stroke="${INK}" stroke-width="8" fill="#fff" stroke-linejoin="round"><rect x="10" y="40" width="140" height="80" rx="8"/><path d="M10 40 L30 14 L130 14 L150 40"/><circle cx="56" cy="80" r="16" fill="${SKY}"/><circle cx="56" cy="80" r="5" fill="${INK}"/><rect x="88" y="64" width="40" height="30" fill="${BLUE}"/></g></svg>`;
+      add("s4", `<div id="spare" class="abs" style="left:60px;top:360px;text-align:center;opacity:0">${box}<div class="small">spare parts</div></div>`);
+      add("s4", `<div id="mech" class="abs" style="left:40px;top:150px;width:320px;height:200px;opacity:0"></div>`);
+      add("s4", figure("fx", { left: 820, top: 420, w: 170, face: "smile" }));
+      add("s4", `<svg id="wrench" class="abs" style="left:960px;top:560px;opacity:0" width="90" height="90" viewBox="-45 -45 90 90"><path d="M-30 30 L10 -10 M6 -24 a14 14 0 1 0 18 18 l-8 -2 l-6 -8 Z" stroke="${INK}" stroke-width="8" fill="#fff" stroke-linecap="round" stroke-linejoin="round"/></svg>`);
+      add("s4", `<div id="trained" class="abs small" style="left:770px;top:770px;width:280px;opacity:0">trained repairer</div>`);
+      add("s4", `<svg id="nox" class="abs" style="left:0;top:0;opacity:0" width="1080" height="1080"><g stroke="${BLUE}" stroke-width="16" stroke-linecap="round"><line x1="60" y1="360" x2="280" y2="560"/><line x1="280" y1="360" x2="60" y2="560"/><line x1="800" y1="420" x2="1020" y2="760"/><line x1="1020" y1="420" x2="800" y2="760"/></g></svg>`);
+      tl.fromTo("#s4 .cam", focus(540, 560, 1.15), { ...focus(540, 560, 1.0), duration: 1.0, ease: "power2.out" }, 18.0);
+      pop("#mnt", 18.05);
+      tl.set(["#fx"], { opacity: 0 }, 18.0);
+      tl.fromTo("#p4 .handle", { rotation: 0 }, { rotation: 14, svgOrigin: "10 -180", duration: 0.2, yoyo: true, repeat: 3 }, 18.0);
+      tl.to("#bolt4", { opacity: 1, duration: 0.05 }, W(4, "break") - 0.1);
+      tl.to("#p4 .crack", { opacity: 1, duration: 0.05 }, W(4, "break") - 0.1);
+      tl.to("#p4 .flow", { opacity: 0, duration: 0.1 }, W(4, "break"));
+      tl.to("#p4 .handle", { rotation: 60, svgOrigin: "10 -180", duration: 0.4, ease: "bounce.out" }, W(4, "break"));
+      tl.to("#bolt4", { opacity: 0, duration: 0.1 }, W(4, "break") + 0.5);
+      pop("#spare", W(4, "spare"));
+      tl.fromTo("#fx", { opacity: 0, x: 200 }, { opacity: 1, x: 0, duration: 0.35 }, W(4, "someone"));
+      pop("#wrench", W(4, "someone") + 0.2); pop("#trained", W(4, "trained"));
+      tl.to("#nox", { opacity: 1, duration: 0.1 }, W(4, "without"));
+      tl.set("#nox", { opacity: 0 }, W(4, "without") + 0.01);
+      tl.to("#nox", { opacity: 1, duration: 0.15 }, W(4, "well") - 0.1);
+      tl.to(["#spare", "#fx", "#wrench", "#trained"], { opacity: 0.25, duration: 0.2 }, W(4, "well") - 0.1);
+      tl.to("#mute", { opacity: 1, duration: 0.2 }, W(4, "silent") - 0.1);
+      tl.to("#s4 .cam", { ...focus(640, 500, 1.25), duration: 0.6, ease: "power2.inOut" }, W(4, "silent") - 0.2);
+
+      /* ================= S5 · test again (23.15 – 26.15) ================= */
+      const tube5 = `<svg viewBox="0 0 120 300" width="90" height="225"><g fill="none" stroke="${INK}" stroke-width="10" stroke-linecap="round"><path d="M20 20 L100 20 M34 20 L34 250 a26 26 0 0 0 52 0 L86 20"/></g><path d="M38 150 L82 150 L82 250 a22 22 0 0 1 -44 0 Z" fill="${SKY}"/></svg>`;
+      addTop("s5", `<div id="tst" class="abs" style="left:40px;top:40px"><div class="chip">4 · TESTING</div></div>`);
+      add("s5", [0, 1, 2, 3].map((i) => `<div id="t5_${i}" class="abs" style="left:${110 + i * 230}px;top:300px;width:180px;text-align:center">${tube5}<div class="label" style="font-size:90px;color:${BLUE}">✓</div></div>`).join(""));
+      add("s5", `<div id="again" class="abs label" style="left:0;top:760px;width:1080px;font-size:80px">again &amp; again ↻</div>`);
+      tl.fromTo("#s5 .cam", focus(200, 450, 1.4), { ...focus(540, 500, 1.0), duration: 2.2, ease: "power1.inOut" }, 23.15);
+      pop("#tst", 23.2);
+      [0, 1, 2, 3].forEach((i) => pop(`#t5_${i}`, 23.3 + i * 0.45));
+      pop("#again", W(5, "again"));
+
+      /* ================= S6 · community (26.15 – 29.1) ================= */
+      add("s6", `<svg class="abs" style="left:0;top:0" width="1080" height="1080" viewBox="0 0 1080 1080"><line x1="0" y1="820" x2="1080" y2="820" stroke="${INK}" stroke-width="8"/>${pump("p6", 540, 820, 1.2)}
+        <g id="heart6" transform="translate(540 260)"><path d="M0 40 C-60 0 -70 -40 -40 -56 C-20 -66 -4 -54 0 -40 C4 -54 20 -66 40 -56 C70 -40 60 0 0 40 Z" fill="${BLUE}" stroke="${INK}" stroke-width="8"/></g></svg>`);
+      add("s6", person("k1", 90, 520, 150) + person("k2", 250, 560, 130) + person("k3", 720, 560, 130) + person("k4", 860, 520, 150));
+      addTop("s6", `<div id="com" class="abs" style="left:40px;top:40px"><div class="chip">5 · COMMUNITY</div></div>`);
+      tl.fromTo("#s6 .cam", focus(540, 600, 1.2), { ...focus(540, 560, 1.0), duration: 2.9, ease: "none" }, 26.15);
+      pop("#com", 26.2);
+      pop(["#k1", "#k2", "#k3", "#k4"], 26.3, { stagger: 0.12 });
+      pop("#heart6", W(6, "community"));
+      tl.fromTo("#heart6", { scale: 1 }, { scale: 1.15, svgOrigin: "540 260", duration: 0.2, yoyo: true, repeat: 3 }, W(6, "community") + 0.4);
+
+      /* ================= S7 · teaser ep 6 (29.1 – 34.4) ================= */
+      add("s7", `<svg class="abs" style="left:0;top:0" width="1080" height="1080" viewBox="0 0 1080 1080">
+        <g id="plan" stroke="${BLUE}" stroke-width="8" fill="none" stroke-dasharray="18 12"><path d="M560 120 L1000 120 L1000 420 L560 420 Z" stroke="${INK}" stroke-dasharray="0"/><path d="M600 200 L960 200 M780 200 L780 380 M600 300 L780 300 M780 300 L960 340"/></g>
+        <g id="clock7" transform="translate(300 260)" stroke="${INK}" stroke-width="8" fill="#fff" stroke-linecap="round"><circle r="110"/><line id="hh" x1="0" y1="0" x2="0" y2="-70"/><line x1="0" y1="0" x2="50" y2="0"/></g>
+      </svg>`);
+      add("s7", person("fam1", 330, 470, 150, "worry") + person("fam2", 500, 540, 110, "worry"));
+      add("s7", `<div id="jug" class="abs" style="left:600px;top:640px"><svg width="90" height="110" viewBox="0 0 90 110"><rect x="6" y="24" width="78" height="82" rx="10" fill="#fff" stroke="${INK}" stroke-width="7"/><path d="M24 24 L24 8 L66 8 L66 24" fill="none" stroke="${INK}" stroke-width="7"/></svg></div>`);
+      add("s7", `<div id="today7" class="abs" style="left:60px;top:600px;opacity:0"><span class="chip" style="font-size:52px">TODAY</span></div><div id="years7" class="abs" style="left:640px;top:440px;opacity:0"><span class="chip" style="font-size:52px;background:${INK}">YEARS</span></div>`);
+      add("s7", `<div id="next" class="abs" style="left:90px;top:800px;width:900px;padding:26px 40px;border:8px solid ${INK};border-radius:30px;background:${BLUE};color:#fff;text-align:center">
+        <div style="font-family:Cap;font-weight:900;font-size:44px;letter-spacing:0.08em">NEXT · EP. 6 →</div>
+        <div style="font-family:Hand;font-size:54px;line-height:1.05;margin-top:6px">What can be done while the network arrives?</div></div>`);
+      tl.fromTo("#s7 .cam", focus(420, 560, 1.3), { ...focus(540, 560, 1.0), duration: 2.0, ease: "power2.inOut" }, 29.1);
+      tl.fromTo("#hh", { rotation: 0 }, { rotation: 1080, svgOrigin: "0 0", duration: 5.0, ease: "none" }, 29.1);
+      tl.fromTo("#plan path", { strokeDashoffset: 300 }, { strokeDashoffset: 0, duration: 2.0, ease: "none" }, 29.3);
+      pop("#today7", W(7, "today")); pop("#years7", W(7, "network") - 0.3);
+      tl.fromTo("#next", { y: 400, opacity: 0 }, { y: 0, opacity: 1, duration: 0.5, ease: "back.out(1.6)" }, W(7, "next") - 0.3);
+
+      /* ================= S8 · end card (34.4 – 38) ================= */
+      add("s8", `<div class="abs" style="left:0;top:60px;width:1080px;text-align:center">
+        <img id="logo" src="assets/logo.png" style="width:380px;height:380px" />
+        <div id="e1" style="font-family:Cap;font-weight:900;font-size:60px;letter-spacing:0.02em;margin-top:10px">WATER: <span style="color:${BLUE}">WHAT WE DON'T SEE</span></div>
+        <div id="e2" style="font-family:Cap;font-weight:800;font-size:40px;color:${MUTED};margin-top:6px">EPISODE 5 · aquacoreglobal.com</div>
+        <div id="e3" style="display:inline-block;margin-top:50px;padding:24px 44px;border:7px solid ${INK};border-radius:40px;font-family:Hand;font-size:56px">Who looks after the <span style="color:${BLUE}">water</span> where you live? 💬</div>
+      </div>`);
+      pop("#logo", 34.45);
+      tl.fromTo("#e1", { y: 30, opacity: 0 }, { y: 0, opacity: 1, duration: 0.35 }, 34.7);
+      tl.fromTo("#e2", { y: 30, opacity: 0 }, { y: 0, opacity: 1, duration: 0.35 }, 34.9);
+      pop("#e3", 35.2);
+      tl.fromTo("#logo", { rotation: 0 }, { rotation: 360, duration: 1.2, ease: "power2.inOut" }, 35.4);
+
+      /* ================= captions ================= */
+      const KEY = /^(well|broken|beginning|location|toilets|animals|contaminated|protection|sealed|concrete|dirty|pumps|break|spare|trained|silent|tested|again|community|today|network|next)$/i;
+      const capsEl = document.getElementById("caps");
+      TIMED.forEach((words, li) => {
+        let chunk = [], chunks = [];
+        words.forEach((x, i) => {
+          chunk.push(x);
+          const len = chunk.map((c) => c.w).join(" ").length;
+          if (/[,.?!:]$/.test(x.w) || chunk.length >= 4 || len > 18 || i === words.length - 1) { chunks.push(chunk); chunk = []; }
+        });
+        chunks.forEach((c, ci) => {
+          const id = `c${li}_${ci}`;
+          capsEl.insertAdjacentHTML("beforeend", `<div id="${id}" class="cap">${c.map((x, wi) => `<span id="${id}_${wi}"${KEY.test(x.w.replace(/[^\w]/g, "")) ? ' class="k"' : ""}>${x.w}</span>`).join(" ")}</div>`);
+          const cs = c[0].t, ce = ci < chunks.length - 1 ? chunks[ci + 1][0].t : c[c.length - 1].t + c[c.length - 1].d + 0.15;
+          tl.fromTo(`#${id}`, { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.08 }, cs);
+          tl.set(`#${id}`, { opacity: 0 }, ce);
+          c.forEach((x, wi) => tl.fromTo(`#${id}_${wi}`, { scale: 1 }, { scale: 1.12, duration: 0.08, yoyo: true, repeat: 1, transformOrigin: "50% 60%" }, x.t));
+        });
+      });
+
+      if (document.documentElement.dataset.format === "landscape") {
+        tl.fromTo("#stage", { scale: 0.92, x: 0, transformOrigin: "0 0" }, { scale: 0.92, x: 0, duration: 0.01 }, 0);
+        tl.to("#stage", { x: 393, duration: 0.5, ease: "power2.inOut" }, 34.4);
+      }
+      tl.set({}, {}, 38);
+      window.__timelines = window.__timelines || {};
+      window.__timelines["main"] = tl;
+      tl.seek(0);
+    </script>
+  </body>
+</html>

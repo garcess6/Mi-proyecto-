@@ -1,0 +1,300 @@
+<!doctype html>
+<html lang="en" data-resolution="portrait" data-format="portrait">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <title>Water as a Daily Task</title>
+    <script src="assets/vendor/gsap.min.js"></script>
+    <style>
+      @font-face { font-family: "Hand"; src: url("assets/fonts/patrick-hand-latin-400-normal.woff2") format("woff2"); font-weight: 400; }
+      @font-face { font-family: "Cap"; src: url("assets/fonts/nunito-latin-900-normal.woff2") format("woff2"); font-weight: 900; }
+      @font-face { font-family: "Cap"; src: url("assets/fonts/nunito-latin-800-normal.woff2") format("woff2"); font-weight: 800; }
+      :root { --ground: #ffffff; --ink: #111418; --blue: #1e7fd8; --sky: #dff2fc; --muted: #8b96a3; --W: 1080px; --H: 1920px; }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { margin: 0; width: var(--W); height: var(--H); overflow: hidden; background: var(--ground); }
+      #root { position: relative; width: 100%; height: 100%; background: var(--ground); font-family: "Hand", sans-serif; color: var(--ink); overflow: hidden; }
+      #stage { position: absolute; width: 1080px; height: 1080px; left: 0; top: 300px; transform-origin: 0 0; overflow: hidden; }
+      #caps { position: absolute; left: 60px; width: 960px; top: 1420px; height: 260px; }
+      #tag { position: absolute; left: 0; width: 1080px; top: 150px; text-align: center; }
+      html[data-format="landscape"] { --W: 1920px; --H: 1080px; }
+      html[data-format="landscape"] #stage { left: 70px; top: 43px; }
+      html[data-format="landscape"] #caps { left: 1120px; width: 740px; top: 360px; height: 420px; }
+      html[data-format="landscape"] #tag { left: 1120px; width: 740px; top: 150px; }
+      html[data-format="landscape"] .cap { font-size: 84px; }
+      html[data-format="landscape"] .pill { font-size: 28px; }
+      .scene { position: absolute; inset: 0; width: 1080px; height: 1080px; overflow: hidden; }
+      .cam { position: absolute; left: 0; top: 0; width: 1080px; height: 1080px; transform-origin: 0 0; }
+      .abs { position: absolute; }
+      svg { overflow: visible; }
+      .pill { white-space: nowrap; display: inline-flex; align-items: center; gap: 14px; padding: 10px 28px; border: 5px solid var(--ink); border-radius: 999px; font-family: "Cap"; font-weight: 900; font-size: 34px; letter-spacing: 0.04em; background: #fff; }
+      .pill b { color: var(--blue); }
+      .label { font-family: "Hand"; font-size: 66px; line-height: 1; text-align: center; }
+      .small { font-family: "Hand"; font-size: 48px; line-height: 1; text-align: center; }
+      .chip { font-family: "Cap"; font-weight: 900; font-size: 52px; letter-spacing: 0.06em; padding: 8px 30px; border-radius: 18px; background: var(--blue); color: #fff; border: 5px solid var(--ink); }
+      .card { background: #fff; border: 8px solid var(--ink); border-radius: 28px; text-align: center; }
+      .cap { position: absolute; left: 0; right: 0; top: 50%; transform: translateY(-50%); text-align: center; font-family: "Cap"; font-weight: 900; font-size: 76px; line-height: 1.12; color: var(--ink); opacity: 0; }
+      .cap span { display: inline-block; margin: 0 0.06em; }
+      .cap span.k { color: var(--blue); }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="38" data-width="1080" data-height="1920">
+      <audio id="vo" class="clip" src="assets/voice.wav" data-start="0" data-duration="38" data-track-index="9"></audio>
+      <div id="tag" class="clip" data-start="0" data-duration="34.5" data-track-index="8">
+        <div class="pill">EP. 4 · <b>WATER:</b> WHAT WE DON'T SEE</div>
+      </div>
+      <div id="stage">
+        <div id="s0" class="scene clip" data-start="0" data-duration="3.5" data-track-index="1"><div class="cam"></div></div>
+        <div id="s1" class="scene clip" data-start="3.5" data-duration="5.1" data-track-index="1"><div class="cam"></div></div>
+        <div id="s2" class="scene clip" data-start="8.6" data-duration="3.3" data-track-index="1"><div class="cam"></div></div>
+        <div id="s3" class="scene clip" data-start="11.9" data-duration="10.0" data-track-index="1"><div class="cam"></div></div>
+        <div id="s4" class="scene clip" data-start="21.9" data-duration="8.4" data-track-index="1"><div class="cam"></div></div>
+        <div id="s5" class="scene clip" data-start="30.3" data-duration="4.2" data-track-index="1"><div class="cam"></div></div>
+        <div id="s6" class="scene clip" data-start="34.5" data-duration="3.5" data-track-index="1"><div class="cam"></div></div>
+      </div>
+      <div id="caps"></div>
+    </div>
+
+    <script>
+      /* ================= helpers ================= */
+      const INK = "#111418", BLUE = "#1e7fd8", SKY = "#dff2fc", MUTED = "#8b96a3", DIRT = "#8a7660", GRAY = "#4a4f57";
+      let seed = 11;
+      const rnd = () => ((seed = (seed * 16807) % 2147483647) / 2147483647);
+      const $$ = (s) => Array.from(document.querySelectorAll(s));
+      const cam = (id) => document.getElementById(id).getElementsByClassName("cam")[0];
+      const add = (id, html) => cam(id).insertAdjacentHTML("beforeend", html);
+      const addTop = (id, html) => document.getElementById(id).insertAdjacentHTML("beforeend", html);
+      const focus = (px, py, s) => ({ x: 540 - px * s, y: 540 - py * s, scale: s });
+
+      /* voice lines: [start, duration, text]; word times are estimated from these */
+      const LINES = [
+        [0.6, 2.58, "What if getting water were the first job of your day?"],
+        [3.5, 4.78, "Basic access means water from a safe source, no more than 30 minutes there and back."],
+        [8.6, 3.03, "In these five African countries, it's hardest to reach."],
+        [11.9, 6.36, "DR Congo: 36%. Central African Republic: 37%. South Sudan: 40%."],
+        [18.5, 3.05, "Burkina Faso: 50%. Chad: 52%."],
+        [21.9, 8.06, "For millions there, it means long walks, queues and heavy loads. A task that often falls on women and girls, instead of school or work."],
+        [30.3, 3.97, "Building a well sounds like the answer. But is it enough? Next episode."],
+      ];
+      const TIMED = LINES.map(([start, dur, text]) => {
+        const words = text.split(" ");
+        const wts = words.map((w) => w.replace(/[^\w']/g, "").length + 3 + (/\d/.test(w) ? 12 : 0) + (/[.?!…]$/.test(w) ? 7 : /[,:]$/.test(w) ? 4 : 0));
+        const total = wts.reduce((a, b) => a + b, 0);
+        let t = start + 0.1; const span = dur - 0.25;
+        return words.map((w, i) => { const d = (wts[i] / total) * span; const o = { w, t, d }; t += d; return o; });
+      });
+      // time the voice says `word` (nth match) in line li
+      const W = (li, word, nth = 0) => {
+        const m = TIMED[li].filter((x) => x.w.toLowerCase().replace(/[^\w']/g, "") === word.toLowerCase());
+        return (m[nth] || m[0]).t;
+      };
+
+      function figure(id, { left, top, w, prop = "", face = "smile", cane = false }) {
+        const h = w * 1.8;
+        const propSvg =
+          prop === "glass"
+            ? `<g class="prop"><path d="M136 188 L172 188 L167 236 L141 236 Z" fill="#fff" stroke="${INK}" stroke-width="6" stroke-linejoin="round"/><path d="M139 204 L169 204 L167 236 L141 236 Z" fill="${SKY}" stroke="none"/><path d="M139 204 Q154 198 169 204" stroke="${BLUE}" stroke-width="5" fill="none"/></g>`
+            : prop === "lens"
+            ? `<g class="prop"><line x1="144" y1="210" x2="160" y2="186" stroke="${INK}" stroke-width="10" stroke-linecap="round"/><circle cx="176" cy="160" r="30" fill="${SKY}" fill-opacity="0.7" stroke="${INK}" stroke-width="8"/></g>`
+            : cane
+            ? `<g class="prop"><path d="M144 210 L150 340 M144 210 q-6 -16 8 -18" stroke="${INK}" stroke-width="8" fill="none" stroke-linecap="round"/></g>`
+            : "";
+        const show = (n) => (n === face ? 1 : 0);
+        return `<div id="${id}" class="abs" style="left:${left}px;top:${top}px;width:${w}px;height:${h}px">
+        <svg viewBox="0 0 200 360" width="${w}" height="${h}">
+          <g fill="none" stroke="${INK}" stroke-width="8" stroke-linecap="round" stroke-linejoin="round">
+            <path class="hdrop" d="M100 0 C94 12 86 20 86 28 a14 14 0 0 0 28 0 C114 20 106 12 100 0 Z" fill="${BLUE}" stroke-width="5"/>
+            <line x1="100" y1="126" x2="100" y2="240"/>
+            <line x1="100" y1="240" x2="66" y2="340"/><line x1="100" y1="240" x2="134" y2="340"/>
+            <g class="armL"><line x1="100" y1="150" x2="56" y2="210"/></g>
+            <g class="armR"><line x1="100" y1="150" x2="144" y2="210"/>${propSvg}</g>
+            <circle cx="100" cy="80" r="46" fill="#fff"/>
+            <g class="eyes" stroke="none" fill="${INK}"><circle cx="84" cy="76" r="6.5"/><circle cx="116" cy="76" r="6.5"/></g>
+            <g class="f-smile" opacity="${show("smile")}"><path d="M84 98 Q100 114 116 98"/></g>
+            <g class="f-o" opacity="${show("o")}"><circle cx="100" cy="104" r="9"/><path d="M72 58 L92 52 M108 52 L128 58" stroke-width="6"/></g>
+            <g class="f-hmm" opacity="${show("hmm")}"><path d="M88 106 L114 100"/><path d="M74 60 L92 58 M108 54 L126 50" stroke-width="6"/></g>
+            <g class="f-worry" opacity="${show("worry")}"><path d="M84 108 Q92 99 100 105 Q108 111 116 102"/><path d="M74 56 L92 63 M108 63 L126 56" stroke-width="6"/><path class="sweat" d="M146 54 C142 62 138 66 138 71 a8 8 0 0 0 16 0 C154 66 150 62 146 54 Z" fill="${SKY}" stroke="${BLUE}" stroke-width="4"/></g>
+            <g class="f-sick" opacity="${show("sick")}"><path d="M76 70 L92 80 M92 70 L76 80 M108 70 L124 80 M124 70 L108 80" stroke-width="6"/><path d="M84 108 Q92 99 100 105 Q108 111 116 102"/></g>
+          </g>
+        </svg></div>`;
+      }
+      function setFace(tl, id, face, t) {
+        ["smile", "o", "hmm", "worry", "sick"].forEach((f) => tl.set(`#${id} .f-${f}`, { opacity: f === face ? 1 : 0 }, t));
+        if (face === "sick") tl.set(`#${id} .eyes`, { opacity: 0 }, t); else tl.set(`#${id} .eyes`, { opacity: 1 }, t);
+      }
+      function glass(id, { left, top, w, extra = "" }) {
+        const h = w * 1.375;
+        return `<div id="${id}" class="abs" style="left:${left}px;top:${top}px;width:${w}px;height:${h}px">
+        <svg viewBox="0 0 160 220" width="${w}" height="${h}">
+          <path d="M26 66 L134 66 L124 206 L36 206 Z" fill="${SKY}"/>
+          <path class="wave" d="M26 66 Q53 56 80 66 T134 66" stroke="${BLUE}" stroke-width="6" fill="none" stroke-linecap="round"/>
+          <g class="inside">${extra}</g>
+          <path d="M18 10 L142 10 L126 210 L34 210 Z" fill="none" stroke="${INK}" stroke-width="8" stroke-linejoin="round"/>
+          <path d="M40 28 L50 190" stroke="#fff" stroke-width="7" stroke-linecap="round"/>
+        </svg></div>`;
+      }
+      // germs
+      const bacterium = (x, y, s, cls = "") =>
+        `<g class="${cls}" transform="translate(${x} ${y}) scale(${s})"><g class="wig"><rect x="-26" y="-13" width="52" height="26" rx="13" fill="#fff" stroke="${INK}" stroke-width="4.5"/><circle cx="-8" cy="-2" r="3" fill="${INK}"/><circle cx="8" cy="3" r="3" fill="${BLUE}"/><path d="M26 0 q7 -7 14 0 t12 0 M-26 0 q-7 7 -14 0 t-12 0" stroke="${INK}" stroke-width="3.5" fill="none" stroke-linecap="round"/></g></g>`;
+      const virus = (x, y, s, cls = "") => {
+        let sp = "";
+        for (let a = 0; a < 360; a += 45) { const r = (a * Math.PI) / 180; sp += `<line x1="${Math.cos(r) * 18}" y1="${Math.sin(r) * 18}" x2="${Math.cos(r) * 28}" y2="${Math.sin(r) * 28}"/><circle cx="${Math.cos(r) * 30}" cy="${Math.sin(r) * 30}" r="4" fill="${BLUE}"/>`; }
+        return `<g class="${cls}" transform="translate(${x} ${y}) scale(${s})"><g class="wig" stroke="${INK}" stroke-width="4">${sp}<circle r="18" fill="#fff"/><circle cx="-5" cy="-3" r="3" fill="${INK}" stroke="none"/><circle cx="6" cy="-3" r="3" fill="${INK}" stroke="none"/></g></g>`;
+      };
+      const parasite = (x, y, s, cls = "") =>
+        `<g class="${cls}" transform="translate(${x} ${y}) scale(${s})"><g class="wig"><path d="M-40 0 C-30 -18 -15 18 0 0 C15 -18 30 18 40 0" stroke="${INK}" stroke-width="14" fill="none" stroke-linecap="round"/><path d="M-40 0 C-30 -18 -15 18 0 0 C15 -18 30 18 40 0" stroke="#fff" stroke-width="5" fill="none" stroke-linecap="round"/><circle cx="40" cy="-2" r="3" fill="${INK}"/></g></g>`;
+      const dropPath = (x, y, s, fill, cls, stroke = INK) =>
+        `<g transform="translate(${x} ${y})"><path class="${cls}" transform="scale(${s})" d="M0 -18 C-5 -8 -11 -2 -11 5 a11 11 0 0 0 22 0 C11 -2 5 -8 0 -18 Z" fill="${fill}" stroke="${stroke}" stroke-width="3.5"/></g>`;
+
+      const tl = gsap.timeline({ paused: true });
+      const pop = (sel, t, extra = {}) => tl.fromTo(sel, { scale: 0, opacity: 0, transformOrigin: "50% 50%" }, { scale: 1, opacity: 1, duration: 0.35, ease: "back.out(2.2)", ...extra }, t);
+      const wiggle = (sel, t, dur) => tl.fromTo(sel, { rotation: -12 }, { rotation: 12, duration: 0.25, ease: "sine.inOut", yoyo: true, repeat: Math.max(1, Math.floor(dur / 0.25)), svgOrigin: "0 0" }, t);
+      const shake = (sel, t, n = 5, a = 1) => tl.fromTo(sel, { rotation: 0 }, { rotation: a, duration: 0.05, yoyo: true, repeat: n, ease: "none" }, t);
+
+      const jerry = (w = 90) => `<svg width="${w}" height="${w * 1.22}" viewBox="0 0 90 110"><rect x="6" y="24" width="78" height="82" rx="10" fill="${SKY}" stroke="${INK}" stroke-width="7"/><path d="M24 24 L24 8 L66 8 L66 24" fill="none" stroke="${INK}" stroke-width="7"/><rect x="60" y="0" width="18" height="12" fill="${BLUE}" stroke="${INK}" stroke-width="5"/></svg>`;
+
+      /* ================= S0 · hook: first job of the day (0 – 3.5) ================= */
+      add("s0", `<svg class="abs" style="left:0;top:0" width="1080" height="1080" viewBox="0 0 1080 1080">
+        <g id="sun0"><circle cx="820" cy="700" r="90" fill="#ffd34d" stroke="${INK}" stroke-width="8"/></g>
+        <rect x="0" y="700" width="1080" height="400" fill="#fff"/>
+        <line x1="0" y1="700" x2="1080" y2="700" stroke="${INK}" stroke-width="8"/>
+        <g id="alarm" transform="translate(250 330)"><g class="ring"><circle r="110" fill="#fff" stroke="${INK}" stroke-width="10"/><line x1="0" y1="0" x2="0" y2="-70" stroke="${INK}" stroke-width="9" stroke-linecap="round"/><line x1="0" y1="0" x2="-50" y2="0" stroke="${INK}" stroke-width="9" stroke-linecap="round"/><circle cx="-80" cy="-100" r="30" fill="${BLUE}" stroke="${INK}" stroke-width="8"/><circle cx="80" cy="-100" r="30" fill="${BLUE}" stroke="${INK}" stroke-width="8"/></g></g>
+        <g id="zz" stroke="${BLUE}" stroke-width="7" fill="none" stroke-linecap="round" opacity="0"><path d="M90 180 l-30 -20 M410 180 l30 -20 M80 260 l-36 0 M420 260 l36 0"/></g>
+      </svg>`);
+      add("s0", figure("f0", { left: 560, top: 360, w: 180, face: "o" }));
+      add("s0", `<div id="j0" class="abs" style="left:740px;top:560px">${jerry(100)}</div>`);
+      tl.fromTo("#s0 .cam", focus(250, 330, 1.4), { ...focus(250, 330, 1.4), duration: 0.01 }, 0);
+      tl.fromTo("#alarm .ring", { rotation: -8 }, { rotation: 8, svgOrigin: "0 0", duration: 0.06, yoyo: true, repeat: 15, ease: "none" }, 0.1);
+      tl.fromTo("#zz", { opacity: 0 }, { opacity: 1, duration: 0.1, yoyo: true, repeat: 5 }, 0.1);
+      tl.fromTo("#sun0", { y: 160 }, { y: 0, duration: 3.0, ease: "power1.out" }, 0);
+      tl.to("#s0 .cam", { ...focus(600, 520, 1.05), duration: 0.8, ease: "power2.inOut" }, W(0, "job") - 0.4);
+      tl.fromTo("#j0", { y: 0 }, { y: -160, x: -60, duration: 0.4, ease: "power2.out" }, W(0, "day"));
+      setFace(tl, "f0", "worry", W(0, "day"));
+
+      /* ================= S1 · what basic access means (3.5 – 8.6) ================= */
+      add("s1", `<svg class="abs" style="left:0;top:0" width="1080" height="1080" viewBox="0 0 1080 1080">
+        <line x1="0" y1="700" x2="1080" y2="700" stroke="${INK}" stroke-width="8"/>
+        <g id="home1" stroke="${INK}" stroke-width="8" fill="#fff" stroke-linejoin="round" stroke-linecap="round"><path d="M80 560 L180 480 L280 560"/><rect x="100" y="556" width="160" height="144"/><rect x="160" y="620" width="40" height="80" fill="${BLUE}"/></g>
+        <g id="tap1" stroke="${INK}" stroke-width="8" fill="#fff" stroke-linejoin="round" stroke-linecap="round"><rect x="860" y="520" width="60" height="180"/><path d="M860 560 L800 560 L800 590"/><path d="M800 600 C796 610 792 616 792 622 a8 8 0 0 0 16 0 C808 616 804 610 800 600 Z" fill="${BLUE}"/></g>
+        <path id="go1" d="M300 470 Q540 330 780 470" fill="none" stroke="${BLUE}" stroke-width="10" stroke-linecap="round"/><path id="goA" d="M752 448 L784 474 L744 482" fill="none" stroke="${BLUE}" stroke-width="10" stroke-linecap="round"/>
+        <path id="back1" d="M780 760 Q540 900 300 760" fill="none" stroke="${BLUE}" stroke-width="10" stroke-linecap="round"/><path id="backA" d="M328 784 L296 756 L336 750" fill="none" stroke="${BLUE}" stroke-width="10" stroke-linecap="round"/>
+      </svg>`);
+      add("s1", `<div id="safe1" class="abs small" style="left:770px;top:720px;width:240px">safe source</div>`);
+      add("s1", `<div id="t30" class="abs" style="left:340px;top:540px;width:400px;text-align:center"><div style="font-family:Cap;font-weight:900;font-size:64px;line-height:1">≤ 30 min</div><div class="small" style="font-size:42px">there &amp; back</div></div>`);
+      add("s1", `<div id="basic1" class="abs" style="left:0;top:90px;width:1080px;text-align:center"><span class="chip" style="font-size:64px">BASIC ACCESS</span></div>`);
+      tl.fromTo("#s1 .cam", focus(540, 540, 1.15), { ...focus(540, 560, 1.0), duration: 1.5, ease: "power2.out" }, 3.5);
+      tl.fromTo("#basic1", { scale: 1.8, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.3, ease: "back.out(2.5)" }, 3.55);
+      pop("#home1", 3.7); pop("#tap1", W(1, "safe") - 0.2); pop("#safe1", W(1, "source"));
+      tl.fromTo(["#go1", "#back1"], { strokeDasharray: 600, strokeDashoffset: 600 }, { strokeDashoffset: 0, duration: 0.7, stagger: 0.6, ease: "power1.inOut" }, W(1, "there") - 0.4);
+      tl.fromTo(["#goA", "#backA"], { opacity: 0 }, { opacity: 1, duration: 0.1, stagger: 0.6 }, W(1, "there") + 0.3);
+      pop("#t30", W(1, "30") - 0.2);
+
+
+      /* ================= S2 · five countries (8.6 – 11.9) ================= */
+      add("s2", `<svg class="abs" style="left:0;top:0" width="1080" height="1080" viewBox="0 0 1080 1080">
+        <g id="globe2" stroke="${INK}" stroke-width="9" fill="none"><circle cx="540" cy="560" r="300" fill="${SKY}"/><ellipse cx="540" cy="560" rx="130" ry="300"/><line x1="240" y1="560" x2="840" y2="560"/><path d="M270 430 Q540 470 810 430 M270 690 Q540 650 810 690"/></g>
+        ${[[470, 470], [600, 500], [560, 610], [420, 590], [650, 640]].map(([x, y], i) => `<g class="pin2"><g transform="translate(${x} ${y})"><path d="M0 0 C-12 -20 -26 -30 -26 -48 a26 26 0 0 1 52 0 C26 -30 12 -20 0 0 Z" fill="${BLUE}" stroke="${INK}" stroke-width="6"/><circle cx="0" cy="-48" r="9" fill="#fff"/></g></g>`).join("")}
+      </svg>`);
+      add("s2", `<div id="five" class="abs" style="left:0;top:120px;width:1080px;text-align:center"><span class="chip" style="font-size:64px">5 AFRICAN COUNTRIES</span></div>`);
+      tl.fromTo("#s2 .cam", focus(540, 560, 1.25), { ...focus(540, 520, 1.0), duration: 3.3, ease: "none" }, 8.6);
+      tl.fromTo("#globe2", { rotation: -20 }, { rotation: 0, svgOrigin: "540 560", duration: 1.0, ease: "power2.out" }, 8.6);
+      tl.fromTo(".pin2", { y: -400, opacity: 0 }, { y: 0, opacity: 1, duration: 0.4, ease: "bounce.out", stagger: 0.15 }, W(2, "five") - 0.2);
+      tl.fromTo("#five", { scale: 1.8, opacity: 0, rotation: -3 }, { scale: 1, opacity: 1, rotation: -3, duration: 0.3, ease: "back.out(2.5)" }, W(2, "african"));
+
+      /* ================= S3 · the five bars (11.9 – 21.9) ================= */
+      const DATA = [["DR Congo", 35.7], ["Central African Rep.", 36.5], ["South Sudan", 39.7], ["Burkina Faso", 50.0], ["Chad", 52.2]];
+      const rowsHtml = DATA.map(([n, v], i) => `<div id="row${i}" class="abs" style="left:60px;top:${150 + i * 150}px;width:960px;height:130px;opacity:0">
+          <div style="font-family:Cap;font-weight:900;font-size:44px;line-height:1">${n}</div>
+          <div style="position:relative;margin-top:14px;width:800px;height:54px;border:6px solid ${INK};border-radius:14px;background:#fff;overflow:hidden">
+            <div id="bar${i}" style="position:absolute;left:0;top:0;bottom:0;width:0;background:${BLUE}"></div></div>
+          <div id="pct${i}" style="position:absolute;left:830px;top:52px;font-family:Cap;font-weight:900;font-size:56px;color:${BLUE}">${v.toFixed(1)}%</div></div>`).join("");
+      add("s3", `<div class="abs" style="left:60px;top:40px;font-family:Cap;font-weight:900;font-size:40px;letter-spacing:0.04em">AT LEAST BASIC DRINKING WATER · 2024</div>` + rowsHtml +
+        `<div class="abs" style="left:60px;top:930px;width:960px;font-family:Cap;font-weight:800;font-size:28px;color:${MUTED}">Source: WHO/UNICEF JMP 2025 (washdata.org). Lowest 5 among African countries with data.</div>`);
+      tl.fromTo("#s3 .cam", focus(540, 520, 1.0), { ...focus(540, 520, 1.06), duration: 10.0, ease: "none" }, 11.9);
+      const rowT = [W(3, "congo") - 0.6, W(3, "central") - 0.1, W(3, "south") - 0.1, W(4, "burkina") - 0.1, W(4, "chad") - 0.1];
+      DATA.forEach(([n, v], i) => {
+        tl.fromTo(`#row${i}`, { opacity: 0, x: -60 }, { opacity: 1, x: 0, duration: 0.3, ease: "power2.out" }, rowT[i]);
+        tl.fromTo(`#bar${i}`, { width: 0 }, { width: `${v}%`, duration: 0.7, ease: "power2.out" }, rowT[i] + 0.15);
+      });
+
+      /* ================= S4 · what it means (21.9 – 30.3) ================= */
+      add("s4", `<svg class="abs" style="left:0;top:0" width="1080" height="1080" viewBox="0 0 1080 1080">
+        <path d="M-40 620 Q300 580 540 620 T1120 600" fill="none" stroke="${INK}" stroke-width="8" stroke-dasharray="26 18" stroke-linecap="round"/>
+        <g id="tap4" stroke="${INK}" stroke-width="8" fill="#fff" stroke-linejoin="round" stroke-linecap="round"><rect x="940" y="420" width="60" height="190"/><path d="M940 460 L890 460 L890 490"/></g>
+      </svg>`);
+      add("s4", `<div id="walk4" class="abs" style="left:40px;top:270px;width:200px;height:380px">${figure("w4", { left: 0, top: 0, w: 170, face: "worry" })}<div class="abs" style="left:40px;top:-80px">${jerry(90)}</div></div>`);
+      add("s4", `<div id="queue4" class="abs" style="left:430px;top:330px;width:520px;height:320px;opacity:0">${figure("q1", { left: 0, top: 0, w: 150, face: "hmm" })}${figure("q2", { left: 150, top: 0, w: 150, face: "worry" })}${figure("q3", { left: 300, top: 0, w: 150, face: "hmm" })}</div>`);
+      add("s4", `<div id="load4" class="abs" style="left:110px;top:120px;opacity:0"><span class="chip" style="font-size:48px">HEAVY LOADS</span></div>`);
+      add("s4", `<div id="wg4" class="abs" style="left:0;top:700px;width:1080px;text-align:center;opacity:0"><span class="label" style="font-size:72px">often <span style="color:${BLUE}">women &amp; girls</span></span></div>`);
+      const school = `<svg width="200" height="190" viewBox="0 0 200 190"><g stroke="${INK}" stroke-width="8" fill="#fff" stroke-linejoin="round"><path d="M20 80 L100 20 L180 80"/><rect x="40" y="76" width="120" height="100"/><rect x="84" y="120" width="32" height="56" fill="${BLUE}"/><path d="M100 20 L100 0 L130 8 L100 16"/></g></svg>`;
+      const work = `<svg width="200" height="190" viewBox="0 0 200 190"><g stroke="${INK}" stroke-width="8" fill="#fff" stroke-linejoin="round"><rect x="20" y="60" width="160" height="110" rx="12"/><path d="M70 60 L70 34 L130 34 L130 60"/><line x1="20" y1="104" x2="180" y2="104"/></g></svg>`;
+      add("s4", `<div id="sw4" class="abs" style="left:180px;top:780px;width:720px;display:flex;justify-content:space-around;opacity:0"><div style="text-align:center">${school}<div class="small">school</div></div><div style="text-align:center">${work}<div class="small">work</div></div></div>`);
+      add("s4", `<svg id="cross4" class="abs" style="left:0;top:0;opacity:0" width="1080" height="1080"><g stroke="${BLUE}" stroke-width="14" stroke-linecap="round"><line x1="250" y1="790" x2="470" y2="990"/><line x1="470" y1="790" x2="250" y2="990"/><line x1="610" y1="790" x2="830" y2="990"/><line x1="830" y1="790" x2="610" y2="990"/></g></svg>`);
+      tl.fromTo("#s4 .cam", focus(200, 450, 1.4), { ...focus(300, 450, 1.3), duration: 1.6, ease: "none" }, 21.9);
+      tl.fromTo("#walk4", { x: 0 }, { x: 260, duration: 2.4, ease: "none" }, 21.9);
+      tl.fromTo("#walk4", { y: 0 }, { y: -12, duration: 0.25, yoyo: true, repeat: 9, ease: "sine.inOut" }, 21.9);
+      tl.to("#s4 .cam", { ...focus(700, 470, 1.15), duration: 0.6, ease: "power2.inOut" }, W(5, "queues") - 0.3);
+      tl.to("#queue4", { opacity: 1, duration: 0.3 }, W(5, "queues") - 0.2);
+      pop("#load4", W(5, "heavy"));
+      tl.to("#s4 .cam", { ...focus(540, 560, 1.0), duration: 0.7, ease: "power2.inOut" }, W(5, "task") - 0.3);
+      tl.fromTo("#wg4", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.3 }, W(5, "women") - 0.2);
+      tl.to("#wg4", { opacity: 0, duration: 0.2 }, W(5, "instead") - 0.3);
+      tl.fromTo("#sw4", { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: 0.3 }, W(5, "instead") - 0.2);
+      tl.to("#cross4", { opacity: 1, duration: 0.15 }, W(5, "work"));
+
+      /* ================= S5 · teaser ep 5 (30.3 – 34.5) ================= */
+      add("s5", `<svg class="abs" style="left:0;top:0" width="1080" height="1080" viewBox="0 0 1080 1080"><line x1="0" y1="640" x2="1080" y2="640" stroke="${INK}" stroke-width="8"/>
+        <g transform="translate(540 640) scale(1.2)"><path d="M-150 0 L150 0 L130 30 L-130 30 Z" fill="#e9edf1" stroke="${INK}" stroke-width="8" stroke-linejoin="round"/><rect x="-26" y="-190" width="52" height="190" rx="8" fill="#fff" stroke="${INK}" stroke-width="8"/><path d="M-26 -140 L-70 -140 L-70 -120 L-26 -120" fill="#fff" stroke="${INK}" stroke-width="8"/><line x1="10" y1="-180" x2="130" y2="-230" stroke="${INK}" stroke-width="12" stroke-linecap="round"/></g>
+        <g id="rib5"><path d="M300 420 Q540 460 780 420" stroke="${BLUE}" stroke-width="14" fill="none"/></g></svg>`);
+      add("s5", `<div id="q5" class="abs label" style="left:760px;top:220px;font-size:200px;color:${BLUE}">?</div>`);
+      add("s5", `<div id="next" class="abs" style="left:90px;top:760px;width:900px;padding:26px 40px;border:8px solid ${INK};border-radius:30px;background:${BLUE};color:#fff;text-align:center">
+        <div style="font-family:Cap;font-weight:900;font-size:44px;letter-spacing:0.08em">NEXT · EP. 5 →</div>
+        <div style="font-family:Hand;font-size:58px;line-height:1.05;margin-top:6px">Why isn't building a well enough?</div></div>`);
+      tl.fromTo("#s5 .cam", focus(540, 480, 1.2), { ...focus(540, 540, 1.0), duration: 2.0, ease: "power1.inOut" }, 30.3);
+      pop("#q5", W(6, "enough") - 0.3, { rotation: 10 });
+      tl.fromTo("#next", { y: 400, opacity: 0 }, { y: 0, opacity: 1, duration: 0.5, ease: "back.out(1.6)" }, W(6, "next") - 0.3);
+
+      /* ================= S6 · end card (34.5 – 38) ================= */
+      add("s6", `<div class="abs" style="left:0;top:60px;width:1080px;text-align:center">
+        <img id="logo" src="assets/logo.png" style="width:380px;height:380px" />
+        <div id="e1" style="font-family:Cap;font-weight:900;font-size:60px;letter-spacing:0.02em;margin-top:10px">WATER: <span style="color:${BLUE}">WHAT WE DON'T SEE</span></div>
+        <div id="e2" style="font-family:Cap;font-weight:800;font-size:40px;color:${MUTED};margin-top:6px">EPISODE 4 · aquacoreglobal.com</div>
+        <div id="e3" style="display:inline-block;margin-top:50px;padding:24px 44px;border:7px solid ${INK};border-radius:40px;font-family:Hand;font-size:56px">How far is your nearest <span style="color:${BLUE}">water</span> source? 💬</div>
+      </div>`);
+      pop("#logo", 34.55);
+      tl.fromTo("#e1", { y: 30, opacity: 0 }, { y: 0, opacity: 1, duration: 0.35 }, 34.8);
+      tl.fromTo("#e2", { y: 30, opacity: 0 }, { y: 0, opacity: 1, duration: 0.35 }, 35.0);
+      pop("#e3", 35.3);
+      tl.fromTo("#logo", { rotation: 0 }, { rotation: 360, duration: 1.2, ease: "power2.inOut" }, 35.5);
+
+      /* ================= captions ================= */
+      const KEY = /^(water|job|basic|safe|30|minutes|five|african|hardest|congo|36|37|40|50|52|millions|walks|queues|loads|women|girls|school|work|well|enough|next)$/i;
+      const capsEl = document.getElementById("caps");
+      TIMED.forEach((words, li) => {
+        let chunk = [], chunks = [];
+        words.forEach((x, i) => {
+          chunk.push(x);
+          const len = chunk.map((c) => c.w).join(" ").length;
+          if (/[,.?!:]$/.test(x.w) || chunk.length >= 4 || len > 18 || i === words.length - 1) { chunks.push(chunk); chunk = []; }
+        });
+        chunks.forEach((c, ci) => {
+          const id = `c${li}_${ci}`;
+          capsEl.insertAdjacentHTML("beforeend", `<div id="${id}" class="cap">${c.map((x, wi) => `<span id="${id}_${wi}"${KEY.test(x.w.replace(/[^\w]/g, "")) ? ' class="k"' : ""}>${x.w}</span>`).join(" ")}</div>`);
+          const cs = c[0].t, ce = ci < chunks.length - 1 ? chunks[ci + 1][0].t : c[c.length - 1].t + c[c.length - 1].d + 0.15;
+          tl.fromTo(`#${id}`, { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.08 }, cs);
+          tl.set(`#${id}`, { opacity: 0 }, ce);
+          c.forEach((x, wi) => tl.fromTo(`#${id}_${wi}`, { scale: 1 }, { scale: 1.12, duration: 0.08, yoyo: true, repeat: 1, transformOrigin: "50% 60%" }, x.t));
+        });
+      });
+
+      if (document.documentElement.dataset.format === "landscape") {
+        tl.fromTo("#stage", { scale: 0.92, x: 0, transformOrigin: "0 0" }, { scale: 0.92, x: 0, duration: 0.01 }, 0);
+        tl.to("#stage", { x: 393, duration: 0.5, ease: "power2.inOut" }, 34.5);
+      }
+      tl.set({}, {}, 38);
+      window.__timelines = window.__timelines || {};
+      window.__timelines["main"] = tl;
+      tl.seek(0);
+    </script>
+  </body>
+</html>

@@ -1,0 +1,6 @@
+country,iso3,year,at_least_basic_pct,limited_pct,unimproved_pct,surface_water_pct,source
+Democratic Republic of the Congo,COD,2024,35.7,24.1,32.5,7.7,WHO/UNICEF JMP 2025 household estimates (washdata.org country file, Estimates sheet; updated Aug 2025)
+Central African Republic,CAF,2024,36.5,26.8,33.4,3.3,WHO/UNICEF JMP 2025 household estimates (washdata.org)
+South Sudan,SSD,2024,39.7,37.9,10.6,11.8,WHO/UNICEF JMP 2025 household estimates (washdata.org)
+Burkina Faso,BFA,2024,50.0,31.8,18.2,0.1,WHO/UNICEF JMP 2025 household estimates (washdata.org)
+Chad,TCD,2024,52.2,12.5,28.1,7.1,WHO/UNICEF JMP 2025 household estimates (washdata.org)
