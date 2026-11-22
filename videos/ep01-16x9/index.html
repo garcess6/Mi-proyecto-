@@ -1,0 +1,469 @@
+<!doctype html>
+<html lang="en" data-resolution="landscape" data-format="landscape">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1920, height=1080" />
+    <title>River, Well or Rain</title>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/gsap.min.js"></script>
+    <style>
+      @font-face { font-family: "Hand"; src: url("assets/fonts/patrick-hand-latin-400-normal.woff2") format("woff2"); font-weight: 400; }
+      @font-face { font-family: "Cap"; src: url("assets/fonts/nunito-latin-900-normal.woff2") format("woff2"); font-weight: 900; }
+      @font-face { font-family: "Cap"; src: url("assets/fonts/nunito-latin-800-normal.woff2") format("woff2"); font-weight: 800; }
+      :root {
+        --ground: #ffffff;
+        --ink: #111418;
+        --blue: #1e7fd8;
+        --sky: #dff2fc;
+        --teal: #2ec4d6;
+        --dirt: #8a7660;
+        --muted: #8b96a3;
+        --W: 1080px;
+        --H: 1920px;
+      }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { margin: 0; width: var(--W); height: var(--H); overflow: hidden; background: var(--ground); }
+      #root { position: relative; width: 100%; height: 100%; background: var(--ground); font-family: "Hand", sans-serif; color: var(--ink); overflow: hidden; }
+
+      /* ---------- layout: stage (1080x1080 drawing area), captions, series tag ---------- */
+      #stage { position: absolute; width: 1080px; height: 1080px; left: 0; top: 300px; transform-origin: 0 0; overflow: hidden; }
+      #caps { position: absolute; left: 60px; width: 960px; top: 1420px; height: 260px; }
+      #tag { position: absolute; left: 0; width: 1080px; top: 150px; text-align: center; }
+      html[data-format="landscape"] { --W: 1920px; --H: 1080px; }
+      html[data-format="landscape"] #stage { left: 70px; top: 43px; }
+      html[data-format="landscape"] #caps { left: 1120px; width: 740px; top: 360px; height: 420px; }
+      html[data-format="landscape"] #tag { left: 1120px; width: 740px; top: 150px; }
+      html[data-format="landscape"] .cap { font-size: 84px; }
+      html[data-format="landscape"] .pill { font-size: 28px; }
+
+      .scene { position: absolute; inset: 0; width: 1080px; height: 1080px; overflow: hidden; }
+      .cam { position: absolute; left: 0; top: 0; width: 1080px; height: 1080px; transform-origin: 0 0; }
+      .abs { position: absolute; }
+      svg { overflow: visible; }
+
+      .pill { white-space: nowrap; display: inline-flex; align-items: center; gap: 14px; padding: 10px 28px; border: 5px solid var(--ink); border-radius: 999px; font-family: "Cap"; font-weight: 900; font-size: 34px; letter-spacing: 0.04em; background: #fff; }
+      .pill b { color: var(--blue); }
+      .label { font-family: "Hand"; font-size: 66px; line-height: 1; text-align: center; }
+      .chip { font-family: "Cap"; font-weight: 900; font-size: 52px; letter-spacing: 0.06em; padding: 8px 30px; border-radius: 18px; background: var(--blue); color: #fff; border: 5px solid var(--ink); }
+
+      /* captions */
+      .cap { position: absolute; left: 0; right: 0; top: 50%; transform: translateY(-50%); text-align: center; font-family: "Cap"; font-weight: 900; font-size: 76px; line-height: 1.12; color: var(--ink); opacity: 0; }
+      .cap span { display: inline-block; margin: 0 0.06em; }
+      .cap span.k { color: var(--blue); }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="44.5" data-width="1920" data-height="1080">
+      <audio id="vo" class="clip" src="assets/voice.wav" data-start="0" data-duration="44.5" data-track-index="9"></audio>
+
+      <div id="tag" class="clip" data-start="1.6" data-duration="40" data-track-index="8">
+        <div class="pill">EP. 1 · <b>WATER:</b> WHAT WE DON'T SEE</div>
+      </div>
+
+      <div id="stage">
+        <div id="s0" class="scene clip" data-start="0" data-duration="1.6" data-track-index="1"><div class="cam"></div></div>
+        <div id="s1" class="scene clip" data-start="1.6" data-duration="7.4" data-track-index="1"><div class="cam"></div></div>
+        <div id="s3" class="scene clip" data-start="9" data-duration="5.3" data-track-index="1"><div class="cam"></div></div>
+        <div id="s4" class="scene clip" data-start="14.3" data-duration="5.3" data-track-index="1"><div class="cam"></div></div>
+        <div id="s5" class="scene clip" data-start="19.6" data-duration="4.7" data-track-index="1"><div class="cam"></div></div>
+        <div id="s6" class="scene clip" data-start="24.3" data-duration="5" data-track-index="1"><div class="cam"></div></div>
+        <div id="s7" class="scene clip" data-start="29.3" data-duration="7.8" data-track-index="1"><div class="cam"></div></div>
+        <div id="s8" class="scene clip" data-start="37.1" data-duration="4.5" data-track-index="1"><div class="cam"></div></div>
+        <div id="s9" class="scene clip" data-start="41.6" data-duration="2.9" data-track-index="1"><div class="cam"></div></div>
+      </div>
+
+      <div id="caps"></div>
+    </div>
+
+    <script>
+      /* ================= helpers ================= */
+      const INK = "#111418", BLUE = "#1e7fd8", SKY = "#dff2fc", DIRT = "#8a7660", MUTED = "#8b96a3", TEAL = "#2ec4d6";
+      let seed = 7;
+      const rnd = () => ((seed = (seed * 16807) % 2147483647) / 2147483647);
+      const $ = (s) => document.querySelector(s);
+      const $$ = (s) => Array.from(document.querySelectorAll(s));
+      const cam = (id) => document.getElementById(id).getElementsByClassName("cam")[0];
+      const add = (id, html) => cam(id).insertAdjacentHTML("beforeend", html);
+      const addTop = (id, html) => document.getElementById(id).insertAdjacentHTML("beforeend", html);
+      // camera transform that centres point (px,py) at scale s
+      const focus = (px, py, s) => ({ x: 540 - px * s, y: 540 - py * s, scale: s });
+
+      // stick figure (viewBox 200x360). prop: "glass" | "lens" | ""
+      function figure(id, { left, top, w, prop = "", face = "smile" }) {
+        const h = w * 1.8;
+        const propSvg =
+          prop === "glass"
+            ? `<g class="prop"><path d="M136 188 L172 188 L167 236 L141 236 Z" fill="#fff" stroke="${INK}" stroke-width="6" stroke-linejoin="round"/><path d="M139 204 L169 204 L167 236 L141 236 Z" fill="${SKY}" stroke="none"/><path d="M139 204 Q154 198 169 204" stroke="${BLUE}" stroke-width="5" fill="none"/></g>`
+            : prop === "lens"
+            ? `<g class="prop"><line x1="144" y1="210" x2="160" y2="186" stroke="${INK}" stroke-width="10" stroke-linecap="round"/><circle cx="176" cy="160" r="30" fill="${SKY}" fill-opacity="0.7" stroke="${INK}" stroke-width="8"/><path d="M162 150 Q168 140 178 138" stroke="#fff" stroke-width="6" fill="none" stroke-linecap="round"/></g>`
+            : "";
+        const show = (n) => (n === face ? 1 : 0);
+        return `<div id="${id}" class="abs" style="left:${left}px;top:${top}px;width:${w}px;height:${h}px">
+        <svg viewBox="0 0 200 360" width="${w}" height="${h}">
+          <g fill="none" stroke="${INK}" stroke-width="8" stroke-linecap="round" stroke-linejoin="round">
+            <path class="hdrop" d="M100 0 C94 12 86 20 86 28 a14 14 0 0 0 28 0 C114 20 106 12 100 0 Z" fill="${BLUE}" stroke-width="5"/>
+            <line x1="100" y1="126" x2="100" y2="240"/>
+            <line x1="100" y1="240" x2="66" y2="340"/><line x1="100" y1="240" x2="134" y2="340"/>
+            <g class="armL"><line x1="100" y1="150" x2="56" y2="210"/></g>
+            <g class="armR"><line x1="100" y1="150" x2="144" y2="210"/>${propSvg}</g>
+            <circle cx="100" cy="80" r="46" fill="#fff"/>
+            <g class="eyes" stroke="none" fill="${INK}"><circle cx="84" cy="76" r="6.5"/><circle cx="116" cy="76" r="6.5"/></g>
+            <g class="f-smile" opacity="${show("smile")}"><path d="M84 98 Q100 114 116 98"/></g>
+            <g class="f-o" opacity="${show("o")}"><circle cx="100" cy="104" r="9"/><path d="M72 58 L92 52 M108 52 L128 58" stroke-width="6"/></g>
+            <g class="f-hmm" opacity="${show("hmm")}"><path d="M88 106 L114 100"/><path d="M74 60 L92 58 M108 54 L126 50" stroke-width="6"/></g>
+            <g class="f-worry" opacity="${show("worry")}"><path d="M84 108 Q92 99 100 105 Q108 111 116 102"/><path d="M74 56 L92 63 M108 63 L126 56" stroke-width="6"/><path class="sweat" d="M146 54 C142 62 138 66 138 71 a8 8 0 0 0 16 0 C154 66 150 62 146 54 Z" fill="${SKY}" stroke="${BLUE}" stroke-width="4"/></g>
+          </g>
+        </svg></div>`;
+      }
+      function setFace(tl, id, face, t) {
+        ["smile", "o", "hmm", "worry"].forEach((f) => tl.set(`#${id} .f-${f}`, { opacity: f === face ? 1 : 0 }, t));
+      }
+
+      // a glass of water (viewBox 160x220); extra = svg drawn inside the water
+      function glass(id, { left, top, w, extra = "" }) {
+        const h = w * 1.375;
+        return `<div id="${id}" class="abs" style="left:${left}px;top:${top}px;width:${w}px;height:${h}px">
+        <svg viewBox="0 0 160 220" width="${w}" height="${h}">
+          <path d="M26 66 L134 66 L124 206 L36 206 Z" fill="${SKY}"/>
+          <path class="wave" d="M26 66 Q53 56 80 66 T134 66" stroke="${BLUE}" stroke-width="6" fill="none" stroke-linecap="round"/>
+          <g class="inside">${extra}</g>
+          <path d="M18 10 L142 10 L126 210 L34 210 Z" fill="none" stroke="${INK}" stroke-width="8" stroke-linejoin="round"/>
+          <path d="M40 28 L50 190" stroke="#fff" stroke-width="7" stroke-linecap="round"/>
+        </svg></div>`;
+      }
+      const microbe = (x, y, s = 1, cls = "mic") =>
+        `<g class="${cls}" transform="translate(${x} ${y}) scale(${s})"><g class="wig"><ellipse rx="15" ry="10" fill="#fff" stroke="${INK}" stroke-width="4"/><circle cx="-4" cy="-1" r="2.6" fill="${INK}"/><circle cx="5" cy="2" r="2.2" fill="${BLUE}"/><path d="M15 0 q6 -6 12 0 t10 0" stroke="${INK}" stroke-width="3.5" fill="none" stroke-linecap="round"/></g></g>`;
+      const dot = (x, y, r, fill, cls) => `<circle class="${cls}" cx="${x}" cy="${y}" r="${r}" fill="${fill}" stroke="${INK}" stroke-width="3"/>`;
+      const dropPath = (x, y, s, fill, cls, stroke = INK) =>
+        `<g transform="translate(${x} ${y})"><path class="${cls}" transform="scale(${s})" d="M0 -18 C-5 -8 -11 -2 -11 5 a11 11 0 0 0 22 0 C11 -2 5 -8 0 -18 Z" fill="${fill}" stroke="${stroke}" stroke-width="3.5"/></g>`;
+      const leaf = (x, y, r, cls) =>
+        `<g class="${cls}" transform="translate(${x} ${y}) rotate(${r})"><path d="M-16 0 Q0 -14 16 0 Q0 14 -16 0 Z" fill="#fff" stroke="${INK}" stroke-width="4"/><path d="M-12 0 L14 0" stroke="${INK}" stroke-width="3"/></g>`;
+
+      const riverIcon = `<svg viewBox="0 0 120 80" width="120" height="80"><g fill="none" stroke="${INK}" stroke-width="7" stroke-linecap="round"><path d="M8 22 Q24 8 40 22 T72 22 T104 22"/><path d="M8 44 Q24 30 40 44 T72 44 T104 44" stroke="${BLUE}"/><path d="M8 66 Q24 52 40 66 T72 66 T104 66"/></g></svg>`;
+      const wellIcon = `<svg viewBox="0 0 120 80" width="120" height="80"><g fill="none" stroke="${INK}" stroke-width="7" stroke-linejoin="round" stroke-linecap="round"><path d="M22 34 L60 6 L98 34"/><line x1="34" y1="26" x2="34" y2="50"/><line x1="86" y1="26" x2="86" y2="50"/><rect x="22" y="50" width="76" height="26" rx="4" fill="#fff"/><line x1="60" y1="20" x2="60" y2="38" stroke="${BLUE}"/></g></svg>`;
+      const rainIcon = `<svg viewBox="0 0 120 80" width="120" height="80"><g fill="none" stroke="${INK}" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"><path d="M30 48 a16 16 0 0 1 4 -31 a22 22 0 0 1 42 -2 a17 17 0 0 1 12 33 Z" fill="#fff"/><line x1="40" y1="60" x2="34" y2="74" stroke="${BLUE}"/><line x1="62" y1="60" x2="56" y2="74" stroke="${BLUE}"/><line x1="84" y1="60" x2="78" y2="74" stroke="${BLUE}"/></g></svg>`;
+
+      const tl = gsap.timeline({ paused: true });
+      const pop = (sel, t, extra = {}) => tl.fromTo(sel, { scale: 0, opacity: 0, transformOrigin: "50% 50%" }, { scale: 1, opacity: 1, duration: 0.35, ease: "back.out(2.2)", ...extra }, t);
+      const wiggle = (sel, t, dur) => tl.fromTo(sel, { rotation: -14 }, { rotation: 14, duration: 0.25, ease: "sine.inOut", yoyo: true, repeat: Math.max(1, Math.floor(dur / 0.25)), svgOrigin: "0 0" }, t);
+
+      /* ================= S0 · hook (0 – 1.6) ================= */
+      add("s0", figure("f0", { left: 340, top: 180, w: 400, prop: "glass", face: "smile" }));
+      addTop("s0", `<div id="wait" class="abs" style="left:0;top:40px;width:1080px;text-align:center;font-family:Cap;font-weight:900;font-size:180px;color:${BLUE};-webkit-text-stroke:8px ${INK};paint-order:stroke fill;opacity:0">WAIT!</div>`);
+      addTop("s0", `<svg class="abs" style="left:0;top:0" width="1080" height="1080"><g id="burst" stroke="${INK}" stroke-width="9" stroke-linecap="round" opacity="0"><line x1="150" y1="90" x2="100" y2="50"/><line x1="130" y1="180" x2="60" y2="180"/><line x1="930" y1="90" x2="980" y2="50"/><line x1="950" y1="180" x2="1020" y2="180"/></g></svg>`);
+      tl.fromTo("#f0 .armR", { rotation: 0 }, { rotation: -92, svgOrigin: "100 150", duration: 0.7, ease: "power2.inOut" }, 0.05);
+      tl.fromTo("#s0 .cam", focus(540, 540, 1), { ...focus(560, 420, 1.25), duration: 1.5, ease: "power1.inOut" }, 0);
+      tl.fromTo("#wait", { scale: 2.4, opacity: 0, rotation: -6 }, { scale: 1, opacity: 1, rotation: -6, duration: 0.25, ease: "back.out(3)" }, 0.8);
+      tl.to("#burst", { opacity: 1, duration: 0.05 }, 0.85);
+      setFace(tl, "f0", "o", 0.85);
+      tl.fromTo("#s0 .cam", { rotation: 0 }, { rotation: 1.5, duration: 0.05, yoyo: true, repeat: 7, ease: "none" }, 0.85);
+
+      /* ================= S1 · three glasses (1.6 – 9.0) ================= */
+      const GX = [90, 430, 770];
+      const glassExtras = [
+        microbe(60, 120, 1.1, "m1") + dot(100, 170, 8, DIRT, "m1") + microbe(100, 145, 0.9, "m1") + dot(55, 180, 6, DIRT, "m1"),
+        "",
+        "",
+      ];
+      ["g1", "g2", "g3"].forEach((g, i) => add("s1", glass(g, { left: GX[i], top: 70, w: 220, extra: glassExtras[i] })));
+      [riverIcon, wellIcon, rainIcon].forEach((ic, i) =>
+        add("s1", `<div id="lb${i}" class="abs" style="left:${GX[i] - 20}px;top:390px;width:260px;text-align:center">${ic}<div class="label">${["RIVER", "WELL", "RAIN"][i]}</div></div>`)
+      );
+      add("s1", `<div id="eq1" class="abs label" style="left:325px;top:150px;width:90px;font-size:120px;opacity:0">=</div><div id="eq2" class="abs label" style="left:665px;top:150px;width:90px;font-size:120px;opacity:0">=</div>`);
+      add("s1", figure("f1", { left: 440, top: 600, w: 220, prop: "lens", face: "hmm" }));
+      add("s1", `<div id="q1" class="abs label" style="left:640px;top:560px;font-size:140px;color:${BLUE};opacity:0">?</div>`);
+      add("s1", `<div id="lens1" class="abs" style="left:40px;top:60px;width:320px;height:320px;opacity:0"><svg viewBox="0 0 320 320" width="320" height="320"><circle cx="150" cy="150" r="120" fill="#fff" stroke="${INK}" stroke-width="14"/><g>${microbe(110, 120, 2.2, "lm")}${microbe(190, 180, 1.8, "lm")}${dot(150, 210, 14, DIRT, "lm")}${microbe(120, 200, 1.4, "lm")}</g><line x1="236" y1="236" x2="300" y2="300" stroke="${INK}" stroke-width="22" stroke-linecap="round"/></svg></div>`);
+      tl.set("#f1 .prop", { opacity: 0 }, 1.6);
+      tl.set(".m1", { opacity: 0 }, 1.6);
+      pop("#g1", 1.75); pop("#lb0", 1.8);
+      pop("#g2", 2.25); pop("#lb1", 2.3);
+      pop("#g3", 2.75); pop("#lb2", 2.8);
+      tl.fromTo("#f1", { y: 500 }, { y: 0, duration: 0.5, ease: "power3.out" }, 3.1);
+      pop("#q1", 3.6, { rotation: 10 });
+      tl.fromTo("#f1 .armL", { rotation: 0 }, { rotation: 60, svgOrigin: "100 150", duration: 0.4 }, 3.6);
+      tl.fromTo("#s1 .cam", focus(540, 540, 1), { ...focus(540, 480, 1.08), duration: 3.4, ease: "none" }, 1.6);
+      ["#g1", "#g2", "#g3"].forEach((g, i) => tl.fromTo(`${g} .wave`, { x: 0 }, { x: -8, duration: 0.5, yoyo: true, repeat: 13, ease: "sine.inOut" }, 1.6 + i * 0.15));
+      pop("#eq1", 5.3); pop("#eq2", 5.5);
+      tl.to("#q1", { opacity: 0, duration: 0.2 }, 6.6);
+      tl.to("#f1 .armL", { rotation: 0, svgOrigin: "100 150", duration: 0.3 }, 6.6);
+      setFace(tl, "f1", "smile", 6.7);
+      tl.set("#f1 .prop", { opacity: 1 }, 6.8);
+      tl.fromTo("#f1 .armR", { rotation: 0 }, { rotation: -70, svgOrigin: "100 150", duration: 0.35, ease: "back.out(2)" }, 6.8);
+      tl.to(["#eq1", "#eq2"], { opacity: 0, duration: 0.2 }, 7.2);
+      tl.to("#s1 .cam", { ...focus(200, 230, 2.0), duration: 0.8, ease: "power3.inOut" }, 7.4);
+      pop("#lens1", 8.0);
+      tl.set(".m1", { opacity: 1 }, 8.0);
+      wiggle("#lens1 .wig", 8.1, 0.9);
+
+      /* ================= S3 · river (9.0 – 14.3) ================= */
+      let fieldRows = "";
+      for (let i = 0; i < 7; i++) fieldRows += `<path d="M${20 + i * 6} ${340 + i * 55} L${340 - i * 6} ${300 + i * 55}" stroke="${INK}" stroke-width="5" stroke-dasharray="14 12" stroke-linecap="round"/>`;
+      const house = (x, y, s, cls) =>
+        `<g class="${cls}" transform="translate(${x} ${y}) scale(${s})"><path d="M-60 0 L0 -50 L60 0" fill="none" stroke="${INK}" stroke-width="8" stroke-linejoin="round" stroke-linecap="round"/><rect x="-46" y="-6" width="92" height="76" fill="#fff" stroke="${INK}" stroke-width="8" stroke-linejoin="round"/><rect x="-12" y="30" width="24" height="40" fill="${BLUE}" stroke="${INK}" stroke-width="6"/></g>`;
+      let soil = "", rmic = "", poll = "";
+      for (let i = 0; i < 9; i++) soil += dot(240 + rnd() * 100, 380 + rnd() * 260, 8 + rnd() * 6, DIRT, "soil");
+      [[470, 380], [520, 560], [440, 720], [580, 880], [610, 300]].forEach(([x, y], i) => (rmic += microbe(x, y, 1.3, "rmic")));
+      for (let i = 0; i < 5; i++) poll += dropPath(760, 640, 1.1, "#4a4f57", "poll");
+      add("s3", `<svg class="abs" style="left:0;top:0" width="1080" height="1080" viewBox="0 0 1080 1080">
+        <path id="rbody" d="M380 -20 C420 300 300 600 520 1100 L820 1100 C580 600 680 300 640 -20 Z" fill="${SKY}"/>
+        <path class="redge" d="M380 -20 C420 300 300 600 520 1100" fill="none" stroke="${INK}" stroke-width="9" stroke-linecap="round"/>
+        <path class="redge" d="M640 -20 C680 300 580 600 820 1100" fill="none" stroke="${INK}" stroke-width="9" stroke-linecap="round"/>
+        <g id="rwaves" stroke="${BLUE}" stroke-width="6" fill="none" stroke-linecap="round">
+          <path d="M460 160 q20 -14 40 0 t40 0"/><path d="M420 440 q20 -14 40 0 t40 0"/><path d="M500 640 q20 -14 40 0 t40 0"/><path d="M560 900 q20 -14 40 0 t40 0"/></g>
+        <g id="field"><path d="M0 330 L350 290 L320 700 L0 760 Z" fill="#fff" stroke="${INK}" stroke-width="8" stroke-linejoin="round"/>${fieldRows}</g>
+        ${house(860, 210, 1, "rh")}${house(960, 400, 0.8, "rh")}${house(820, 860, 0.9, "rh")}
+        <g id="pipe"><rect x="740" y="600" width="140" height="44" rx="6" fill="#fff" stroke="${INK}" stroke-width="8"/><line x1="770" y1="600" x2="770" y2="644" stroke="${INK}" stroke-width="5"/></g>
+        ${soil}${poll}${rmic}
+      </svg>`);
+      addTop("s3", `<div id="t3" class="abs" style="left:40px;top:40px"><div class="chip">RIVER</div></div>`);
+      tl.fromTo("#s3 .cam", focus(540, 540, 1.25), { ...focus(540, 540, 1.0), duration: 1.0, ease: "power2.out" }, 9.0);
+      tl.fromTo(".redge", { strokeDasharray: 1400, strokeDashoffset: 1400 }, { strokeDashoffset: 0, duration: 0.8, ease: "power2.out" }, 9.0);
+      tl.fromTo("#rbody", { opacity: 0 }, { opacity: 1, duration: 0.5 }, 9.2);
+      tl.fromTo("#rwaves", { x: 0 }, { x: 30, duration: 5.3, ease: "none" }, 9.0);
+      pop("#t3", 9.1);
+      tl.fromTo("#field", { x: -420 }, { x: 0, duration: 0.5, ease: "power3.out" }, 9.6);
+      pop(".rh", 10.0, { stagger: 0.12 });
+      tl.to("#s3 .cam", { ...focus(380, 520, 1.35), duration: 0.6, ease: "power2.inOut" }, 10.7);
+      $$(".soil").forEach((d, i) => tl.to(d, { x: 200 + i * 8, y: 40 + (i % 3) * 30, duration: 0.9, ease: "power1.in" }, 11.0 + i * 0.06));
+      pop(".rmic", 11.8, { stagger: 0.08 });
+      wiggle(".rmic .wig", 11.9, 2.4);
+      tl.to("#s3 .cam", { ...focus(640, 660, 1.4), duration: 0.6, ease: "power2.inOut" }, 12.4);
+      $$(".poll").forEach((d, i) => tl.fromTo(d, { x: 0, y: 0, opacity: 0 }, { x: -70 - i * 14, y: 40 + i * 30, opacity: 1, duration: 0.6, ease: "power1.in" }, 12.7 + i * 0.12));
+      tl.to("#s3 .cam", { ...focus(560, 700, 1.9), duration: 0.7, ease: "power3.inOut" }, 13.5);
+
+      /* ================= S4 · well (14.3 – 19.6) ================= */
+      let soilTex = "", rocks = "", minerals = "", seep = "";
+      for (let i = 0; i < 40; i++) soilTex += `<circle cx="${20 + rnd() * 1040}" cy="${290 + rnd() * 210}" r="${3 + rnd() * 3}" fill="${MUTED}"/>`;
+      for (let i = 0; i < 9; i++) rocks += `<path d="M${30 + i * 120} ${760 + (i % 2) * 40} l40 -26 l46 14 l-10 40 l-60 8 Z" fill="#fff" stroke="${INK}" stroke-width="5" stroke-linejoin="round"/>`;
+      for (let i = 0; i < 6; i++) minerals += `<rect class="mineral" x="${500 + i * 46}" y="${770 + (i % 2) * 50}" width="16" height="16" transform="rotate(45 ${508 + i * 46} ${778 + (i % 2) * 50})" fill="${TEAL}" stroke="${INK}" stroke-width="3"/>`;
+      for (let i = 0; i < 6; i++) seep += dropPath(330, 270, 1.0, "#4a4f57", "seep");
+      add("s4", `<svg class="abs" style="left:0;top:0" width="1080" height="1080" viewBox="0 0 1080 1080">
+        <rect x="0" y="260" width="1080" height="260" fill="#f4f6f8"/>${soilTex}
+        <rect x="0" y="520" width="1080" height="190" fill="#fff"/>
+        <g stroke="${MUTED}" stroke-width="5" stroke-dasharray="30 18">${[560, 610, 660].map((y) => `<line x1="0" y1="${y}" x2="1080" y2="${y}"/>`).join("")}</g>
+        ${rocks}
+        <path d="M0 900 Q90 880 180 900 T360 900 T540 900 T720 900 T900 900 T1080 900 L1080 1080 L0 1080 Z" fill="${SKY}" stroke="${BLUE}" stroke-width="7"/>
+        <line x1="0" y1="260" x2="1080" y2="260" stroke="${INK}" stroke-width="9"/>
+        <line x1="0" y1="520" x2="1080" y2="520" stroke="${INK}" stroke-width="4"/>
+        <line x1="0" y1="710" x2="1080" y2="710" stroke="${INK}" stroke-width="4"/>
+        ${house(160, 190, 0.9, "wh")}
+        <g id="hut"><rect x="300" y="180" width="70" height="80" fill="#fff" stroke="${INK}" stroke-width="7"/><path d="M292 180 L378 180 L335 150 Z" fill="#fff" stroke="${INK}" stroke-width="7" stroke-linejoin="round"/><path d="M320 140 q-8 -12 0 -24 M345 136 q-8 -12 0 -24" stroke="${DIRT}" stroke-width="5" fill="none" stroke-linecap="round"/></g>
+        <rect x="660" y="260" width="80" height="700" fill="#fff"/>
+        <rect x="660" y="880" width="80" height="80" fill="${SKY}"/>
+        <line x1="660" y1="200" x2="660" y2="960" stroke="${INK}" stroke-width="9"/><line x1="740" y1="200" x2="740" y2="960" stroke="${INK}" stroke-width="9"/>
+        <rect x="630" y="200" width="140" height="60" fill="#fff" stroke="${INK}" stroke-width="9"/>
+        <path d="M620 120 L700 60 L780 120" fill="none" stroke="${INK}" stroke-width="9" stroke-linejoin="round" stroke-linecap="round"/>
+        <line x1="640" y1="112" x2="640" y2="200" stroke="${INK}" stroke-width="8"/><line x1="760" y1="112" x2="760" y2="200" stroke="${INK}" stroke-width="8"/>
+        <line id="rope" x1="700" y1="112" x2="700" y2="300" stroke="${BLUE}" stroke-width="5"/>
+        <g id="wwater"></g>
+        ${minerals}${seep}
+        <g id="wellgerms">${microbe(685, 915, 0.9, "wg")}${microbe(715, 940, 0.8, "wg")}</g>
+      </svg>`);
+      add("s4", figure("f4", { left: 880, top: 20, w: 120, face: "smile" }));
+      addTop("s4", `<div id="t4" class="abs" style="left:40px;top:40px"><div class="chip">WELL</div></div>`);
+      tl.fromTo("#s4 .cam", focus(700, 200, 1.6), { ...focus(700, 200, 1.6), duration: 0.01 }, 14.3);
+      pop("#t4", 14.35);
+      tl.fromTo("#rope", { attr: { y2: 130 } }, { attr: { y2: 860 }, duration: 1.4, ease: "power1.inOut" }, 14.5);
+      tl.to("#s4 .cam", { ...focus(700, 760, 1.4), duration: 1.4, ease: "power1.inOut" }, 14.5);
+      tl.to("#s4 .cam", { ...focus(540, 560, 1.0), duration: 0.7, ease: "power2.inOut" }, 16.0);
+      $$(".seep").forEach((d, i) => {
+        const t = 16.5 + i * 0.22;
+        tl.fromTo(d, { x: 0, y: 0, opacity: 0 }, { opacity: 1, duration: 0.1 }, t);
+        tl.to(d, { x: 120 + i * 10, y: 260, duration: 0.5, ease: "none" }, t + 0.1);
+        tl.to(d, { x: 260 + i * 8, y: 470, duration: 0.5, ease: "none" }, t + 0.6);
+        tl.to(d, { x: 350 + (i % 3) * 14, y: 640 + (i % 2) * 20, duration: 0.5, ease: "power1.in" }, t + 1.1);
+      });
+      setFace(tl, "f4", "worry", 17.2);
+      tl.fromTo(".mineral", { scale: 1 }, { scale: 1.6, duration: 0.2, yoyo: true, repeat: 1, svgOrigin: "0 0", stagger: 0.05 }, 18.0);
+      $$(".mineral").forEach((m, i) => tl.to(m, { y: 130 + (i % 2) * 20, x: 160 - i * 30, duration: 0.8, ease: "power1.in" }, 18.4 + i * 0.05));
+      tl.fromTo(".wg", { opacity: 0 }, { opacity: 1, duration: 0.2 }, 18.6);
+      tl.to("#s4 .cam", { ...focus(700, 900, 1.7), duration: 0.7, ease: "power3.inOut" }, 18.8);
+
+      /* ================= S5 · rain (19.6 – 24.3) ================= */
+      let rdrops = "", roofDirt = "", tankDirt = "";
+      for (let i = 0; i < 10; i++) rdrops += `<line class="rain" x1="${560 + i * 40}" y1="200" x2="${552 + i * 40}" y2="226" stroke="${BLUE}" stroke-width="7" stroke-linecap="round"/>`;
+      roofDirt += leaf(640, 420, -30, "rl") + leaf(780, 330, -40, "rl") + dot(700, 385, 7, DIRT, "rl") + dot(860, 300, 6, DIRT, "rl");
+      tankDirt += dot(250, 930, 8, DIRT, "td") + leaf(320, 900, 20, "td") + microbe(220, 880, 1.1, "td") + microbe(350, 950, 1.0, "td") + dot(300, 960, 6, DIRT, "td");
+      let slide = "";
+      for (let i = 0; i < 5; i++) slide += dropPath(900, 260, 1.2, BLUE, "sd", INK);
+      add("s5", `<svg class="abs" style="left:0;top:0" width="1080" height="1080" viewBox="0 0 1080 1080">
+        <g id="cloud"><path d="M560 190 a50 50 0 0 1 20 -96 a70 70 0 0 1 132 -10 a60 60 0 0 1 110 20 a50 50 0 0 1 18 86 Z" fill="#fff" stroke="${INK}" stroke-width="9" stroke-linejoin="round"/></g>
+        <g id="rainG">${rdrops}</g>
+        <rect x="560" y="470" width="400" height="390" fill="#fff" stroke="${INK}" stroke-width="9"/>
+        <rect x="620" y="560" width="90" height="90" fill="${SKY}" stroke="${INK}" stroke-width="7"/><rect x="800" y="660" width="90" height="200" fill="${BLUE}" stroke="${INK}" stroke-width="7"/>
+        <path id="roof" d="M500 500 L960 220 L1010 250" fill="none" stroke="${INK}" stroke-width="12" stroke-linejoin="round" stroke-linecap="round"/>
+        <path id="gutter" d="M470 492 L470 520 Q470 534 486 534 L520 534 L520 504" fill="none" stroke="${INK}" stroke-width="9" stroke-linejoin="round"/>
+        <path id="dpipe" d="M478 534 L478 660 L320 660 L320 720" fill="none" stroke="${INK}" stroke-width="22" stroke-linejoin="round"/>
+        <path d="M478 534 L478 660 L320 660 L320 720" fill="none" stroke="#fff" stroke-width="9" stroke-linejoin="round"/>
+        <g id="tank"><path d="M170 740 L170 1010 Q290 1050 410 1010 L410 740" fill="#fff" stroke="${INK}" stroke-width="9"/><ellipse cx="290" cy="740" rx="120" ry="30" fill="#fff" stroke="${INK}" stroke-width="9"/>
+          <path id="tankw" d="M176 1000 L404 1000 L404 1010 Q290 1046 176 1010 Z" fill="${SKY}"/></g>
+        ${roofDirt}${tankDirt}${slide}
+      </svg>`);
+      addTop("s5", `<div id="t5" class="abs" style="left:40px;top:40px"><div class="chip">RAIN</div></div>`);
+      tl.fromTo("#s5 .cam", focus(760, 300, 1.35), { ...focus(760, 330, 1.35), duration: 1.2, ease: "none" }, 19.6);
+      pop("#t5", 19.65);
+      tl.fromTo("#cloud", { x: -300 }, { x: 0, duration: 0.5, ease: "power3.out" }, 19.6);
+      $$(".rain").forEach((r, i) => tl.fromTo(r, { y: 0, opacity: 0 }, { y: 60 + (i % 4) * 20, opacity: 1, duration: 0.35, repeat: 4, ease: "none" }, 19.9 + (i % 3) * 0.1));
+      $$(".sd").forEach((d, i) => {
+        const t = 20.6 + i * 0.28;
+        tl.fromTo(d, { x: 0, y: 0, opacity: 0 }, { opacity: 1, duration: 0.1 }, t);
+        tl.to(d, { x: -400, y: 245, duration: 0.8, ease: "power1.in" }, t + 0.1);
+        tl.to(d, { x: -420, y: 400, duration: 0.35, ease: "none" }, t + 0.9);
+        tl.to(d, { x: -580, y: 400, duration: 0.3, ease: "none" }, t + 1.25);
+        tl.to(d, { x: -580, y: 640 - i * 6, duration: 0.3, ease: "power1.in" }, t + 1.55);
+        tl.to(d, { opacity: 0, duration: 0.1 }, t + 1.85);
+      });
+      $$(".rl").forEach((d, i) => tl.to(d, { x: -150 + i * 10, y: 110 - i * 8, duration: 0.7, ease: "power1.in" }, 20.9 + i * 0.2));
+      tl.to("#s5 .cam", { ...focus(520, 560, 1.2), duration: 0.8, ease: "power2.inOut" }, 20.9);
+      tl.fromTo("#gutter", { stroke: INK }, { stroke: BLUE, duration: 0.15, yoyo: true, repeat: 3 }, 21.3);
+      tl.to("#s5 .cam", { ...focus(290, 860, 1.5), duration: 0.8, ease: "power2.inOut" }, 21.9);
+      tl.fromTo("#tankw", { attr: { d: "M176 1000 L404 1000 L404 1010 Q290 1046 176 1010 Z" } }, { attr: { d: "M176 860 L404 860 L404 1010 Q290 1046 176 1010 Z" }, duration: 1.2, ease: "power1.out" }, 22.0);
+      tl.fromTo(".td", { opacity: 0 }, { opacity: 1, duration: 0.2, stagger: 0.12 }, 22.9);
+      wiggle(".td .wig", 23.0, 1.2);
+      tl.to("#s5 .cam", { ...focus(280, 920, 1.9), duration: 0.6, ease: "power2.inOut" }, 23.4);
+
+      /* ================= S6 · clear ≠ safe (24.3 – 29.3) ================= */
+      const ex = [
+        microbe(60, 120, 1.1, "x6") + dot(100, 170, 8, DIRT, "x6") + microbe(100, 150, 0.9, "x6") + dot(52, 180, 6, DIRT, "x6"),
+        dropPath(60, 130, 0.8, "#4a4f57", "x6") + dropPath(100, 165, 0.7, "#4a4f57", "x6") + `<rect class="x6" x="70" y="178" width="12" height="12" transform="rotate(45 76 184)" fill="${TEAL}" stroke="${INK}" stroke-width="3"/>`,
+        leaf(70, 120, 20, "x6") + microbe(95, 165, 1.0, "x6") + dot(55, 180, 6, DIRT, "x6"),
+      ];
+      ["h1", "h2", "h3"].forEach((g, i) => add("s6", glass(g, { left: GX[i], top: 260, w: 220, extra: ex[i] })));
+      [riverIcon, wellIcon, rainIcon].forEach((ic, i) => add("s6", `<div id="ic6${i}" class="abs" style="left:${GX[i] + 50}px;top:600px">${ic}</div>`));
+      add("s6", `<div id="spk" class="abs label" style="left:0;top:150px;width:1080px;font-size:80px;color:${BLUE}">✦ &nbsp; ✦ &nbsp; ✦</div>`);
+      add("s6", `<div id="lens6" class="abs" style="left:0;top:250px;width:300px;height:300px"><svg viewBox="0 0 300 300" width="300" height="300"><circle cx="140" cy="140" r="115" fill="none" stroke="${INK}" stroke-width="14"/><line x1="222" y1="222" x2="290" y2="290" stroke="${INK}" stroke-width="22" stroke-linecap="round"/></svg></div>`);
+      add("s6", `<div id="stamp" class="abs" style="left:90px;top:760px;width:900px;text-align:center"><span style="display:inline-block;font-family:Cap;font-weight:900;font-size:110px;color:${BLUE};border:12px solid ${BLUE};border-radius:26px;padding:6px 40px;background:#fff">CLEAR ≠ SAFE</span></div>`);
+      tl.set(".x6", { opacity: 0 }, 24.3);
+      tl.fromTo("#s6 .cam", focus(540, 540, 1.15), { ...focus(540, 540, 1.0), duration: 1.0, ease: "power2.out" }, 24.3);
+      pop("#h1", 24.35); pop("#h2", 24.5); pop("#h3", 24.65);
+      pop("#ic60", 24.5); pop("#ic61", 24.65); pop("#ic62", 24.8);
+      tl.fromTo("#spk", { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.3, yoyo: true, repeat: 1, repeatDelay: 0.6 }, 24.5);
+      tl.fromTo("#lens6", { x: -340, opacity: 0 }, { x: GX[0] - 40, opacity: 1, duration: 0.4, ease: "power2.out" }, 25.6);
+      tl.set("#h1 .x6", { opacity: 1 }, 25.9);
+      tl.to("#lens6", { x: GX[1] - 40, duration: 0.35, ease: "power2.inOut" }, 26.2);
+      tl.set("#h2 .x6", { opacity: 1 }, 26.5);
+      tl.to("#lens6", { x: GX[2] - 40, duration: 0.35, ease: "power2.inOut" }, 26.8);
+      tl.set("#h3 .x6", { opacity: 1 }, 27.1);
+      tl.to("#lens6", { x: 1200, opacity: 0, duration: 0.35, ease: "power2.in" }, 27.4);
+      wiggle("#s6 .wig", 26.0, 3.0);
+      tl.fromTo("#stamp", { scale: 2.2, opacity: 0, rotation: -8 }, { scale: 1, opacity: 1, rotation: -5, duration: 0.3, ease: "back.out(2.5)" }, 27.6);
+      tl.fromTo("#s6 .cam", { rotation: 0 }, { rotation: 0.8, duration: 0.05, yoyo: true, repeat: 5, ease: "none" }, 27.9);
+      tl.to("#s6 .cam", { ...focus(540, 640, 1.1), duration: 1.3, ease: "none" }, 28.0);
+
+      /* ================= S7 · test → treat → check (29.3 – 37.1) ================= */
+      const step = (n, y, icon, word, id) =>
+        `<div id="${id}" class="abs" style="left:110px;top:${y}px;width:860px;height:200px;display:flex;align-items:center;gap:40px">
+          <div style="width:110px;height:110px;border-radius:50%;background:${BLUE};border:7px solid ${INK};color:#fff;font-family:Cap;font-weight:900;font-size:64px;display:flex;align-items:center;justify-content:center">${n}</div>
+          <div style="width:200px;height:200px">${icon}</div>
+          <div class="label" style="font-size:110px;text-align:left">${word}</div></div>`;
+      const testIcon = `<svg viewBox="0 0 200 200" width="200" height="200"><g fill="none" stroke="${INK}" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"><path d="M70 20 L130 20 M82 20 L82 150 a18 18 0 0 0 36 0 L118 20"/><path d="M84 100 L116 100 L116 150 a16 16 0 0 1 -32 0 Z" fill="${SKY}" stroke="none"/><path d="M84 100 L116 100" stroke="${BLUE}"/></g><g class="t7m">${microbe(150, 70, 1.2, "")}</g></svg>`;
+      const treatIcon = `<svg viewBox="0 0 200 200" width="200" height="200"><g fill="none" stroke="${INK}" stroke-width="8" stroke-linecap="round" stroke-linejoin="round">
+          <g id="opt1"><path d="M10 120 L70 120 L64 170 L16 170 Z" fill="#fff"/><path d="M28 104 q-6 -10 0 -20 M52 104 q-6 -10 0 -20" stroke="${MUTED}"/></g>
+          <g id="opt2"><path d="M80 90 L130 90 L112 130 L112 170 L98 170 L98 130 Z" fill="#fff"/></g>
+          <g id="opt3"><path d="M165 80 C158 94 148 104 148 116 a17 17 0 0 0 34 0 C182 104 172 94 165 80 Z" fill="${SKY}"/></g>
+          <path id="pick" d="M60 40 Q100 10 140 40" stroke="${BLUE}" stroke-width="9"/><path d="M128 28 L142 42 L124 46" stroke="${BLUE}"/></g></svg>`;
+      const checkIcon = `<svg viewBox="0 0 200 200" width="200" height="200"><g fill="none" stroke="${INK}" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"><rect x="40" y="30" width="120" height="150" rx="12" fill="#fff"/><rect x="72" y="18" width="56" height="26" rx="8" fill="#fff"/><path id="tick" d="M70 108 L94 132 L136 82" stroke="${BLUE}" stroke-width="14"/></g></svg>`;
+      add("s7", `<div id="steps">${step(1, 60, testIcon, "TEST", "st1")}${step(2, 330, treatIcon, "TREAT", "st2")}${step(3, 600, checkIcon, "CHECK", "st3")}</div>`);
+      // sieve demo: one method can't stop everything
+      let sv = "";
+      for (let i = 0; i < 4; i++) sv += dot(380 + i * 100, 160, 22, DIRT, "big");
+      for (let i = 0; i < 4; i++) sv += `<g class="small" transform="translate(${420 + i * 90} 150)">${microbe(0, 0, 1.0, "")}</g>`;
+      for (let i = 0; i < 3; i++) sv += dropPath(470 + i * 100, 140, 0.9, "#4a4f57", "chem");
+      add("s7", `<svg id="sieve" class="abs" style="left:0;top:0;opacity:0" width="1080" height="1080" viewBox="0 0 1080 1080">
+        <path d="M300 360 L780 360 L640 600 L440 600 Z" fill="#fff" stroke="${INK}" stroke-width="10" stroke-linejoin="round"/>
+        <g stroke="${INK}" stroke-width="5">${[360, 420, 480, 540, 600, 660, 720].map((x) => `<line x1="${x}" y1="430" x2="${x}" y2="470"/>`).join("")}</g>
+        <line x1="330" y1="450" x2="750" y2="450" stroke="${BLUE}" stroke-width="12" stroke-linecap="round"/>
+        <rect x="380" y="800" width="320" height="200" rx="16" fill="${SKY}" stroke="${INK}" stroke-width="10"/>
+        ${sv}
+        <g id="xmark" opacity="0" stroke="${BLUE}" stroke-width="22" stroke-linecap="round"><line x1="820" y1="760" x2="940" y2="880"/><line x1="940" y1="760" x2="820" y2="880"/></g>
+      </svg>`);
+      tl.fromTo("#s7 .cam", focus(540, 200, 1.2), { ...focus(540, 200, 1.2), duration: 0.01 }, 29.3);
+      pop("#st1", 29.35);
+      wiggle("#st1 .t7m .wig", 29.5, 1.0);
+      tl.to("#s7 .cam", { ...focus(540, 430, 1.2), duration: 0.5, ease: "power2.inOut" }, 30.6);
+      pop("#st2", 30.7);
+      pop("#opt1", 31.0); pop("#opt2", 31.2); pop("#opt3", 31.4);
+      tl.fromTo("#pick", { opacity: 0 }, { opacity: 1, duration: 0.2 }, 31.8);
+      tl.to("#s7 .cam", { ...focus(540, 650, 1.2), duration: 0.5, ease: "power2.inOut" }, 32.6);
+      pop("#st3", 32.7);
+      tl.fromTo("#tick", { strokeDasharray: 120, strokeDashoffset: 120 }, { strokeDashoffset: 0, duration: 0.4, ease: "power2.out" }, 33.7);
+      tl.to("#s7 .cam", { ...focus(540, 460, 1.0), duration: 0.6, ease: "power2.inOut" }, 34.1);
+      tl.to("#steps", { opacity: 0, y: -60, duration: 0.3 }, 34.8);
+      tl.to("#sieve", { opacity: 1, duration: 0.3 }, 34.9);
+      tl.fromTo(".big", { y: -200 }, { y: 270, duration: 0.6, ease: "bounce.out", stagger: 0.08 }, 35.0);
+      $$(".small").forEach((m, i) => tl.fromTo(m, { y: -200 }, { y: 780, duration: 1.0, ease: "power1.in" }, 35.2 + i * 0.1));
+      $$(".chem").forEach((m, i) => tl.fromTo(m, { y: -200 }, { y: 720, duration: 1.0, ease: "power1.in" }, 35.4 + i * 0.12));
+      tl.to("#xmark", { opacity: 1, duration: 0.15 }, 36.4);
+
+      /* ================= S8 · cliffhanger (37.1 – 41.6) ================= */
+      add("s8", figure("f8", { left: 300, top: 120, w: 340, prop: "glass", face: "worry" }));
+      add("s8", `<div id="q8" class="abs label" style="left:700px;top:60px;font-size:200px;color:${BLUE}">?</div>`);
+      add("s8", `<div id="next" class="abs" style="left:90px;top:800px;width:900px;padding:30px 40px;border:8px solid ${INK};border-radius:30px;background:${BLUE};color:#fff;text-align:center">
+        <div style="font-family:Cap;font-weight:900;font-size:44px;letter-spacing:0.08em">NEXT · EP. 2 →</div>
+        <div style="font-family:Hand;font-size:64px;line-height:1.05;margin-top:6px">What if the water is contaminated?</div></div>`);
+      tl.fromTo("#f8 .armR", { rotation: -30 }, { rotation: -30, svgOrigin: "100 150", duration: 0.01 }, 37.1);
+      tl.fromTo("#s8 .cam", focus(470, 400, 1.0), { ...focus(470, 330, 1.35), duration: 2.0, ease: "power1.inOut" }, 37.1);
+      pop("#q8", 37.4, { rotation: 12 });
+      tl.fromTo("#f8 .sweat", { y: 0 }, { y: 18, duration: 0.6, repeat: 2, ease: "power1.in" }, 37.6);
+      tl.to("#s8 .cam", { ...focus(540, 600, 1.0), duration: 0.6, ease: "power2.inOut" }, 39.2);
+      tl.fromTo("#next", { y: 400, opacity: 0 }, { y: 0, opacity: 1, duration: 0.5, ease: "back.out(1.6)" }, 39.3);
+
+      /* ================= S9 · end card (41.6 – 44.5) ================= */
+      add("s9", `<div class="abs" style="left:0;top:60px;width:1080px;text-align:center">
+        <img id="logo" src="assets/logo.png" style="width:380px;height:380px" />
+        <div id="e1" style="font-family:Cap;font-weight:900;font-size:60px;letter-spacing:0.02em;margin-top:10px">WATER: <span style="color:${BLUE}">WHAT WE DON'T SEE</span></div>
+        <div id="e2" style="font-family:Cap;font-weight:800;font-size:40px;color:${MUTED};margin-top:6px">EPISODE 1 · aquacoreglobal.com</div>
+        <div id="e3" style="display:inline-block;margin-top:50px;padding:24px 44px;border:7px solid ${INK};border-radius:40px;font-family:Hand;font-size:62px;position:relative">Where does <span style="color:${BLUE}">YOUR</span> water come from? 💬</div>
+      </div>`);
+      pop("#logo", 41.65);
+      tl.fromTo("#e1", { y: 30, opacity: 0 }, { y: 0, opacity: 1, duration: 0.35 }, 41.9);
+      tl.fromTo("#e2", { y: 30, opacity: 0 }, { y: 0, opacity: 1, duration: 0.35 }, 42.1);
+      pop("#e3", 42.4);
+      tl.fromTo("#logo", { rotation: 0 }, { rotation: 360, duration: 1.2, ease: "power2.inOut" }, 42.6);
+
+      /* ================= captions ================= */
+      const LINES = [
+        [1.6, 3.09, "River, well, or rain... does it matter which one you drink?"],
+        [5.0, 3.69, "At first glance, all three look the same. Let's take a closer look."],
+        [9.0, 4.97, "River water flows past fields and towns, picking up soil, microbes and pollution."],
+        [14.3, 5.01, "Well water comes from underground. But seepage, or the ground itself, can contaminate it."],
+        [19.6, 4.39, "And rainwater, running over roofs, gutters and tanks, collects dirt and germs."],
+        [24.3, 4.67, "Three sources, three different risks. And remember: clear doesn't mean safe to drink."],
+        [29.3, 7.49, "First, test it. Then, choose the right treatment. Finally, check the result. Because no single method removes everything."],
+        [37.1, 4.52, "So what happens if you drink contaminated water? Find out in the next episode."],
+      ];
+      const KEY = /^(river|well|rain|rainwater|soil|microbes|pollution|underground|seepage|ground|roofs|gutters|tanks|dirt|germs|risks|clear|safe|test|treatment|check|everything|contaminated|next)$/i;
+      const capsEl = $("#caps");
+      LINES.forEach(([start, dur, text], li) => {
+        const words = text.split(" ");
+        const wts = words.map((w) => w.replace(/[^\w']/g, "").length + 3 + (/[.?!…]$/.test(w) ? 7 : /[,:]$/.test(w) ? 4 : 0));
+        const total = wts.reduce((a, b) => a + b, 0);
+        const s0 = start + 0.1, span = dur - 0.25;
+        let t = s0, chunk = [], chunks = [];
+        words.forEach((w, i) => {
+          const d = (wts[i] / total) * span;
+          chunk.push({ w, t, d });
+          t += d;
+          const len = chunk.map((c) => c.w).join(" ").length;
+          if (/[,.?!:]$/.test(w) || chunk.length >= 4 || len > 18 || i === words.length - 1) { chunks.push(chunk); chunk = []; }
+        });
+        chunks.forEach((c, ci) => {
+          const id = `c${li}_${ci}`;
+          capsEl.insertAdjacentHTML("beforeend", `<div id="${id}" class="cap">${c.map((x, wi) => `<span id="${id}_${wi}"${KEY.test(x.w.replace(/[^\w]/g, "")) ? ' class="k"' : ""}>${x.w}</span>`).join(" ")}</div>`);
+          const cs = c[0].t, ce = ci < chunks.length - 1 ? chunks[ci + 1][0].t : c[c.length - 1].t + c[c.length - 1].d + 0.15;
+          tl.fromTo(`#${id}`, { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.08 }, cs);
+          tl.set(`#${id}`, { opacity: 0 }, ce);
+          c.forEach((x, wi) => tl.fromTo(`#${id}_${wi}`, { scale: 1 }, { scale: 1.12, duration: 0.08, yoyo: true, repeat: 1, transformOrigin: "50% 60%" }, x.t));
+        });
+      });
+
+      if (document.documentElement.dataset.format === "landscape") {
+        tl.fromTo("#stage", { scale: 0.92, x: 0, transformOrigin: "0 0" }, { scale: 0.92, x: 0, duration: 0.01 }, 0);
+        tl.to("#stage", { x: 393, duration: 0.5, ease: "power2.inOut" }, 41.6);
+      }
+      tl.set({}, {}, 44.5);
+      window.__timelines = window.__timelines || {};
+      window.__timelines["main"] = tl;
+      tl.seek(0);
+    </script>
+  </body>
+</html>

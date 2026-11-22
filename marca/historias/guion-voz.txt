@@ -1,0 +1,9 @@
+about-us-1|Hi, we're AquaCore. Safe water starts with what you can't see.
+about-us-2|Water can look clear, and still make people sick. Millions of families drink from rivers, wells and rainwater that are never tested or treated.
+about-us-3|We make water treatment simple. AquaCore develops water treatment tablets, and the local network to deliver them. One tablet treats up to twenty-five litres.
+about-us-4|It takes four easy steps. Fill a twenty-five litre container. Add one tablet. Wait thirty minutes. And it's ready for drinking and cooking.
+about-us-5|And we're here to educate. Short, simple videos about the water we drink, and why prevention matters. Watch the series!
+partner-1|Partner with AquaCore. Safe water, at scale.
+partner-2|We work with NGOs, governments and private investors, on volume programs, all around the world.
+partner-3|We bring tablets at volume, local distribution, training for families, and follow-up to supervise and restock. Our pilot model is designed for ten thousand people over ninety days.
+partner-4|Let's bring safe water to your communities. Send us a message with the word partner, or visit aquacoreglobal dot com.
