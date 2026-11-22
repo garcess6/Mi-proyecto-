@@ -259,14 +259,12 @@
       add("s7", `<div class="abs" style="left:0;top:20px;width:1080px;text-align:center">
         <img id="logo" src="assets/logo.png" style="width:330px;height:330px" />
         <div id="e1" style="font-family:Cap;font-weight:900;font-size:58px;letter-spacing:0.02em;margin-top:6px">WATER: <span style="color:${BLUE}">WHAT WE DON'T SEE</span></div>
-        <div id="e2" style="font-family:Cap;font-weight:800;font-size:40px;color:${MUTED};margin-top:6px">SEASON 1 COMPLETE · aquacoreglobal.com</div>
-        <div id="e4" style="display:inline-block;margin-top:26px;padding:14px 32px;border-radius:24px;background:${BLUE};color:#fff;font-family:Cap;font-weight:900;font-size:40px">SEASON 2: What does safe water cost?</div><br>
+        <div id="e2" style="font-family:Cap;font-weight:800;font-size:40px;color:${MUTED};margin-top:6px">EPISODE 5 · aquacoreglobal.com</div>
         <div id="e3" style="display:inline-block;margin-top:26px;padding:20px 40px;border:7px solid ${INK};border-radius:40px;font-family:Hand;font-size:56px">When was your water last <span style="color:${BLUE}">tested</span>? 💬</div>
       </div>`);
       pop("#logo", T[7] + 0.05);
       tl.fromTo("#e1", { y: 30, opacity: 0 }, { y: 0, opacity: 1, duration: 0.35 }, T[7] + 0.25);
       tl.fromTo("#e2", { y: 30, opacity: 0 }, { y: 0, opacity: 1, duration: 0.35 }, T[7] + 0.4);
-      pop("#e4", T[7] + 0.6);
       pop("#e3", T[7] + 0.9);
       tl.fromTo("#logo", { scale: 1 }, { scale: 1.06, duration: 0.6, yoyo: true, repeat: 1, ease: "sine.inOut" }, T[7] + 1.2);
 
