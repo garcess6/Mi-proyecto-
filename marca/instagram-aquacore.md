@@ -47,3 +47,9 @@ Watch the series · How it works · Pilot · About us · Partner
 - 0,35 € es solo para inversores: no usarlo en contenido público.
 - Dióxido de cloro (ClO2): bacterias, virus y parásitos (Giardia, Cryptosporidium); funciona en agua turbia (se recomienda prefiltrar si está muy contaminada).
 - Tiempo de contacto: 30 min; hasta 4 h para máxima protección frente a parásitos. Vida útil: 2–5 años.
+
+## Evidencia de laboratorio (Global Tabs = producto AquaCore)
+- Centre Pasteur du Cameroun, 2012 (doc. 0990/2012/CPC/LHEm/DG): 6 fuentes reales (río, lago, pozo, sondeo, fuente, red pública) y un pozo con Vibrio cholerae añadido; tras el tratamiento con ClO2, <1 UFC/l y ausencia de Salmonella y Vibrio en todas las muestras.
+- LANSPEX Niger, 2017 (0289 y 0753/DI/17/SFR): 10,9 % ClO2; 99,9 % de eficacia contra E. coli, Vibrio cholerae, Salmonella typhi, Shigella y S. aureus en 20 min, pH 5–9, 20–40 °C, a la dosis recomendada.
+- No hay pruebas de parásitos ni de virus en agua: en los vídeos decir solo "bacterias". No mostrar imágenes ni logos de los informes; citarlos solo en texto.
+- Estudio de la competencia (trabajo de bachillerato, 2011): una pastilla de DCCNa (cloro) en agua turbia solo redujo el E. coli a la mitad. Usarlo como idea general, sin nombrar la marca.
