@@ -15,17 +15,24 @@
 - Categoría: Science, Technology & Engineering
 - Enlace: aquacoreglobal.com
 
-### Bio (EN, menos de 150 caracteres)
-Safe water starts with what you can't see 💧
-Water treatment tech for communities
-🎬 Series: Water — What We Don't See
-👇 Learn more
-
-### Alternativa B2B/inversores
-Making safe drinking water simple & scalable 💧
-Treatment tablets + local deployment
-🎬 Weekly: Water — What We Don't See
+### Bio elegida (enfoque corporativo, 140 caracteres)
+Water treatment tech for safe drinking water 💧
+🤝 NGOs · Governments · Investors · Worldwide
+📚 Learn why prevention matters
 👇 Partner with us
+
+### Alternativa (148 caracteres)
+Safe drinking water at scale 💧
+Treatment tablets + local deployment
+🤝 For NGOs, governments & investors, worldwide
+📚 Educating on the water we drink
+
+## Logo elegido: A (gota con núcleo)
+- Archivos en `logo/`. Colores: azul marino #0B2545, azul #1E7FD8 y azul claro #3FA9F5 (sobre fondo oscuro).
+
+## Historias
+- `historias/`: About us (5) y Partner (4) en PNG de 1080x1920, más un MP4 de cada una.
+- `build.py` regenera todo (logo, historias y portadas).
 
 ### Destacadas
 Watch the series · How it works · Pilot · About us · Partner
