@@ -1,8 +1,8 @@
 <!doctype html>
-<html lang="en" data-resolution="landscape" data-format="landscape">
+<html lang="en" data-resolution="portrait" data-format="portrait">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=1920, height=1080" />
+    <meta name="viewport" content="width=1080, height=1920" />
     <title>More Than a Well</title>
     <script src="assets/vendor/gsap.min.js"></script>
     <style>
@@ -38,10 +38,10 @@
     </style>
   </head>
   <body>
-    <div id="root" data-composition-id="main" data-start="0" data-duration="38" data-width="1920" data-height="1080">
-      <audio id="vo" class="clip" src="assets/voice.wav" data-start="0" data-duration="38" data-track-index="9"></audio>
-      <div id="tag" class="clip" data-start="0" data-duration="34.4" data-track-index="8">
-        <div class="pill">EP. 5 · <b>WATER:</b> WHAT WE DON'T SEE</div>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="48.05" data-width="1080" data-height="1920">
+      <audio id="vo" class="clip" src="assets/voice.wav" data-start="0" data-duration="48.05" data-track-index="9"></audio>
+      <div id="tag" class="clip" data-start="0" data-duration="44.45" data-track-index="8">
+        <div class="pill"><img src="assets/logo-drop.png" style="height:46px;width:auto" />EP. 2 · <b>WATER ACCESS:</b> THE REAL STORY</div>
       </div>
       <div id="stage">
         <div id="s0" class="scene clip" data-start="0" data-duration="4.75" data-track-index="1"><div class="cam"></div></div>
@@ -49,10 +49,11 @@
         <div id="s2" class="scene clip" data-start="7.35" data-duration="5.75" data-track-index="1"><div class="cam"></div></div>
         <div id="s3" class="scene clip" data-start="13.1" data-duration="4.9" data-track-index="1"><div class="cam"></div></div>
         <div id="s4" class="scene clip" data-start="18.0" data-duration="5.15" data-track-index="1"><div class="cam"></div></div>
-        <div id="s5" class="scene clip" data-start="23.15" data-duration="3.0" data-track-index="1"><div class="cam"></div></div>
-        <div id="s6" class="scene clip" data-start="26.15" data-duration="2.95" data-track-index="1"><div class="cam"></div></div>
-        <div id="s7" class="scene clip" data-start="29.1" data-duration="5.3" data-track-index="1"><div class="cam"></div></div>
-        <div id="s8" class="scene clip" data-start="34.4" data-duration="3.6" data-track-index="1"><div class="cam"></div></div>
+        <div id="s5" class="scene clip" data-start="23.15" data-duration="2.8" data-track-index="1"><div class="cam"></div></div>
+        <div id="s5b" class="scene clip" data-start="25.95" data-duration="10.25" data-track-index="1"><div class="cam"></div></div>
+        <div id="s6" class="scene clip" data-start="36.2" data-duration="2.95" data-track-index="1"><div class="cam"></div></div>
+        <div id="s7" class="scene clip" data-start="39.15" data-duration="5.3" data-track-index="1"><div class="cam"></div></div>
+        <div id="s8" class="scene clip" data-start="44.45" data-duration="3.6" data-track-index="1"><div class="cam"></div></div>
       </div>
       <div id="caps"></div>
     </div>
@@ -76,8 +77,9 @@
         [13.1, 4.39, "Then, protection. A sealed cover and a concrete base keep dirty water out."],
         [18.0, 4.67, "Pumps break. Without spare parts and someone trained to fix them, the well goes silent."],
         [23.15, 2.52, "And the water must be tested, again and again."],
-        [26.15, 2.47, "A well works when the community can look after it."],
-        [29.1, 5.08, "But people need safe water today. What can be done while the network arrives? Next episode."],
+        [25.95, 9.94, "Even a good well can get contaminated. Chlorine dioxide tablets add protection: in national lab tests, they eliminated E. coli, Salmonella and cholera."],
+        [36.2, 2.47, "A well works when the community can look after it."],
+        [39.15, 5.08, "But people need safe water today. What can be done while the network arrives? Next episode."],
       ];
       const TIMED = LINES.map(([start, dur, text]) => {
         const words = text.split(" ");
@@ -313,18 +315,56 @@
       [0, 1, 2, 3].forEach((i) => pop(`#t5_${i}`, 23.3 + i * 0.45));
       pop("#again", W(5, "again"));
 
-      /* ================= S6 · community (26.15 – 29.1) ================= */
+      /* ================= S5b · chlorine dioxide adds protection (25.95 – 36.2) ================= */
+      add("s5b", `<svg class="abs" style="left:0;top:0" width="1080" height="1080" viewBox="0 0 1080 1080"><line x1="0" y1="760" x2="1080" y2="760" stroke="${INK}" stroke-width="8"/>${pump("p5b", 300, 760, 1.2)}
+        ${[0, 1, 2].map((i) => `<g class="sneak"><path transform="translate(${140 + i * 30} 560)" d="M0 -14 C-4 -6 -9 -2 -9 4 a9 9 0 0 0 18 0 C9 -2 4 -6 0 -14 Z" fill="${GRAY}" stroke="${INK}" stroke-width="3"/></g>`).join("")}
+      </svg>`);
+      add("s5b", `<div id="jc5b" class="abs" style="left:620px;top:420px;width:300px;text-align:center"><svg width="240" height="290" viewBox="0 0 90 110"><rect x="6" y="24" width="78" height="82" rx="10" fill="${SKY}" stroke="${INK}" stroke-width="5"/><path d="M24 24 L24 8 L66 8 L66 24" fill="none" stroke="${INK}" stroke-width="5"/><text x="45" y="75" text-anchor="middle" font-family="Cap" font-weight="900" font-size="20" fill="${INK}">25 L</text>
+        <g class="fizz" fill="#fff" stroke="${BLUE}" stroke-width="2">${[[30, 44], [52, 50], [40, 36], [62, 40]].map(([x, y]) => `<circle cx="${x}" cy="${y}" r="4"/>`).join("")}</g></svg></div>`);
+      add("s5b", `<div id="tab5b" class="abs" style="left:735px;top:200px"><svg width="70" height="70" viewBox="-35 -35 70 70"><circle r="28" fill="#fff" stroke="${INK}" stroke-width="7"/><line x1="-18" y1="0" x2="18" y2="0" stroke="${INK}" stroke-width="6"/></svg></div>`);
+      addTop("s5b", `<div id="cl5b" class="abs" style="left:40px;top:40px"><div class="chip">+ ClO<sub style="font-size:30px">2</sub> · CHLORINE DIOXIDE</div></div>`);
+      const labCard = (id, left, name, sub) => `<div id="${id}" class="abs card" style="left:${left}px;top:200px;width:380px;height:300px;padding-top:30px;opacity:0"><svg width="110" height="120" viewBox="0 0 160 180"><g stroke="${INK}" stroke-width="10" fill="#fff" stroke-linejoin="round" stroke-linecap="round"><path d="M60 14 L100 14 M66 14 L66 70 L20 160 L140 160 L94 70 L94 14"/></g><path d="M40 122 L120 122 L136 156 L24 156 Z" fill="${SKY}"/></svg><div style="font-family:Cap;font-weight:900;font-size:50px;line-height:1.1">${name}</div><div style="font-family:Cap;font-weight:800;font-size:28px;color:${MUTED}">${sub}</div></div>`;
+      addTop("s5b", labCard("lab1", 120, "CAMEROON", "Centre Pasteur · 2012") + labCard("lab2", 580, "NIGER", "LANSPEX · 2017"));
+      addTop("s5b", `<div id="nhl" class="abs" style="left:0;top:470px;width:1080px;text-align:center;opacity:0"><span class="chip" style="font-size:44px">NATIONAL HEALTH LABS ✓</span></div>`);
+      const germX = (id, left, germ, name) => `<div id="${id}" class="abs" style="left:${left}px;top:600px;width:280px;text-align:center;opacity:0"><svg width="200" height="140" viewBox="-70 -50 140 100">${germ}<g class="gx" stroke="${BLUE}" stroke-width="12" stroke-linecap="round" opacity="0"><line x1="-50" y1="-40" x2="50" y2="40"/><line x1="50" y1="-40" x2="-50" y2="40"/></g></svg><div class="label" style="font-size:54px">${name}</div></div>`;
+      const bact = (s) => `<g transform="scale(${s})"><rect x="-26" y="-13" width="52" height="26" rx="13" fill="#fff" stroke="${INK}" stroke-width="4.5"/><circle cx="-8" cy="-2" r="3" fill="${INK}"/><circle cx="8" cy="3" r="3" fill="${BLUE}"/><path d="M26 0 q7 -7 14 0 t12 0 M-26 0 q-7 7 -14 0 t-12 0" stroke="${INK}" stroke-width="3.5" fill="none" stroke-linecap="round"/></g>`;
+      addTop("s5b", germX("gx1", 70, bact(1.4), "E. coli") + germX("gx2", 400, bact(1.2), "Salmonella") + germX("gx3", 730, `<g transform="scale(1.3)"><path d="M-20 10 C-24 -14 0 -24 20 -10" fill="none" stroke="${INK}" stroke-width="12" stroke-linecap="round"/><path d="M-20 10 C-24 -14 0 -24 20 -10" fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round"/><path d="M20 -10 q10 -10 20 -2" stroke="${INK}" stroke-width="3" fill="none"/></g>`, "cholera"));
+      addTop("s5b", `<div id="src5b" class="abs" style="left:0;top:960px;width:1080px;text-align:center;font-family:Cap;font-weight:800;font-size:26px;color:${MUTED};opacity:0">Sources: Centre Pasteur du Cameroun (2012) · LANSPEX Niger (2017)</div>`);
+      add("s5b", `<div id="white5b" class="abs" style="left:0;top:0;width:1080px;height:1080px;background:#fff;opacity:0"></div>`);
+      tl.set(["#tab5b", "#jc5b"], { opacity: 0 }, 25.95);
+      tl.fromTo("#s5b .cam", focus(300, 560, 1.3), { ...focus(300, 560, 1.3), duration: 0.01 }, 25.95);
+      $$(".sneak").forEach((d, i) => tl.fromTo(d, { x: 0, y: 0, opacity: 0 }, { x: 70 - i * 30, y: 100, opacity: 1, duration: 0.7, ease: "power1.in" }, 26.3 + i * 0.25));
+      const cdT = W(6, "chlorine") - 0.3;
+      tl.to("#s5b .cam", { ...focus(540, 520, 1.0), duration: 0.6, ease: "power2.inOut" }, cdT - 0.2);
+      tl.fromTo("#cl5b", { scale: 1.6, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.3, ease: "back.out(2.5)" }, cdT);
+      tl.to("#jc5b", { opacity: 1, duration: 0.3 }, cdT);
+      tl.fromTo("#tab5b", { y: -200, opacity: 0 }, { y: 260, opacity: 1, duration: 0.6, ease: "power2.in" }, cdT + 0.4);
+      tl.to("#tab5b", { opacity: 0, duration: 0.1 }, cdT + 1.0);
+      tl.fromTo("#jc5b .fizz circle", { y: 20, opacity: 0 }, { y: -10, opacity: 1, duration: 0.4, stagger: 0.1, repeat: 2 }, cdT + 1.0);
+      const labT = W(6, "national") - 0.3;
+      tl.to("#white5b", { opacity: 1, duration: 0.25 }, labT - 0.1);
+      tl.to("#cl5b", { y: -10, duration: 0.01 }, labT);
+      tl.fromTo("#lab1", { opacity: 0, y: 60 }, { opacity: 1, y: 0, duration: 0.3, ease: "back.out(2)" }, W(6, "lab") - 0.1);
+      tl.fromTo("#lab2", { opacity: 0, y: 60 }, { opacity: 1, y: 0, duration: 0.3, ease: "back.out(2)" }, W(6, "lab") + 0.2);
+      tl.fromTo("#nhl", { opacity: 0, scale: 1.4 }, { opacity: 1, scale: 1, duration: 0.3, ease: "back.out(2)" }, W(6, "tests"));
+      tl.to("#src5b", { opacity: 1, duration: 0.3 }, W(6, "tests"));
+      [["#gx1", "ecoli"], ["#gx2", "salmonella"], ["#gx3", "cholera"]].forEach(([g, w]) => {
+        tl.fromTo(g, { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: 0.25 }, W(6, "eliminated"));
+        tl.fromTo(`${g} .gx`, { opacity: 0, scale: 1.6 }, { opacity: 1, scale: 1, svgOrigin: "0 0", duration: 0.2, ease: "back.out(3)" }, W(6, w));
+      });
+
+      /* ================= S6 · community (36.2 – 39.15) ================= */
       add("s6", `<svg class="abs" style="left:0;top:0" width="1080" height="1080" viewBox="0 0 1080 1080"><line x1="0" y1="820" x2="1080" y2="820" stroke="${INK}" stroke-width="8"/>${pump("p6", 540, 820, 1.2)}
         <g id="heart6" transform="translate(540 260)"><path d="M0 40 C-60 0 -70 -40 -40 -56 C-20 -66 -4 -54 0 -40 C4 -54 20 -66 40 -56 C70 -40 60 0 0 40 Z" fill="${BLUE}" stroke="${INK}" stroke-width="8"/></g></svg>`);
       add("s6", person("k1", 90, 520, 150) + person("k2", 250, 560, 130) + person("k3", 720, 560, 130) + person("k4", 860, 520, 150));
       addTop("s6", `<div id="com" class="abs" style="left:40px;top:40px"><div class="chip">5 · COMMUNITY</div></div>`);
-      tl.fromTo("#s6 .cam", focus(540, 600, 1.2), { ...focus(540, 560, 1.0), duration: 2.9, ease: "none" }, 26.15);
-      pop("#com", 26.2);
-      pop(["#k1", "#k2", "#k3", "#k4"], 26.3, { stagger: 0.12 });
-      pop("#heart6", W(6, "community"));
-      tl.fromTo("#heart6", { scale: 1 }, { scale: 1.15, svgOrigin: "540 260", duration: 0.2, yoyo: true, repeat: 3 }, W(6, "community") + 0.4);
+      tl.fromTo("#s6 .cam", focus(540, 600, 1.2), { ...focus(540, 560, 1.0), duration: 2.9, ease: "none" }, 36.2);
+      pop("#com", 36.25);
+      pop(["#k1", "#k2", "#k3", "#k4"], 36.35, { stagger: 0.12 });
+      pop("#heart6", W(7, "community"));
+      tl.fromTo("#heart6", { scale: 1 }, { scale: 1.15, svgOrigin: "540 260", duration: 0.2, yoyo: true, repeat: 3 }, W(7, "community") + 0.4);
 
-      /* ================= S7 · teaser ep 6 (29.1 – 34.4) ================= */
+      /* ================= S7 · teaser ep 6 (39.15 – 44.45) ================= */
       add("s7", `<svg class="abs" style="left:0;top:0" width="1080" height="1080" viewBox="0 0 1080 1080">
         <g id="plan" stroke="${BLUE}" stroke-width="8" fill="none" stroke-dasharray="18 12"><path d="M560 120 L1000 120 L1000 420 L560 420 Z" stroke="${INK}" stroke-dasharray="0"/><path d="M600 200 L960 200 M780 200 L780 380 M600 300 L780 300 M780 300 L960 340"/></g>
         <g id="clock7" transform="translate(300 260)" stroke="${INK}" stroke-width="8" fill="#fff" stroke-linecap="round"><circle r="110"/><line id="hh" x1="0" y1="0" x2="0" y2="-70"/><line x1="0" y1="0" x2="50" y2="0"/></g>
@@ -333,29 +373,29 @@
       add("s7", `<div id="jug" class="abs" style="left:600px;top:640px"><svg width="90" height="110" viewBox="0 0 90 110"><rect x="6" y="24" width="78" height="82" rx="10" fill="#fff" stroke="${INK}" stroke-width="7"/><path d="M24 24 L24 8 L66 8 L66 24" fill="none" stroke="${INK}" stroke-width="7"/></svg></div>`);
       add("s7", `<div id="today7" class="abs" style="left:60px;top:600px;opacity:0"><span class="chip" style="font-size:52px">TODAY</span></div><div id="years7" class="abs" style="left:640px;top:440px;opacity:0"><span class="chip" style="font-size:52px;background:${INK}">YEARS</span></div>`);
       add("s7", `<div id="next" class="abs" style="left:90px;top:800px;width:900px;padding:26px 40px;border:8px solid ${INK};border-radius:30px;background:${BLUE};color:#fff;text-align:center">
-        <div style="font-family:Cap;font-weight:900;font-size:44px;letter-spacing:0.08em">NEXT · EP. 6 →</div>
+        <div style="font-family:Cap;font-weight:900;font-size:44px;letter-spacing:0.08em">NEXT · EP. 3 →</div>
         <div style="font-family:Hand;font-size:54px;line-height:1.05;margin-top:6px">What can be done while the network arrives?</div></div>`);
-      tl.fromTo("#s7 .cam", focus(420, 560, 1.3), { ...focus(540, 560, 1.0), duration: 2.0, ease: "power2.inOut" }, 29.1);
-      tl.fromTo("#hh", { rotation: 0 }, { rotation: 1080, svgOrigin: "0 0", duration: 5.0, ease: "none" }, 29.1);
-      tl.fromTo("#plan path", { strokeDashoffset: 300 }, { strokeDashoffset: 0, duration: 2.0, ease: "none" }, 29.3);
-      pop("#today7", W(7, "today")); pop("#years7", W(7, "network") - 0.3);
-      tl.fromTo("#next", { y: 400, opacity: 0 }, { y: 0, opacity: 1, duration: 0.5, ease: "back.out(1.6)" }, W(7, "next") - 0.3);
+      tl.fromTo("#s7 .cam", focus(420, 560, 1.3), { ...focus(540, 560, 1.0), duration: 2.0, ease: "power2.inOut" }, 39.15);
+      tl.fromTo("#hh", { rotation: 0 }, { rotation: 1080, svgOrigin: "0 0", duration: 5.0, ease: "none" }, 39.15);
+      tl.fromTo("#plan path", { strokeDashoffset: 300 }, { strokeDashoffset: 0, duration: 2.0, ease: "none" }, 39.35);
+      pop("#today7", W(8, "today")); pop("#years7", W(8, "network") - 0.3);
+      tl.fromTo("#next", { y: 400, opacity: 0 }, { y: 0, opacity: 1, duration: 0.5, ease: "back.out(1.6)" }, W(8, "next") - 0.3);
 
-      /* ================= S8 · end card (34.4 – 38) ================= */
+      /* ================= S8 · end card (44.45 – 38) ================= */
       add("s8", `<div class="abs" style="left:0;top:60px;width:1080px;text-align:center">
-        <img id="logo" src="assets/logo.png" style="width:380px;height:380px" />
-        <div id="e1" style="font-family:Cap;font-weight:900;font-size:60px;letter-spacing:0.02em;margin-top:10px">WATER: <span style="color:${BLUE}">WHAT WE DON'T SEE</span></div>
-        <div id="e2" style="font-family:Cap;font-weight:800;font-size:40px;color:${MUTED};margin-top:6px">EPISODE 5 · aquacoreglobal.com</div>
+        <img id="logo" src="assets/logo-horizontal.png" style="width:800px;height:auto;margin-top:90px;margin-bottom:30px" />
+        <div id="e1" style="font-family:Cap;font-weight:900;font-size:50px;letter-spacing:0.02em;margin-top:10px">WATER ACCESS: <span style="color:${BLUE}">THE REAL STORY</span></div>
+        <div id="e2" style="font-family:Cap;font-weight:800;font-size:40px;color:${MUTED};margin-top:6px">EPISODE 2 · aquacoreglobal.com</div>
         <div id="e3" style="display:inline-block;margin-top:50px;padding:24px 44px;border:7px solid ${INK};border-radius:40px;font-family:Hand;font-size:56px">Who looks after the <span style="color:${BLUE}">water</span> where you live? 💬</div>
       </div>`);
-      pop("#logo", 34.45);
-      tl.fromTo("#e1", { y: 30, opacity: 0 }, { y: 0, opacity: 1, duration: 0.35 }, 34.7);
-      tl.fromTo("#e2", { y: 30, opacity: 0 }, { y: 0, opacity: 1, duration: 0.35 }, 34.9);
-      pop("#e3", 35.2);
-      tl.fromTo("#logo", { rotation: 0 }, { rotation: 360, duration: 1.2, ease: "power2.inOut" }, 35.4);
+      pop("#logo", 44.5);
+      tl.fromTo("#e1", { y: 30, opacity: 0 }, { y: 0, opacity: 1, duration: 0.35 }, 44.75);
+      tl.fromTo("#e2", { y: 30, opacity: 0 }, { y: 0, opacity: 1, duration: 0.35 }, 44.95);
+      pop("#e3", 45.25);
+      tl.fromTo("#logo", { scale: 1 }, { scale: 1.05, duration: 0.6, yoyo: true, repeat: 1, ease: "sine.inOut" }, 45.45);
 
       /* ================= captions ================= */
-      const KEY = /^(well|broken|beginning|location|toilets|animals|contaminated|protection|sealed|concrete|dirty|pumps|break|spare|trained|silent|tested|again|community|today|network|next)$/i;
+      const KEY = /^(well|broken|beginning|location|toilets|animals|contaminated|protection|sealed|concrete|dirty|pumps|break|spare|trained|silent|tested|again|chlorine|dioxide|protection|lab|coli|salmonella|cholera|community|today|network|next)$/i;
       const capsEl = document.getElementById("caps");
       TIMED.forEach((words, li) => {
         let chunk = [], chunks = [];
@@ -376,9 +416,9 @@
 
       if (document.documentElement.dataset.format === "landscape") {
         tl.fromTo("#stage", { scale: 0.92, x: 0, transformOrigin: "0 0" }, { scale: 0.92, x: 0, duration: 0.01 }, 0);
-        tl.to("#stage", { x: 393, duration: 0.5, ease: "power2.inOut" }, 34.4);
+        tl.to("#stage", { x: 393, duration: 0.5, ease: "power2.inOut" }, 44.45);
       }
-      tl.set({}, {}, 38);
+      tl.set({}, {}, 48.05);
       window.__timelines = window.__timelines || {};
       window.__timelines["main"] = tl;
       tl.seek(0);

@@ -41,7 +41,7 @@
     <div id="root" data-composition-id="main" data-start="0" data-duration="42.7" data-width="1080" data-height="1920">
       <audio id="vo" class="clip" src="assets/voice.wav" data-start="0" data-duration="42.7" data-track-index="9"></audio>
       <div id="tag" class="clip" data-start="0" data-duration="39.7" data-track-index="8">
-        <div class="pill">EP. 3 · <b>WATER:</b> WHAT WE DON'T SEE</div>
+        <div class="pill"><img src="assets/logo-drop.png" style="height:46px;width:auto" />EP. 3 · <b>WATER:</b> WHAT WE DON'T SEE</div>
       </div>
       <div id="stage">
         <div id="s0" class="scene clip" data-start="0" data-duration="3.9" data-track-index="1"><div class="cam"></div></div>
@@ -73,9 +73,9 @@
         [3.9, 5.7, "So clear water can still carry them. And cloudy water can hide germs, and make treatment work less well."],
         [9.9, 4.99, "Your eyes, nose and taste can't tell you if water is safe. So how do you spot the risk?"],
         [15.2, 6.57, "Look for warning signs: toilets or animals near the source, open tanks, cracked pipes, floods or heavy rain."],
-        [22.1, 8.41, "Then test it. A lab or a field kit can detect E. coli, a sign of faecal contamination, and chemicals like nitrates or arsenic."],
+        [22.1, 8.41, "Then test it. A lab or a field kit can detect E. coli, a sign of faecal contamination, and chemicals like nitrates or arsenic."],
         [30.8, 3.69, "Test again over time: water quality can change with the seasons."],
-        [34.8, 4.16, "But what if just getting water were a daily task? Find out in the next episode."],
+        [34.8, 3.99, "Next episode: boiling, filters, chlorine, tablets. Which one wins?"],
       ];
       const TIMED = LINES.map(([start, dur, text]) => {
         const words = text.split(" ");
@@ -304,28 +304,26 @@
       tl.fromTo("#tline", { attr: { x2: 80 } }, { attr: { x2: 1000 }, duration: 1.0, ease: "power2.out" }, 30.85);
       pop("#sa", W(5, "again")); pop("#sb", W(5, "quality")); pop("#sc", W(5, "seasons") - 0.2);
 
-      /* ================= S6 · teaser ep 4: fetching water (34.8 – 39.7) ================= */
-      add("s6", `<svg class="abs" style="left:0;top:0" width="1080" height="1080" viewBox="0 0 1080 1080">
-        <g id="sun6" stroke="${INK}" stroke-width="8" stroke-linecap="round"><circle cx="900" cy="130" r="60" fill="#ffd34d"/>${[0, 45, 90, 135, 180, 225, 270, 315].map((a) => { const r = (a * Math.PI) / 180; return `<line x1="${900 + Math.cos(r) * 80}" y1="${130 + Math.sin(r) * 80}" x2="${900 + Math.cos(r) * 104}" y2="${130 + Math.sin(r) * 104}"/>`; }).join("")}</g>
-        <path d="M-40 560 Q300 520 540 560 T1120 540" fill="none" stroke="${INK}" stroke-width="8" stroke-dasharray="26 18" stroke-linecap="round"/>
-        <g id="src6" stroke="${INK}" stroke-width="8" fill="#fff" stroke-linejoin="round"><path d="M940 500 L940 440 L1040 440 L1040 500"/><path d="M920 440 L990 390 L1060 440" fill="none"/><path d="M930 520 Q990 500 1050 520 L1050 540 L930 540 Z" fill="${SKY}"/></g>
-      </svg>`);
-      add("s6", `<div id="walker" class="abs" style="left:80px;top:250px;width:220px;height:400px">${figure("f6", { left: 0, top: 0, w: 170, face: "worry" })}
-        <svg class="abs" style="left:110px;top:150px" width="90" height="110" viewBox="0 0 90 110"><rect x="6" y="24" width="78" height="82" rx="10" fill="${SKY}" stroke="${INK}" stroke-width="7"/><path d="M24 24 L24 8 L66 8 L66 24" fill="none" stroke="${INK}" stroke-width="7"/><rect x="60" y="0" width="18" height="12" fill="${BLUE}" stroke="${INK}" stroke-width="5"/></svg></div>`);
-      add("s6", `<div id="daily" class="abs" style="left:300px;top:90px;opacity:0"><span class="chip" style="font-size:60px">EVERY DAY</span></div>`);
-      add("s6", `<div id="next" class="abs" style="left:90px;top:680px;width:900px;padding:28px 40px;border:8px solid ${INK};border-radius:30px;background:${BLUE};color:#fff;text-align:center">
+      /* ================= S6 · teaser ep 4: which method wins (34.8 – 39.7) ================= */
+      const mIcon = (id, left, icon, word) =>
+        `<div id="${id}" class="abs" style="left:${left}px;top:110px;width:250px;text-align:center"><svg viewBox="0 0 160 160" width="170" height="170">${icon}</svg><div class="small">${word}</div></div>`;
+      const iPot = `<g stroke="${INK}" stroke-width="8" fill="#fff" stroke-linejoin="round" stroke-linecap="round"><path d="M20 70 L140 70 L130 140 L30 140 Z"/><path d="M8 70 L152 70"/><path d="M50 50 q-8 -14 0 -28 M80 50 q-8 -14 0 -28 M110 50 q-8 -14 0 -28" stroke="${MUTED}" fill="none"/></g>`;
+      const iFilter = `<g stroke="${INK}" stroke-width="8" fill="#fff" stroke-linejoin="round"><path d="M20 30 L140 30 L100 90 L100 140 L60 140 L60 90 Z"/><path d="M36 54 L124 54" stroke="${BLUE}"/></g>`;
+      const iChlor = `<g stroke="${INK}" stroke-width="8" fill="#fff" stroke-linejoin="round" stroke-linecap="round"><rect x="50" y="60" width="60" height="84" rx="10" fill="${SKY}"/><path d="M64 60 L64 40 L96 40 L96 60"/><path d="M70 40 L70 20 L90 20 L90 40"/></g><path d="M130 90 C126 100 120 106 120 112 a10 10 0 0 0 20 0 C140 106 134 100 130 90 Z" fill="${BLUE}" stroke="${INK}" stroke-width="5"/>`;
+      const iTabs = `<g stroke="${INK}" stroke-width="8" fill="#fff"><circle cx="60" cy="80" r="36"/><line x1="36" y1="80" x2="84" y2="80"/><circle cx="110" cy="104" r="30"/><line x1="90" y1="104" x2="130" y2="104"/></g>`;
+      add("s6", mIcon("m1", 20, iPot, "boiling") + mIcon("m2", 285, iFilter, "filters") + mIcon("m3", 550, iChlor, "chlorine") + mIcon("m4", 815, iTabs, "tablets"));
+      add("s6", `<div id="q6" class="abs label" style="left:0;top:420px;width:1080px;font-size:180px;color:${BLUE}">?</div>`);
+      add("s6", `<div id="next" class="abs" style="left:90px;top:640px;width:900px;padding:28px 40px;border:8px solid ${INK};border-radius:30px;background:${BLUE};color:#fff;text-align:center">
         <div style="font-family:Cap;font-weight:900;font-size:44px;letter-spacing:0.08em">NEXT · EP. 4 →</div>
-        <div style="font-family:Hand;font-size:56px;line-height:1.05;margin-top:6px">What if getting water were a daily task?</div></div>`);
-      tl.fromTo("#s6 .cam", focus(300, 420, 1.4), { ...focus(540, 480, 1.0), duration: 2.6, ease: "power1.inOut" }, 34.8);
-      tl.fromTo("#walker", { x: 0 }, { x: 560, duration: 4.6, ease: "none" }, 34.8);
-      tl.fromTo("#walker", { y: 0 }, { y: -12, duration: 0.25, yoyo: true, repeat: 17, ease: "sine.inOut" }, 34.8);
-      tl.fromTo("#sun6", { rotation: 0 }, { rotation: 40, svgOrigin: "900 130", duration: 4.9, ease: "none" }, 34.8);
-      tl.fromTo("#daily", { scale: 2, opacity: 0, rotation: -5 }, { scale: 1, opacity: 1, rotation: -5, duration: 0.25, ease: "back.out(3)" }, W(6, "daily"));
-      tl.fromTo("#next", { y: 400, opacity: 0 }, { y: 0, opacity: 1, duration: 0.5, ease: "back.out(1.6)" }, W(6, "find") - 0.2);
+        <div style="font-family:Hand;font-size:64px;line-height:1.05;margin-top:6px">Which one wins?</div></div>`);
+      tl.fromTo("#s6 .cam", focus(540, 300, 1.2), { ...focus(540, 500, 1.0), duration: 3.0, ease: "power1.inOut" }, 34.8);
+      pop("#m1", W(6, "boiling")); pop("#m2", W(6, "filters")); pop("#m3", W(6, "chlorine")); pop("#m4", W(6, "tablets"));
+      pop("#q6", W(6, "which"), { rotation: 10 });
+      tl.fromTo("#next", { y: 400, opacity: 0 }, { y: 0, opacity: 1, duration: 0.5, ease: "back.out(1.6)" }, W(6, "wins") - 0.2);
 
       /* ================= S7 · end card (39.7 – 42.7) ================= */
       add("s7", `<div class="abs" style="left:0;top:60px;width:1080px;text-align:center">
-        <img id="logo" src="assets/logo.png" style="width:380px;height:380px" />
+        <img id="logo" src="assets/logo-horizontal.png" style="width:800px;height:auto;margin-top:90px;margin-bottom:30px" />
         <div id="e1" style="font-family:Cap;font-weight:900;font-size:60px;letter-spacing:0.02em;margin-top:10px">WATER: <span style="color:${BLUE}">WHAT WE DON'T SEE</span></div>
         <div id="e2" style="font-family:Cap;font-weight:800;font-size:40px;color:${MUTED};margin-top:6px">EPISODE 3 · aquacoreglobal.com</div>
         <div id="e3" style="display:inline-block;margin-top:50px;padding:24px 44px;border:7px solid ${INK};border-radius:40px;font-family:Hand;font-size:58px">When did you last <span style="color:${BLUE}">test</span> your water? 💬</div>
@@ -334,10 +332,10 @@
       tl.fromTo("#e1", { y: 30, opacity: 0 }, { y: 0, opacity: 1, duration: 0.35 }, 40.0);
       tl.fromTo("#e2", { y: 30, opacity: 0 }, { y: 0, opacity: 1, duration: 0.35 }, 40.2);
       pop("#e3", 40.5);
-      tl.fromTo("#logo", { rotation: 0 }, { rotation: 360, duration: 1.2, ease: "power2.inOut" }, 40.7);
+      tl.fromTo("#logo", { scale: 1 }, { scale: 1.05, duration: 0.6, yoyo: true, repeat: 1, ease: "sine.inOut" }, 40.7);
 
       /* ================= captions ================= */
-      const KEY = /^(germs|tiny|hundreds|pinhead|clear|cloudy|hide|treatment|eyes|nose|taste|safe|risk|warning|toilets|animals|tanks|pipes|floods|rain|test|lab|kit|coli|faecal|chemicals|nitrates|arsenic|time|seasons|daily|task|next)$/i;
+      const KEY = /^(germs|tiny|hundreds|pinhead|clear|cloudy|hide|treatment|eyes|nose|taste|safe|risk|warning|toilets|animals|tanks|pipes|floods|rain|test|lab|kit|coli|faecal|chemicals|nitrates|arsenic|time|seasons|boiling|filters|chlorine|tablets|wins|next)$/i;
       const capsEl = document.getElementById("caps");
       TIMED.forEach((words, li) => {
         let chunk = [], chunks = [];

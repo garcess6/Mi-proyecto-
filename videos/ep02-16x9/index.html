@@ -41,7 +41,7 @@
     <div id="root" data-composition-id="main" data-start="0" data-duration="46" data-width="1920" data-height="1080">
       <audio id="vo" class="clip" src="assets/voice.wav" data-start="0" data-duration="46" data-track-index="9"></audio>
       <div id="tag" class="clip" data-start="0" data-duration="43" data-track-index="8">
-        <div class="pill">EP. 2 · <b>WATER:</b> WHAT WE DON'T SEE</div>
+        <div class="pill"><img src="assets/logo-drop.png" style="height:46px;width:auto" />EP. 2 · <b>WATER:</b> WHAT WE DON'T SEE</div>
       </div>
       <div id="stage">
         <div id="s0" class="scene clip" data-start="0" data-duration="4.2" data-track-index="1"><div class="cam"></div></div>
@@ -326,7 +326,7 @@
 
       /* ================= S8 · end card (43 – 46) ================= */
       add("s8", `<div class="abs" style="left:0;top:60px;width:1080px;text-align:center">
-        <img id="logo" src="assets/logo.png" style="width:380px;height:380px" />
+        <img id="logo" src="assets/logo-horizontal.png" style="width:800px;height:auto;margin-top:90px;margin-bottom:30px" />
         <div id="e1" style="font-family:Cap;font-weight:900;font-size:60px;letter-spacing:0.02em;margin-top:10px">WATER: <span style="color:${BLUE}">WHAT WE DON'T SEE</span></div>
         <div id="e2" style="font-family:Cap;font-weight:800;font-size:40px;color:${MUTED};margin-top:6px">EPISODE 2 · aquacoreglobal.com</div>
         <div id="e3" style="display:inline-block;margin-top:50px;padding:24px 44px;border:7px solid ${INK};border-radius:40px;font-family:Hand;font-size:62px">Do you <span style="color:${BLUE}">test</span> the water you drink? 💬</div>
@@ -335,7 +335,7 @@
       tl.fromTo("#e1", { y: 30, opacity: 0 }, { y: 0, opacity: 1, duration: 0.35 }, 43.3);
       tl.fromTo("#e2", { y: 30, opacity: 0 }, { y: 0, opacity: 1, duration: 0.35 }, 43.5);
       pop("#e3", 43.8);
-      tl.fromTo("#logo", { rotation: 0 }, { rotation: 360, duration: 1.2, ease: "power2.inOut" }, 44.0);
+      tl.fromTo("#logo", { scale: 1 }, { scale: 1.05, duration: 0.6, yoyo: true, repeat: 1, ease: "sine.inOut" }, 44.0);
 
       /* ================= captions ================= */
       const KEY = /^(germs|bacteria|viruses|parasites|gut|hours|days|pain|vomiting|diarrhoea|fever|water|salts|dehydration|children|older|cholera|typhoid|hepatitis|arsenic|nitrates|lead|today|silently|years|smell|colour|warning|tested|treated|see|spot|next)$/i;
