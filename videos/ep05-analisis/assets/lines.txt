@@ -5,3 +5,6 @@ In the lab, samples are grown on plates, and each colony is counted. For safe dr
 The key is before and after: test the raw water, treat it, then test again.
 That's how national labs in Cameroon and Niger tested AquaCore tablets: before and after treatment.
 Want to see it in your own water? Start a pilot: we send the tablets, your local lab tests the results.
+After the pilot, we review the lab results together, and size the program: how many people, how many tablets.
+Then we deploy: local distribution, training for families, and regular follow-up to monitor and restock.
+And when it works, we scale it, region by region.
