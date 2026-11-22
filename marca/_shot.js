@@ -6,5 +6,7 @@ await s('stack','logo/aquacore-logo-cuadrado.png',{omitBackground:true});await s
 await s('lockup','logo/aquacore-logo-horizontal.png');await s('lockup-tr','logo/aquacore-logo-horizontal-transparente.png',{omitBackground:true});await s('lockup-neg','logo/aquacore-logo-horizontal-fondo-azul.png');
 for(let i=1;i<=m.about;i++)await s('about'+i,`historias/about-us-${i}.png`);
 for(let i=1;i<=m.partner;i++)await s('partner'+i,`historias/partner-${i}.png`);
+for(let i=1;i<=m.how;i++)await s('how'+i,`historias/how-it-works-${i}.png`);
+for(let i=1;i<=m.pilot;i++)await s('pilot'+i,`historias/pilot-${i}.png`);
 for(const c of m.covers)await s('cov-'+c,`destacadas/destacada-${c}.png`);
 await b.close()})()

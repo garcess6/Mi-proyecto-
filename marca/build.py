@@ -40,6 +40,7 @@ b.bl{{color:{BLUE}}}
 .card .t{{font-size:54px;font-weight:800}}.card .d{{font-size:36px;font-weight:500;color:{GREY};margin-top:6px;line-height:1.35}}
 .note{{font-size:30px;color:{GREY};margin-top:70px;line-height:1.4}}
 .cta{{display:inline-block;background:{NAVY};color:#fff;font-weight:700;font-size:48px;padding:30px 52px;border-radius:60px;margin-top:50px}}
+.steps .in{{justify-content:flex-start;padding-top:160px}}
 .dark{{background:{NAVY};color:#fff}}.dark p{{color:#B9C7D8}}.dark .kick{{color:#5DB8FF}}
 """
 def foot(i,n,dark=False):
@@ -55,8 +56,42 @@ about=[
 partner=[
  ('dark',f'<div>{ic(I["partner"].replace(NAVY,"#fff"),300,"#fff")}</div><div class="kick" style="margin-top:70px">PARTNER WITH US</div><h1>Safe water, at scale.</h1><p>For NGOs, governments and private investors. Worldwide.</p>'),
  ('',f'<div class="kick">WHO WE WORK WITH</div><h2>Volume programs only</h2>'+"".join(f'<div class="card">{ic(I[k],150)}<div><div class="t">{t}</div><div class="d">{d}</div></div></div>' for k,t,d in [("ngo","NGOs","Humanitarian & community water programs"),("gov","Governments","Public health & rural water supply"),("inv","Private investors","Scalable, impact-driven deployment")])+f'<p style="font-size:42px">We do not sell to individuals. <b class="bl">We work worldwide.</b></p>'),
- ('',f'<div class="kick">WHAT WE BRING</div><h2>From lab to community</h2>'+"".join(f'<div class="step"><div class="num">{n}</div>{ic(I[k],130)}<div class="st">{t}<small>{d}</small></div></div>' for n,k,t,d in [(1,"tablet","Tablets at volume","Supply sized to your program"),(2,"truck","Local distribution","Receive, verify, store, deliver"),(3,"people","Training","Families learn correct use"),(4,"check","Follow-up","Supervise and restock")])+f'<div class="card" style="margin-top:50px">{ic(I["pilot"],110)}<div><div class="t">Pilot model</div><div class="d">10,000 people · 90 days</div></div></div>'),
+ ('',f'<div class="kick">WHAT WE BRING</div><h2>From lab to community</h2>'+"".join(f'<div class="step"><div class="num">{n}</div>{ic(I[k],130)}<div class="st">{t}<small>{d}</small></div></div>' for n,k,t,d in [(1,"tablet","Tablets at volume","Supply sized to your program"),(2,"truck","Local distribution","Receive, verify, store, deliver"),(3,"people","Training","Families learn correct use"),(4,"check","Follow-up","Supervise and restock")])+f'<div class="card" style="margin-top:50px">{ic(I["pilot"],110)}<div><div class="t">Start with a pilot</div><div class="d">100-tablet test pack, lab-tested in your country</div></div></div>'),
  ('dark',f'<div class="kick">LET\'S TALK</div>{ic(I["chat"],320,"#fff")}<h1 style="font-size:112px">Bring safe water to your communities.</h1><p>Send us a DM with the word <b style="color:#5DB8FF">PARTNER</b> or visit</p><div><span class="cta" style="background:#1E7FD8">aquacoreglobal.com</span></div>'),
+]
+I.update({
+"box":'<path d="M14 32 L50 16 L86 32 V70 L50 86 L14 70 Z"/><path d="M14 32 L50 48 L86 32 M50 48 V86" stroke="#1E7FD8"/>',
+"flask":'<path d="M40 14 H60 M44 14 V40 L20 80 a6 6 0 0 0 5 8 H75 a6 6 0 0 0 5 -8 L56 40 V14"/><path d="M28 66 H72" stroke="#1E7FD8"/><circle cx="44" cy="76" r="3" fill="#1E7FD8" stroke="none"/><circle cx="58" cy="72" r="3" fill="#1E7FD8" stroke="none"/>',
+"chart":'<path d="M14 86 H86"/><rect x="22" y="56" width="12" height="24" stroke="#1E7FD8"/><rect x="44" y="40" width="12" height="40"/><rect x="66" y="24" width="12" height="56" stroke="#1E7FD8"/>',
+"gauge":'<path d="M16 66 a34 34 0 0 1 68 0"/><path d="M50 66 L68 42" stroke="#1E7FD8"/><circle cx="50" cy="66" r="5" fill="#1E7FD8" stroke="#1E7FD8"/><path d="M16 78 H84"/>',
+"drop2":'<path d="M50 12 C50 12 22 46 22 64 a28 28 0 0 0 56 0 C78 46 50 12 50 12Z"/><circle cx="50" cy="64" r="11" fill="#1E7FD8" stroke="#1E7FD8"/>',
+})
+def tracker(cur,labels):
+    out='<div style="display:flex;gap:12px;margin-bottom:60px">'
+    for i,l in enumerate(labels):
+        on=i<=cur
+        out+=f'<div style="flex:1"><div style="height:12px;border-radius:6px;background:{BLUE if on else "#D5DEE8"}"></div><div style="font-size:24px;font-weight:700;margin-top:12px;color:{NAVY if i==cur else "#9AA8B8"}">{l}</div></div>'
+    return out+'</div>'
+def stepslide(cur,labels,icon,title,body,extra=""):
+    return ('steps',tracker(cur,labels)+f'<div class="kick">STEP {cur+1}</div>{ic(I[icon],380)}<h2>{title}</h2><p>{body}</p>{extra}')
+HL=["FILL","ADD","WAIT","READY"]
+how=[
+ ('dark',f'<div>{ic(I["tablet"].replace(f'stroke="{BLUE}"','stroke="#3FA9F5"'),320,"#fff")}</div><div class="kick" style="margin-top:70px">HOW IT WORKS</div><h1>Safe water in 4 simple steps.</h1><p>One tablet. One container. Thirty minutes.</p>'),
+ stepslide(0,HL,"can","Fill a <b class='bl'>25 L</b> container","Use a clean, covered container."),
+ stepslide(1,HL,"tablet","Add <b class='bl'>1 tablet</b>","One tablet treats up to 25 litres."),
+ stepslide(2,HL,"clock","Wait <b class='bl'>30 minutes</b>","Give the tablet time to work. Don't drink before."),
+ stepslide(3,HL,"check","Ready to <b class='bl'>drink & cook</b>","Results depend on the source water and correct use. Always follow the instructions."),
+ ('',f'<div class="kick">HOW MUCH?</div>{ic(I["people"],300)}<h2><b class="bl">1 tablet = 25 L</b></h2><p style="margin-top:20px">5 L per person per day for drinking and cooking means about <b class="bl">6 tablets per person, per month.</b></p><div><span class="cta">▶ Watch the series</span></div>'),
+]
+PL=["SEND","TEST","ANALYSE","SIZE","DEPLOY"]
+pilot=[
+ ('dark',f'<div>{ic(I["pilot"].replace(f'fill="{BLUE}"','fill="#3FA9F5"').replace(f'stroke="{BLUE}"','stroke="#3FA9F5"'),300,"#fff")}</div><div class="kick" style="margin-top:70px">PILOT PROGRAM</div><h1>How a pilot works</h1><p>From a first test to full deployment, in 5 steps.</p>'),
+ stepslide(0,PL,"box","We send a <b class='bl'>100&#8209;tablet</b> pack","Shipped to your country. Enough to treat up to 2,500 litres for testing."),
+ stepslide(1,PL,"flask","You <b class='bl'>test</b> with local labs","Your local labs test the water, based on its contamination, before and after treatment."),
+ stepslide(2,PL,"chart","Collect results & <b class='bl'>analyse</b>","We review the lab results together and see how the tablets perform on your water."),
+ stepslide(3,PL,"gauge","<b class='bl'>Size</b> the program","We define the capacity and the quantities each community needs."),
+ stepslide(4,PL,"truck","<b class='bl'>Deploy</b>","Tablets, local distribution and training, to bring safe drinking water to the community."),
+ ('dark',f'<div class="kick">LET\'S START</div>{ic(I["chat"],300,"#fff")}<h1 style="font-size:112px">Ready for a pilot in your region?</h1><p>Send us a DM with the word <b style="color:#5DB8FF">PILOT</b> or visit</p><div><span class="cta" style="background:#1E7FD8">aquacoreglobal.com</span></div>'),
 ]
 def frames(name,sl):
     out=""
@@ -73,7 +108,7 @@ logo=f'''<div id="stack" style="width:760px;height:760px;display:flex;flex-direc
 <div id="lockup" style="display:inline-flex;align-items:center;gap:60px;padding:80px 100px;background:#fff">{drop(300)}<div><div style="font-size:130px;font-weight:800;letter-spacing:3px;line-height:1">AQUACORE</div><div style="font-size:38px;font-weight:500;letter-spacing:21px;white-space:nowrap;color:{GREY};margin-top:18px">GLOBAL TECHNOLOGIES</div></div></div>
 <div id="lockup-tr" style="display:inline-flex;align-items:center;gap:60px;padding:80px 100px">{drop(300)}<div><div style="font-size:130px;font-weight:800;letter-spacing:3px;line-height:1">AQUACORE</div><div style="font-size:38px;font-weight:500;letter-spacing:21px;white-space:nowrap;color:{GREY};margin-top:18px">GLOBAL TECHNOLOGIES</div></div></div>
 <div id="lockup-neg" style="display:inline-flex;align-items:center;gap:60px;padding:80px 100px;background:{NAVY};color:#fff">{drop(300,"#fff","#3FA9F5")}<div><div style="font-size:130px;font-weight:800;letter-spacing:3px;line-height:1">AQUACORE</div><div style="font-size:38px;font-weight:500;letter-spacing:21px;white-space:nowrap;color:#B9C7D8;margin-top:18px">GLOBAL TECHNOLOGIES</div></div></div>'''
-open("_build.html","w").write(f"<!doctype html><html><head><meta charset=utf-8><style>{CSS}</style></head><body style='background:transparent'>{logo}{frames('about',about)}{frames('partner',partner)}{cov}</body></html>")
+open("_build.html","w").write(f"<!doctype html><html><head><meta charset=utf-8><style>{CSS}</style></head><body style='background:transparent'>{logo}{frames('about',about)}{frames('partner',partner)}{frames('how',how)}{frames('pilot',pilot)}{cov}</body></html>")
 open("logo/aquacore-icono.svg","w").write(f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="-5 -2 100 116">{DROP.format(s=NAVY,c=BLUE,w=7)}</svg>')
 open("logo/aquacore-icono-blanco.svg","w").write(f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="-5 -2 100 116">{DROP.format(s="#fff",c="#3FA9F5",w=7)}</svg>')
-import json;json.dump({"about":len(about),"partner":len(partner),"covers":[c[0] for c in covers]},open("_meta.json","w"))
+import json;json.dump({"about":len(about),"partner":len(partner),"how":len(how),"pilot":len(pilot),"covers":[c[0] for c in covers]},open("_meta.json","w"))

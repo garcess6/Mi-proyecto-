@@ -1,6 +1,6 @@
 import subprocess,sys
 def dur(f): return float(subprocess.check_output(["ffprobe","-v","error","-show_entries","format=duration","-of","csv=p=0",f]))
-for name,n in [("about-us",5),("partner",4)]:
+for name,n in [("about-us",5),("partner",4),("how-it-works",6),("pilot",7)]:
     vo=[f"historias/vo/{name}-{i}.wav" for i in range(1,n+1)]
     d=[max(4.0,dur(v)+1.3) for v in vo]
     starts=[0.0]

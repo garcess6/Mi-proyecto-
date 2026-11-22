@@ -5,5 +5,18 @@ about-us-4|It takes four easy steps. Fill a twenty-five litre container. Add one
 about-us-5|And we're here to educate. Short, simple videos about the water we drink, and why prevention matters. Watch the series!
 partner-1|Partner with AquaCore. Safe water, at scale.
 partner-2|We work with NGOs, governments and private investors, on volume programs, all around the world.
-partner-3|We bring tablets at volume, local distribution, training for families, and follow-up to supervise and restock. Our pilot model is designed for ten thousand people over ninety days.
+partner-3|We bring tablets at volume, local distribution, training for families, and follow-up to supervise and restock. And every program starts with a pilot: a one-hundred-tablet test pack, lab-tested in your country.
 partner-4|Let's bring safe water to your communities. Send us a message with the word partner, or visit aquacoreglobal dot com.
+how-it-works-1|How does it work? Safe water in four simple steps. One tablet, one container, thirty minutes.
+how-it-works-2|Step one. Fill a clean, covered, twenty-five litre container.
+how-it-works-3|Step two. Add one tablet. One tablet treats up to twenty-five litres.
+how-it-works-4|Step three. Wait thirty minutes. Give the tablet time to work, and don't drink before.
+how-it-works-5|Step four. Your water is ready for drinking and cooking. Results depend on the source water and correct use, so always follow the instructions.
+how-it-works-6|Five litres per person per day means about six tablets per person, per month. Simple.
+pilot-1|How does a pilot work? From a first test to full deployment, in five steps.
+pilot-2|Step one. We send a one-hundred-tablet pack to your country. Enough to treat up to two thousand five hundred litres for testing.
+pilot-3|Step two. Your local labs test the water, based on its contamination, before and after treatment.
+pilot-4|Step three. We collect the results and analyse them together, to see how the tablets perform on your water.
+pilot-5|Step four. We size the program: the capacity, and the quantities each community needs.
+pilot-6|Step five. We deploy. Tablets, local distribution and training, to bring safe drinking water to the community.
+pilot-7|Ready for a pilot in your region? Send us a message with the word pilot, or visit aquacoreglobal dot com.
