@@ -50,7 +50,7 @@ about=[
  ('dark',f'<div>{drop(260,"#fff","#3FA9F5",7)}</div><div class="kick" style="margin-top:80px">ABOUT US</div><h1>Who we are</h1><p>Safe water starts with what you can\'t see.</p>'),
  ('',f'<div class="kick">THE PROBLEM</div>{ic(I["glass"],340)}<h2>Water can look clear and still make people sick.</h2><p>Millions of families drink from <b class="bl">rivers, wells and rainwater</b> that are never tested or treated.</p>'),
  ('',f'<div class="kick">WHAT WE DO</div>{ic(I["tablet"],340)}<h2>We make water treatment <b class="bl">simple.</b></h2><p>AquaCore develops water-treatment tablets and the local network to deliver them. <b class="bl">1 tablet treats up to 25 L</b> of water for drinking and cooking.</p>'),
- ('',f'<div class="kick">HOW IT WORKS</div><h2>4 easy steps</h2>'+"".join(f'<div class="step"><div class="num">{n}</div>{ic(I[k],130)}<div class="st">{t}<small>{d}</small></div></div>' for n,k,t,d in [(1,"can","Fill a 25 L container","Clean, covered container"),(2,"tablet","Add 1 tablet","One per 25 litres"),(3,"clock","Wait 30 minutes","Contact time before drinking"),(4,"check","Ready to use","For drinking & cooking")])+'<div class="note">Results depend on the source water and correct use. Always follow the instructions.</div>'),
+ ('',f'<div class="kick">HOW IT WORKS</div><h2>4 easy steps</h2>'+"".join(f'<div class="step"><div class="num">{n}</div>{ic(I[k],130)}<div class="st">{t}<small>{d}</small></div></div>' for n,k,t,d in [(1,"can","Fill a 25 L container","Well, river or rainwater"),(2,"tablet","Add 1 tablet","One per 25 litres"),(3,"clock","Wait 30 minutes","Contact time before drinking"),(4,"check","Ready to use","For drinking & cooking")])+'<div class="note">Results depend on the source water and correct use. Always follow the instructions.</div>'),
  ('',f'<div class="kick">WHY THIS ACCOUNT</div>{ic(I["book"],340)}<h2>We\'re here to <b class="bl">educate.</b></h2><p>Short, simple videos about the water we drink and why <b class="bl">prevention</b> matters: test, treat, check.</p><div><span class="cta">▶ Watch the series</span></div>'),
 ]
 partner=[
@@ -77,7 +77,7 @@ def stepslide(cur,labels,icon,title,body,extra=""):
 HL=["FILL","ADD","WAIT","READY"]
 how=[
  ('dark',f'<div>{ic(I["tablet"].replace(f'stroke="{BLUE}"','stroke="#3FA9F5"'),320,"#fff")}</div><div class="kick" style="margin-top:70px">HOW IT WORKS</div><h1>Safe water in 4 simple steps.</h1><p>One tablet. One container. Thirty minutes.</p>'),
- stepslide(0,HL,"can","Fill a <b class='bl'>25 L</b> container","Use a clean, covered container."),
+ stepslide(0,HL,"can","Fill a <b class='bl'>25 L</b> container","With untreated water from a <b class='bl'>well, river or rain tank</b>. Use a clean, covered container."),
  stepslide(1,HL,"tablet","Add <b class='bl'>1 tablet</b>","One tablet treats up to 25 litres."),
  stepslide(2,HL,"clock","Wait <b class='bl'>30 minutes</b>","Give the tablet time to work. Don't drink before."),
  stepslide(3,HL,"check","Ready to <b class='bl'>drink & cook</b>","Results depend on the source water and correct use. Always follow the instructions."),
