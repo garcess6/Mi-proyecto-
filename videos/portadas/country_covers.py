@@ -8,6 +8,7 @@ F = "../ep04-metodos/assets/fonts"
 COVERS = [
     ("AquaCore_DRCongo_EN_portada.png", "../pais-cod/assets/map.json", "COUNTRY FOCUS · <b>DR CONGO</b>", "70 MILLION", "people without basic drinking water", "What can be done? ▶"),
     ("AquaCore_DRCongo_FR_portada.png", "../pais-cod/assets/map.json", "FOCUS PAYS · <b>RD CONGO</b>", "70 MILLIONS", "de personnes sans eau potable de base", "Quelles solutions ? ▶"),
+    ("AquaCore_Nigeria_EN_portada.png", "../pais-nga/assets/map.json", "COUNTRY FOCUS · <b>NIGERIA</b>", "163 MILLION", "Nigerians without safe water at home", "Meet Amina ▶"),
     ("AquaCore_Ethiopia_EN_portada.png", "../pais-eth/assets/map.json", "COUNTRY FOCUS · <b>ETHIOPIA</b>", "59 MILLION", "people without basic drinking water", "What can be done? ▶"),
 ]
 CSS = f"""@font-face{{font-family:Hand;src:url("{F}/patrick-hand-latin-400-normal.woff2")}}
