@@ -1,0 +1,313 @@
+<!doctype html>
+<html lang="en" data-resolution="landscape" data-format="landscape">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1920, height=1080" />
+    <title>Nigeria Water</title>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/gsap.min.js"></script>
+    <style>
+      @font-face { font-family: "Hand"; src: url("assets/fonts/patrick-hand-latin-400-normal.woff2") format("woff2"); font-weight: 400; }
+      @font-face { font-family: "Cap"; src: url("assets/fonts/nunito-latin-900-normal.woff2") format("woff2"); font-weight: 900; }
+      @font-face { font-family: "Cap"; src: url("assets/fonts/nunito-latin-800-normal.woff2") format("woff2"); font-weight: 800; }
+      :root { --ground: #ffffff; --ink: #111418; --blue: #1e7fd8; --sky: #dff2fc; --muted: #8b96a3; --W: 1080px; --H: 1920px; }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { margin: 0; width: var(--W); height: var(--H); overflow: hidden; background: var(--ground); }
+      #root { position: relative; width: 100%; height: 100%; background: var(--ground); font-family: "Hand", sans-serif; color: var(--ink); overflow: hidden; }
+      #stage { position: absolute; width: 1080px; height: 1080px; left: 0; top: 300px; transform-origin: 0 0; overflow: hidden; }
+      #caps { position: absolute; left: 60px; width: 960px; top: 1420px; height: 260px; }
+      #tag { position: absolute; left: 0; width: 1080px; top: 150px; text-align: center; }
+      html[data-format="landscape"] { --W: 1920px; --H: 1080px; }
+      html[data-format="landscape"] #stage { left: 70px; top: 43px; }
+      html[data-format="landscape"] #caps { left: 1120px; width: 740px; top: 360px; height: 420px; }
+      html[data-format="landscape"] #tag { left: 1120px; width: 740px; top: 150px; }
+      html[data-format="landscape"] .cap { font-size: 84px; }
+      html[data-format="landscape"] .pill { font-size: 28px; }
+      .scene { position: absolute; inset: 0; width: 1080px; height: 1080px; overflow: hidden; }
+      .cam { position: absolute; left: 0; top: 0; width: 1080px; height: 1080px; transform-origin: 0 0; }
+      .abs { position: absolute; }
+      svg { overflow: visible; }
+      .pill { white-space: nowrap; display: inline-flex; align-items: center; gap: 14px; padding: 10px 28px; border: 5px solid var(--ink); border-radius: 999px; font-family: "Cap"; font-weight: 900; font-size: 34px; letter-spacing: 0.04em; background: #fff; }
+      .pill b { color: var(--blue); }
+      .label { font-family: "Hand"; font-size: 66px; line-height: 1; text-align: center; }
+      .small { font-family: "Hand"; font-size: 48px; line-height: 1; text-align: center; }
+      .chip { font-family: "Cap"; font-weight: 900; font-size: 52px; letter-spacing: 0.06em; padding: 8px 30px; border-radius: 18px; background: var(--blue); color: #fff; border: 5px solid var(--ink); }
+      .card { background: #fff; border: 8px solid var(--ink); border-radius: 28px; text-align: center; }
+      .cap { position: absolute; left: 0; right: 0; top: 50%; transform: translateY(-50%); text-align: center; font-family: "Cap"; font-weight: 900; font-size: 76px; line-height: 1.12; color: var(--ink); opacity: 0; }
+      .cap span { display: inline-block; margin: 0 0.06em; }
+      .cap span.k { color: var(--blue); }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="78.71" data-width="1920" data-height="1080">
+      <audio id="vo" class="clip" src="assets/voice_en.wav" data-start="0" data-duration="78.71" data-track-index="9"></audio>
+      <div id="tag" class="clip" data-start="0" data-duration="75.71" data-track-index="8">
+        <div class="pill">COUNTRY FOCUS · <b>NIGERIA</b></div>
+      </div>
+      <div id="stage">
+        <div id="s0" class="scene clip" data-start="0" data-duration="5.74" data-track-index="1"><div class="cam"></div></div>
+        <div id="s1" class="scene clip" data-start="5.74" data-duration="7.19" data-track-index="1"><div class="cam"></div></div>
+        <div id="s2" class="scene clip" data-start="12.93" data-duration="4.83" data-track-index="1"><div class="cam"></div></div>
+        <div id="s3" class="scene clip" data-start="17.76" data-duration="11.28" data-track-index="1"><div class="cam"></div></div>
+        <div id="s4" class="scene clip" data-start="29.04" data-duration="10.44" data-track-index="1"><div class="cam"></div></div>
+        <div id="s5" class="scene clip" data-start="39.48" data-duration="7.57" data-track-index="1"><div class="cam"></div></div>
+        <div id="s6" class="scene clip" data-start="47.05" data-duration="14.45" data-track-index="1"><div class="cam"></div></div>
+        <div id="s7" class="scene clip" data-start="61.5" data-duration="10.77" data-track-index="1"><div class="cam"></div></div>
+        <div id="s8" class="scene clip" data-start="72.27" data-duration="3.44" data-track-index="1"><div class="cam"></div></div>
+        <div id="s9" class="scene clip" data-start="75.71" data-duration="3.0" data-track-index="1"><div class="cam"></div></div>
+      </div>
+      <div id="caps"></div>
+    </div>
+
+    <script>
+      /* ================= helpers ================= */
+      const INK = "#111418", BLUE = "#1e7fd8", SKY = "#dff2fc", MUTED = "#8b96a3", DIRT = "#8a7660", GRAY = "#4a4f57";
+      let seed = 11;
+      const rnd = () => ((seed = (seed * 16807) % 2147483647) / 2147483647);
+      const $$ = (s) => Array.from(document.querySelectorAll(s));
+      const cam = (id) => document.getElementById(id).getElementsByClassName("cam")[0];
+      const add = (id, html) => cam(id).insertAdjacentHTML("beforeend", html);
+      const addTop = (id, html) => document.getElementById(id).insertAdjacentHTML("beforeend", html);
+      const focus = (px, py, s) => ({ x: 540 - px * s, y: 540 - py * s, scale: s });
+
+      /* voice lines: [start, duration, text]; word times are estimated from these */
+      const LINES = [
+        [0.3, 4.99, "Meet Amina. Every morning, before sunrise, she walks to fetch water for her family."],
+        [5.74, 6.74, "She's one of a hundred and sixty-three million Nigerians without safe water at home. That's seven in ten people."],
+        [12.93, 4.37, "The well looks clean. The water looks clear. But it can carry germs we can't see."],
+        [17.76, 10.84, "In 2024, Nigeria reported almost twenty-five thousand cholera cases, and seven hundred and thirty-four deaths. Three in every hundred people who got sick, died."],
+        [29.04, 9.98, "Nigeria's Centre for Disease Control leads the response: contingency plans, more lab testing, and emergency vaccination campaigns, with WHO and partners."],
+        [39.48, 7.13, "But at home, Amina still needs a way to make her water safe. Boiling needs fuel she can't spare. Filters need upkeep."],
+        [47.05, 13.99, "With AquaCore, it's one tablet in her twenty-five litre container. Thirty minutes later, her children drink safe water. In tests by national labs in Africa, it eliminated E. coli, Salmonella and cholera bacteria."],
+        [61.5, 10.33, "For communities like Amina's, it starts with a pilot: we send a hundred tablets, your local lab tests the water before and after, then we size the program, deploy, and scale."],
+        [72.27, 2.94, "Working on water in Nigeria? Let's start a pilot."],
+      ];
+      const TIMED = LINES.map(([start, dur, text]) => {
+        const words = text.split(" ");
+        const wts = words.map((w) => w.replace(/[^\w']/g, "").length + 3 + (/[.?!…]$/.test(w) ? 7 : /[,:]$/.test(w) ? 4 : 0));
+        const total = wts.reduce((a, b) => a + b, 0);
+        let t = start + 0.1; const span = dur - 0.25;
+        return words.map((w, i) => { const d = (wts[i] / total) * span; const o = { w, t, d }; t += d; return o; });
+      });
+      // time the voice says `word` (nth match) in line li
+      const W = (li, word, nth = 0) => {
+        const m = TIMED[li].filter((x) => x.w.toLowerCase().replace(/[^\w']/g, "") === word.toLowerCase());
+        return (m[nth] || m[0]).t;
+      };
+
+      function figure(id, { left, top, w, prop = "", face = "smile", cane = false }) {
+        const h = w * 1.8;
+        const propSvg =
+          prop === "glass"
+            ? `<g class="prop"><path d="M136 188 L172 188 L167 236 L141 236 Z" fill="#fff" stroke="${INK}" stroke-width="6" stroke-linejoin="round"/><path d="M139 204 L169 204 L167 236 L141 236 Z" fill="${SKY}" stroke="none"/><path d="M139 204 Q154 198 169 204" stroke="${BLUE}" stroke-width="5" fill="none"/></g>`
+            : prop === "lens"
+            ? `<g class="prop"><line x1="144" y1="210" x2="160" y2="186" stroke="${INK}" stroke-width="10" stroke-linecap="round"/><circle cx="176" cy="160" r="30" fill="${SKY}" fill-opacity="0.7" stroke="${INK}" stroke-width="8"/></g>`
+            : cane
+            ? `<g class="prop"><path d="M144 210 L150 340 M144 210 q-6 -16 8 -18" stroke="${INK}" stroke-width="8" fill="none" stroke-linecap="round"/></g>`
+            : "";
+        const show = (n) => (n === face ? 1 : 0);
+        return `<div id="${id}" class="abs" style="left:${left}px;top:${top}px;width:${w}px;height:${h}px">
+        <svg viewBox="0 0 200 360" width="${w}" height="${h}">
+          <g fill="none" stroke="${INK}" stroke-width="8" stroke-linecap="round" stroke-linejoin="round">
+            <path class="hdrop" d="M100 0 C94 12 86 20 86 28 a14 14 0 0 0 28 0 C114 20 106 12 100 0 Z" fill="${BLUE}" stroke-width="5"/>
+            <line x1="100" y1="126" x2="100" y2="240"/>
+            <line x1="100" y1="240" x2="66" y2="340"/><line x1="100" y1="240" x2="134" y2="340"/>
+            <g class="armL"><line x1="100" y1="150" x2="56" y2="210"/></g>
+            <g class="armR"><line x1="100" y1="150" x2="144" y2="210"/>${propSvg}</g>
+            <circle cx="100" cy="80" r="46" fill="#fff"/>
+            <g class="eyes" stroke="none" fill="${INK}"><circle cx="84" cy="76" r="6.5"/><circle cx="116" cy="76" r="6.5"/></g>
+            <g class="f-smile" opacity="${show("smile")}"><path d="M84 98 Q100 114 116 98"/></g>
+            <g class="f-o" opacity="${show("o")}"><circle cx="100" cy="104" r="9"/><path d="M72 58 L92 52 M108 52 L128 58" stroke-width="6"/></g>
+            <g class="f-hmm" opacity="${show("hmm")}"><path d="M88 106 L114 100"/><path d="M74 60 L92 58 M108 54 L126 50" stroke-width="6"/></g>
+            <g class="f-worry" opacity="${show("worry")}"><path d="M84 108 Q92 99 100 105 Q108 111 116 102"/><path d="M74 56 L92 63 M108 63 L126 56" stroke-width="6"/><path class="sweat" d="M146 54 C142 62 138 66 138 71 a8 8 0 0 0 16 0 C154 66 150 62 146 54 Z" fill="${SKY}" stroke="${BLUE}" stroke-width="4"/></g>
+            <g class="f-sick" opacity="${show("sick")}"><path d="M76 70 L92 80 M92 70 L76 80 M108 70 L124 80 M124 70 L108 80" stroke-width="6"/><path d="M84 108 Q92 99 100 105 Q108 111 116 102"/></g>
+          </g>
+        </svg></div>`;
+      }
+      function setFace(tl, id, face, t) {
+        ["smile", "o", "hmm", "worry", "sick"].forEach((f) => tl.set(`#${id} .f-${f}`, { opacity: f === face ? 1 : 0 }, t));
+        if (face === "sick") tl.set(`#${id} .eyes`, { opacity: 0 }, t); else tl.set(`#${id} .eyes`, { opacity: 1 }, t);
+      }
+      function glass(id, { left, top, w, extra = "" }) {
+        const h = w * 1.375;
+        return `<div id="${id}" class="abs" style="left:${left}px;top:${top}px;width:${w}px;height:${h}px">
+        <svg viewBox="0 0 160 220" width="${w}" height="${h}">
+          <path d="M26 66 L134 66 L124 206 L36 206 Z" fill="${SKY}"/>
+          <path class="wave" d="M26 66 Q53 56 80 66 T134 66" stroke="${BLUE}" stroke-width="6" fill="none" stroke-linecap="round"/>
+          <g class="inside">${extra}</g>
+          <path d="M18 10 L142 10 L126 210 L34 210 Z" fill="none" stroke="${INK}" stroke-width="8" stroke-linejoin="round"/>
+          <path d="M40 28 L50 190" stroke="#fff" stroke-width="7" stroke-linecap="round"/>
+        </svg></div>`;
+      }
+      // germs
+      const bacterium = (x, y, s, cls = "") =>
+        `<g class="${cls}" transform="translate(${x} ${y}) scale(${s})"><g class="wig"><rect x="-26" y="-13" width="52" height="26" rx="13" fill="#fff" stroke="${INK}" stroke-width="4.5"/><circle cx="-8" cy="-2" r="3" fill="${INK}"/><circle cx="8" cy="3" r="3" fill="${BLUE}"/><path d="M26 0 q7 -7 14 0 t12 0 M-26 0 q-7 7 -14 0 t-12 0" stroke="${INK}" stroke-width="3.5" fill="none" stroke-linecap="round"/></g></g>`;
+      const virus = (x, y, s, cls = "") => {
+        let sp = "";
+        for (let a = 0; a < 360; a += 45) { const r = (a * Math.PI) / 180; sp += `<line x1="${Math.cos(r) * 18}" y1="${Math.sin(r) * 18}" x2="${Math.cos(r) * 28}" y2="${Math.sin(r) * 28}"/><circle cx="${Math.cos(r) * 30}" cy="${Math.sin(r) * 30}" r="4" fill="${BLUE}"/>`; }
+        return `<g class="${cls}" transform="translate(${x} ${y}) scale(${s})"><g class="wig" stroke="${INK}" stroke-width="4">${sp}<circle r="18" fill="#fff"/><circle cx="-5" cy="-3" r="3" fill="${INK}" stroke="none"/><circle cx="6" cy="-3" r="3" fill="${INK}" stroke="none"/></g></g>`;
+      };
+      const parasite = (x, y, s, cls = "") =>
+        `<g class="${cls}" transform="translate(${x} ${y}) scale(${s})"><g class="wig"><path d="M-40 0 C-30 -18 -15 18 0 0 C15 -18 30 18 40 0" stroke="${INK}" stroke-width="14" fill="none" stroke-linecap="round"/><path d="M-40 0 C-30 -18 -15 18 0 0 C15 -18 30 18 40 0" stroke="#fff" stroke-width="5" fill="none" stroke-linecap="round"/><circle cx="40" cy="-2" r="3" fill="${INK}"/></g></g>`;
+      const dropPath = (x, y, s, fill, cls, stroke = INK) =>
+        `<g transform="translate(${x} ${y})"><path class="${cls}" transform="scale(${s})" d="M0 -18 C-5 -8 -11 -2 -11 5 a11 11 0 0 0 22 0 C11 -2 5 -8 0 -18 Z" fill="${fill}" stroke="${stroke}" stroke-width="3.5"/></g>`;
+
+      const tl = gsap.timeline({ paused: true });
+      const pop = (sel, t, extra = {}) => tl.fromTo(sel, { scale: 0, opacity: 0, transformOrigin: "50% 50%" }, { scale: 1, opacity: 1, duration: 0.35, ease: "back.out(2.2)", ...extra }, t);
+      const wiggle = (sel, t, dur) => tl.fromTo(sel, { rotation: -12 }, { rotation: 12, duration: 0.25, ease: "sine.inOut", yoyo: true, repeat: Math.max(1, Math.floor(dur / 0.25)), svgOrigin: "0 0" }, t);
+      const shake = (sel, t, n = 5, a = 1) => tl.fromTo(sel, { rotation: 0 }, { rotation: a, duration: 0.05, yoyo: true, repeat: n, ease: "none" }, t);
+
+
+      const TX = {"tag": "COUNTRY FOCUS · <b>NIGERIA</b>", "title": "Nigeria Water", "locale": "en-US"};
+      const T = [0, 5.74, 12.93, 17.76, 29.04, 39.48, 47.05, 61.5, 72.27, 75.71, 78.71];
+      const RED = "#d64545";
+      const at = (li, f) => LINES[li][0] + LINES[li][1] * f;
+      const iAqua = `<g stroke="${INK}" stroke-width="9" fill="none" stroke-linejoin="round"><path d="M80 14 C80 14 38 66 38 96 a42 42 0 0 0 84 0 C122 66 80 14 80 14 Z"/></g><circle cx="80" cy="96" r="18" fill="${BLUE}"/>`;
+      const iClock = `<circle cx="80" cy="80" r="64" fill="#fff" stroke="${INK}" stroke-width="9"/><circle cx="80" cy="80" r="7" fill="${INK}"/>`;
+      const iFlask = `<g stroke="${INK}" stroke-width="8" fill="#fff" stroke-linejoin="round" stroke-linecap="round"><path d="M60 14 L100 14 M66 14 L66 64 L22 142 L138 142 L94 64 L94 14"/></g><path d="M42 108 L118 108 L132 138 L28 138 Z" fill="${SKY}"/>`;
+      const iTab = `<path d="M18 70 V92 A62 24 0 0 0 142 92 V70" fill="${SKY}" stroke="${INK}" stroke-width="8"/><ellipse cx="80" cy="70" rx="62" ry="24" fill="#fff" stroke="${INK}" stroke-width="8"/><line x1="46" y1="70" x2="114" y2="70" stroke="${BLUE}" stroke-width="7" stroke-linecap="round"/>`;
+      const iBox = `<path d="M20 50 L80 22 L140 50 L140 124 L80 150 L20 124 Z" fill="#fff" stroke="${INK}" stroke-width="8" stroke-linejoin="round"/><path d="M20 50 L80 78 L140 50 M80 78 L80 150" fill="none" stroke="${BLUE}" stroke-width="7"/><text x="112" y="116" text-anchor="middle" font-family="Cap" font-weight="900" font-size="26" fill="${INK}" transform="rotate(-22 112 116)">100</text>`;
+      const iChart = `<g stroke="${INK}" stroke-width="7" fill="#fff"><path d="M14 146 H146" stroke-linecap="round"/><rect class="br" x="30" y="96" width="24" height="44" stroke="${BLUE}"/><rect class="br" x="68" y="66" width="24" height="74"/><rect class="br" x="106" y="36" width="24" height="104" stroke="${BLUE}"/></g>`;
+      const iPeople = `<g stroke="${INK}" stroke-width="7" fill="#fff" stroke-linecap="round"><circle cx="58" cy="50" r="20"/><path d="M22 140 C22 106 38 92 58 92 S94 106 94 140"/><circle cx="110" cy="58" r="16" stroke="${BLUE}"/><path d="M88 140 C90 116 98 106 110 106 S132 116 136 140" stroke="${BLUE}"/></g>`;
+      const iTruck = `<g stroke="${INK}" stroke-width="6" fill="#fff" stroke-linejoin="round"><rect x="10" y="50" width="86" height="56" rx="6"/><path d="M96 66 H124 L146 88 V106 H96 Z"/><circle cx="38" cy="114" r="13"/><circle cx="118" cy="114" r="13"/><rect x="24" y="64" width="22" height="26" fill="${SKY}"/><rect x="54" y="64" width="22" height="26" fill="${SKY}"/></g>`;
+      const iCycle = `<g stroke="${BLUE}" stroke-width="9" fill="none" stroke-linecap="round"><path d="M126 70 A50 50 0 0 0 38 54"/><path d="M34 90 A50 50 0 0 0 122 106"/><path d="M38 30 L38 56 L64 56"/><path d="M122 130 L122 104 L96 104"/></g><path d="M62 82 L76 96 L100 70" stroke="${INK}" stroke-width="9" fill="none" stroke-linecap="round" stroke-linejoin="round"/>`;
+      const iNgo = `<path d="M80 140 C80 140 20 106 20 64 a30 30 0 0 1 60 -10 a30 30 0 0 1 60 10 C140 106 80 140 80 140Z" fill="#fff" stroke="${INK}" stroke-width="8"/>`;
+      const iGov = `<g stroke="${INK}" stroke-width="8" fill="#fff" stroke-linejoin="round"><path d="M16 56 L80 22 L144 56 Z"/><path d="M14 140 H146"/></g><path d="M34 66 V126 M64 66 V126 M96 66 V126 M126 66 V126" stroke="${BLUE}" stroke-width="8"/>`;
+      const iInv = `<g stroke="${INK}" stroke-width="8" fill="none" stroke-linecap="round"><path d="M14 140 H146"/></g><path d="M22 116 L58 80 L82 100 L134 46 M106 46 H134 V74" stroke="${BLUE}" stroke-width="9" fill="none" stroke-linecap="round" stroke-linejoin="round"/>`;
+      const iGlobe = `<circle cx="80" cy="80" r="62" fill="${SKY}" stroke="${INK}" stroke-width="8"/><ellipse cx="80" cy="80" rx="26" ry="62" fill="none" stroke="${BLUE}" stroke-width="6"/><path d="M18 80 H142 M28 46 H132 M28 114 H132" stroke="${BLUE}" stroke-width="6" fill="none"/>`;
+      const iChat = `<path d="M16 24 H144 V108 H70 L40 134 V108 H16 Z" fill="#fff" stroke="${INK}" stroke-width="8" stroke-linejoin="round"/><path d="M40 56 H120 M40 80 H96" stroke="${BLUE}" stroke-width="8" stroke-linecap="round"/>`;
+      const iScale = `<g stroke="${INK}" stroke-width="5">${[[40, 50], [80, 40], [120, 52], [52, 92], [96, 88], [72, 128], [118, 120]].map(([x, y]) => `<circle cx="${x}" cy="${y}" r="16" fill="${SKY}"/><circle cx="${x}" cy="${y}" r="6" fill="${BLUE}" stroke="none"/>`).join("")}</g>`;
+      const svgI = (icon, w) => `<svg viewBox="0 0 160 160" width="${w}" height="${w}">${icon}</svg>`;
+      const card = (id, left, top, w, icon, label, isz = 170, fs = 46) => `<div id="${id}" class="abs card" style="left:${left}px;top:${top}px;width:${w}px;padding:16px 10px">${svgI(icon, isz)}<div class="label" style="font-size:${fs}px;line-height:1.05">${label}</div></div>`;
+      const chipAt = (id, top, html, size = 60, bg = BLUE, rot = 0) => `<div id="${id}" class="abs" style="left:0;top:${top}px;width:1080px;text-align:center"><span class="chip" style="font-size:${size}px;background:${bg};display:inline-block;transform:rotate(${rot}deg)">${html}</span></div>`;
+      const center = (id, top, html) => `<div id="${id}" class="abs" style="left:0;top:${top}px;width:1080px;text-align:center">${html}</div>`;
+      const tracker = (sid, labels, cur) => `<div class="abs" style="left:60px;top:10px;width:960px;display:flex;gap:12px">${labels.map((l, k) => `<div style="flex:1"><div style="height:16px;border-radius:8px;background:${k < cur ? BLUE : "#d5dee8"}" id="${sid}s${k}"></div><div style="font-family:Cap;font-weight:900;font-size:${labels.length > 4 ? 24 : 30}px;margin-top:8px;color:${k <= cur ? INK : "#9aa8b8"}">${l}</div></div>`).join("")}</div>`;
+      const trackOn = (sid, k, t) => tl.to(`#${sid}s${k}`, { backgroundColor: BLUE, duration: 0.25 }, t);
+      const stepNum = (id, n) => `<div id="${id}" class="abs" style="left:60px;top:120px;width:140px;height:140px;border-radius:70px;background:${BLUE};color:#fff;font-family:Cap;font-weight:900;font-size:90px;display:flex;align-items:center;justify-content:center;border:7px solid ${INK}">${n}</div>`;
+      const endCard = (sid) => { add(sid, `<div class="abs" style="left:0;top:120px;width:1080px;text-align:center"><img id="logo" src="assets/logo.png" style="width:420px;height:420px" /><div id="e2" style="font-family:Cap;font-weight:900;font-size:60px;margin-top:20px">aquacoreglobal.com</div></div>`); };
+
+      const MAP = {"name": "Nigeria", "w": 820, "h": 820, "d": "M321.23,718.518L315.116,720.565L310.883,720.11L316.527,711.352L319.349,713.286L323.111,714.082ZM733.217,103.596L743.563,118.063L754.616,133.564L763.081,145.676L769.43,176.846L770.136,182.771L770.606,185.442L771.076,187.881L771.782,192.177L776.72,194.035L786.126,194.847L792.945,197.865L796.943,202.971L797.178,203.783L799.295,207.727L800,210.511L799.295,218.743L797.884,229.173L795.532,235.892L796.943,245.039L796.473,248.974L795.532,251.635L791.299,254.76L785.656,257.767L772.252,266.557L768.254,267.944L762.611,268.175L757.673,270.372L751.794,275.111L739.331,292.901L728.514,310.675L724.751,325.437L720.754,339.497L711.348,348.481L709.937,353.547L709.466,356.425L709.231,363.216L708.055,374.376L706.645,379.781L704.998,381.391L694.887,384.84L689.008,388.864L685.481,397.023L684.305,405.869L682.189,415.86L681.013,424.585L679.367,429.175L676.075,433.994L670.901,439.042L666.434,442.024L654.676,443.859L648.562,455.439L643.624,464.493L643.389,468.16L638.45,486.943L629.985,501.137L629.279,506.172L629.279,510.176L618.698,522.642L615.876,526.301L613.054,531.103L615.876,535.789L618.698,540.018L619.168,541.389L614.465,545.389L605.999,552.244L600.826,556.356L599.65,558.64L598.945,568.917L597.534,571.772L594.242,575.539L589.304,579.762L584.13,582.958L578.487,585.24L573.078,586.039L570.021,584.67L568.14,581.588L565.083,568.917L563.437,566.177L559.91,563.779L552.855,556.813L545.8,549.845L537.335,544.932L535.454,545.274L534.043,546.646L531.456,553.614L529.105,556.241L524.637,557.155L516.877,557.155L510.998,556.241L509.822,554.757L508.646,551.787L507,549.273L500.181,554.185L489.364,561.952L485.837,563.322L483.25,564.807L479.723,572.114L475.49,579.876L469.846,583.871L464.438,587.294L461.146,590.261L456.678,593.798L447.977,602.581L436.219,614.214L432.222,620.256L427.989,629.147L425.638,639.062L423.051,649.999L419.289,667.424L413.645,677.328L408.942,685.182L405.179,691.328L403.298,696.449L402.593,696.335L400.711,698.497L395.303,697.018L392.716,692.58L389.424,691.897L383.545,685.41L382.37,686.434L388.484,702.934L386.132,709.419L368.966,709.532L353.916,711.694L343.805,711.58L338.631,709.191L336.28,703.048L335.574,703.617L334.869,707.03L331.812,709.532L320.289,710.101L315.116,705.892L311.118,701.114L306.651,699.066L307.356,701L312.529,705.665L311.824,712.262L302.653,719.883L296.774,720.338L293.012,717.04L291.131,711.694L290.19,703.731L287.838,698.497L286.427,698.497L287.603,703.275L288.074,707.143L288.074,715.22L292.541,721.475L285.722,723.408L283.135,723.522L277.727,723.636L276.786,721.361L275.61,716.13L274.2,714.765L272.554,723.636L269.026,724.204L266.675,724.091L255.858,726.024L253.506,725.683L253.036,724.091L254.447,721.589L253.976,717.608L250.449,720.679L249.744,726.82L247.627,727.73L241.278,726.934L234.459,723.749L230.226,720.565L223.172,716.13L209.533,703.503L207.181,697.928L203.184,690.987L200.362,683.93L196.129,671.978L197.305,671.067L200.597,672.092L202.243,670.384L196.364,669.018L195.188,667.651L194.953,663.438L195.188,658.314L199.656,656.491L203.889,655.58L205.77,652.505L206.946,649.315L196.364,654.099L186.253,648.746L184.136,645.442L185.077,642.936L190.015,642.594L196.834,642.708L200.832,640.315L198.481,639.404L194.013,639.517L192.367,637.922L192.367,634.048L190.956,634.846L189.074,638.378L182.255,640.885L178.493,638.378L178.022,632.68L177.082,630.059L173.79,628.121L162.032,613.073L147.217,600.528L133.814,591.858L114.061,587.751L72.204,587.979L69.852,586.724L72.439,584.784L76.201,583.414L89.605,576.452L87.254,575.539L73.38,579.876L68.441,580.333L62.327,588.778L25.644,590.147L21.176,590.489L21.411,586.724L23.057,575.653L24.233,571.315L25.644,568.004L24.233,564.122L22.822,558.754L22.116,550.301L23.998,547.788L24.468,544.589L24.233,539.675L24.233,523.1L25.173,521.27L26.349,519.898L26.349,517.611L24.233,513.379L22.116,508.46L22.116,501.48L21.411,494.613L20,491.523L20.941,479.844L21.646,465.181L20.941,458.649L22.352,454.064L23.057,442.597L23.057,431.47L25.644,413.908L33.874,413.105L43.28,411.612L47.748,404.721L50.099,395.874L49.394,387.254L51.275,384.38L55.038,379.666L61.857,372.995L61.622,365.632L63.503,363.331L66.795,361.605L71.498,360.684L76.907,357.001L79.729,350.553L82.55,340.303L78.083,333.044L78.083,331.546L79.964,327.627L82.55,323.707L84.902,322.554L90.075,323.477L90.781,323.131L91.721,321.978L95.014,310.56L94.543,307.445L89.84,299.828L89.135,294.402L88.429,286.318L87.254,279.156L85.843,276.498L83.256,274.186L82.08,272.684L72.204,258.114L72.439,251.173L76.672,242.376L79.258,238.092L83.021,235.66L83.726,233.691L82.786,231.143L80.904,229.289L80.434,225.35L80.904,222.684L82.315,219.787L81.845,213.642L81.845,204.363L82.55,190.668L82.55,182.423L90.781,176.265L102.303,165.92L108.182,155.336L111.474,147.189L115.472,120.161L118.294,118.529L121.586,117.246L133.343,107.447L142.279,103.83L149.099,101.729L159.445,99.861L166.03,100.561L177.552,101.028L186.958,100.094L194.718,94.723L198.245,93.205L203.184,92.27L225.758,99.51L248.333,106.397L252.566,105.697L255.858,106.631L261.501,110.364L269.967,118.296L274.905,123.426L277.257,126.456L289.014,143.697L293.247,148.004L297.48,150.332L301.948,151.147L305.475,150.914L308.532,148.935L313,145.094L319.584,143.348L324.992,143.697L353.211,128.205L356.033,128.088L364.028,129.253L373.199,131.351L396.714,146.956L415.996,157.081L429.635,160.454L445.39,162.896L472.668,163.594L493.126,141.834L500.651,137.059L509.822,132.749L512.644,132.05L528.634,128.787L560.38,125.99L589.774,127.156L595.653,128.088L608.351,130.885L627.633,137.991L636.099,144.861L649.032,145.909L658.438,144.628L661.73,137.874L671.137,129.02L677.956,125.407L685.246,120.744L696.768,115.03L706.174,112.464L714.875,105.814L721.459,103.83Z", "pts": [[210, 100], [135, 130], [165, 130], [195, 130], [225, 130], [255, 130], [525, 130], [555, 130], [585, 130], [675, 130], [705, 130], [735, 130], [120, 160], [150, 160], [180, 160], [210, 160], [240, 160], [270, 160], [300, 160], [330, 160], [360, 160], [390, 160], [420, 160], [480, 160], [510, 160], [540, 160], [570, 160], [600, 160], [630, 160], [660, 160], [690, 160], [720, 160], [750, 160], [105, 190], [135, 190], [165, 190], [195, 190], [225, 190], [255, 190], [285, 190], [315, 190], [345, 190], [375, 190], [405, 190], [435, 190], [465, 190], [495, 190], [525, 190], [555, 190], [585, 190], [615, 190], [645, 190], [675, 190], [705, 190], [735, 190], [765, 190], [90, 220], [120, 220], [150, 220], [180, 220], [210, 220], [240, 220], [270, 220], [300, 220], [330, 220], [360, 220], [390, 220], [420, 220], [450, 220], [480, 220], [510, 220], [540, 220], [570, 220], [600, 220], [630, 220], [660, 220], [690, 220], [720, 220], [750, 220], [780, 220], [75, 250], [105, 250], [135, 250], [165, 250], [195, 250], [225, 250], [255, 250], [285, 250], [315, 250], [345, 250], [375, 250], [405, 250], [435, 250], [465, 250], [495, 250], [525, 250], [555, 250], [585, 250], [615, 250], [645, 250], [675, 250], [705, 250], [735, 250], [765, 250], [795, 250], [90, 280], [120, 280], [150, 280], [180, 280], [210, 280], [240, 280], [270, 280], [300, 280], [330, 280], [360, 280], [390, 280], [420, 280], [450, 280], [480, 280], [510, 280], [540, 280], [570, 280], [600, 280], [630, 280], [660, 280], [690, 280], [720, 280], [105, 310], [135, 310], [165, 310], [195, 310], [225, 310], [255, 310], [285, 310], [315, 310], [345, 310], [375, 310], [405, 310], [435, 310], [465, 310], [495, 310], [525, 310], [555, 310], [585, 310], [615, 310], [645, 310], [675, 310], [705, 310], [90, 340], [120, 340], [150, 340], [180, 340], [210, 340], [240, 340], [270, 340], [300, 340], [330, 340], [360, 340], [390, 340], [420, 340], [450, 340], [480, 340], [510, 340], [540, 340], [570, 340], [600, 340], [630, 340], [660, 340], [690, 340], [720, 340], [75, 370], [105, 370], [135, 370], [165, 370], [195, 370], [225, 370], [255, 370], [285, 370], [315, 370], [345, 370], [375, 370], [405, 370], [435, 370], [465, 370], [495, 370], [525, 370], [555, 370], [585, 370], [615, 370], [645, 370], [675, 370], [705, 370], [60, 400], [90, 400], [120, 400], [150, 400], [180, 400], [210, 400], [240, 400], [270, 400], [300, 400], [330, 400], [360, 400], [390, 400], [420, 400], [450, 400], [480, 400], [510, 400], [540, 400], [570, 400], [600, 400], [630, 400], [660, 400], [45, 430], [75, 430], [105, 430], [135, 430], [165, 430], [195, 430], [225, 430], [255, 430], [285, 430], [315, 430], [345, 430], [375, 430], [405, 430], [435, 430], [465, 430], [495, 430], [525, 430], [555, 430], [585, 430], [615, 430], [645, 430], [675, 430], [30, 460], [60, 460], [90, 460], [120, 460], [150, 460], [180, 460], [210, 460], [240, 460], [270, 460], [300, 460], [330, 460], [360, 460], [390, 460], [420, 460], [450, 460], [480, 460], [510, 460], [540, 460], [570, 460], [600, 460], [630, 460], [45, 490], [75, 490], [105, 490], [135, 490], [165, 490], [195, 490], [225, 490], [255, 490], [285, 490], [315, 490], [345, 490], [375, 490], [405, 490], [435, 490], [465, 490], [495, 490], [525, 490], [555, 490], [585, 490], [615, 490], [30, 520], [60, 520], [90, 520], [120, 520], [150, 520], [180, 520], [210, 520], [240, 520], [270, 520], [300, 520], [330, 520], [360, 520], [390, 520], [420, 520], [450, 520], [480, 520], [510, 520], [540, 520], [570, 520], [600, 520], [45, 550], [75, 550], [105, 550], [135, 550], [165, 550], [195, 550], [225, 550], [255, 550], [285, 550], [315, 550], [345, 550], [375, 550], [405, 550], [435, 550], [465, 550], [495, 550], [525, 550], [555, 550], [585, 550], [30, 580], [60, 580], [90, 580], [120, 580], [150, 580], [180, 580], [210, 580], [240, 580], [270, 580], [300, 580], [330, 580], [360, 580], [390, 580], [420, 580], [450, 580], [570, 580], [165, 610], [195, 610], [225, 610], [255, 610], [285, 610], [315, 610], [345, 610], [375, 610], [405, 610], [435, 610], [210, 640], [240, 640], [270, 640], [300, 640], [330, 640], [360, 640], [390, 640], [420, 640], [225, 670], [255, 670], [285, 670], [315, 670], [345, 670], [375, 670], [405, 670], [210, 700], [240, 700], [270, 700], [300, 700], [330, 700], [360, 700]]};
+      const mapSvg = (id, w, extra = "") => `<svg id="${id}" viewBox="0 0 ${MAP.w} ${MAP.h}" width="${w}" height="${w}"><path d="${MAP.d}" fill="${SKY}" stroke="${INK}" stroke-width="7" stroke-linejoin="round"/>${extra}</svg>`;
+      const fmt = (v) => Math.round(v).toLocaleString("en-US");
+      const counter = (id, to, t, dur, suffix = "") => { const o = { v: 0 }; tl.to(o, { v: to, duration: dur, ease: "power2.out", onUpdate: () => { document.getElementById(id).textContent = fmt(o.v) + suffix; } }, t); };
+      const srcLine = (id, text) => `<div id="${id}" class="abs" style="left:0;top:950px;width:1080px;text-align:center;font-family:Cap;font-weight:800;font-size:28px;color:${MUTED}">${text}</div>`;
+      const ORANGE = "#f2994a";
+      // Amina = stick figure + headwrap + skirt overlay (same 200x360 viewBox as figure())
+      const amina = (id, left, top, w, face = "smile", prop = "") => figure(id, { left, top, w, face, prop }) +
+        `<svg id="${id}_o" class="abs" style="left:${left}px;top:${top}px" viewBox="0 0 200 360" width="${w}" height="${w * 1.8}"><path d="M54 66 Q100 4 146 66 Q100 44 54 66 Z" fill="${ORANGE}" stroke="${INK}" stroke-width="6" stroke-linejoin="round"/><path d="M100 196 L56 286 L144 286 Z" fill="${ORANGE}" stroke="${INK}" stroke-width="6" stroke-linejoin="round"/></svg>`;
+      const iCanS = `<g stroke="${INK}" stroke-width="8" stroke-linejoin="round"><path d="M34 50 L126 50 L126 146 L34 146 Z" fill="${SKY}"/><path d="M62 50 L62 30 L98 30 L98 50" fill="#fff"/></g>`;
+      const iWell = `<g stroke="${INK}" stroke-width="7" fill="#fff" stroke-linejoin="round"><rect x="30" y="90" width="100" height="56"/><path d="M40 90 L40 40 M120 90 L120 40 M24 40 L136 40"/><path d="M80 40 L80 70"/><rect x="68" y="70" width="24" height="18" fill="${SKY}"/></g>`;
+      const iPlan = `<g stroke="${INK}" stroke-width="8" fill="#fff" stroke-linejoin="round"><rect x="34" y="24" width="92" height="120" rx="8"/><rect x="58" y="14" width="44" height="22" rx="6" fill="${SKY}"/></g><path d="M52 64 H108 M52 88 H108 M52 112 H88" stroke="${BLUE}" stroke-width="8" stroke-linecap="round"/>`;
+      const iSyr = `<g stroke="${INK}" stroke-width="8" fill="#fff" stroke-linecap="round" stroke-linejoin="round"><rect x="40" y="56" width="80" height="34" rx="6" transform="rotate(-35 80 73)"/><path d="M114 40 L138 22 M126 32 L136 44 M44 104 L22 128"/></g><rect x="52" y="62" width="40" height="22" fill="${BLUE}" transform="rotate(-35 80 73)"/>`;
+      const iPot = `<g stroke="${INK}" stroke-width="8" fill="#fff" stroke-linejoin="round" stroke-linecap="round"><path d="M20 70 L140 70 L130 140 L30 140 Z"/><path d="M8 70 L152 70"/></g>`;
+      const iFilter = `<g stroke="${INK}" stroke-width="8" fill="#fff" stroke-linejoin="round"><path d="M20 30 L140 30 L100 90 L100 140 L60 140 L60 90 Z"/><path d="M36 54 L124 54" stroke="#8a7660" stroke-width="12"/></g>`;
+      const cross = `<g stroke="${RED}" stroke-width="14" stroke-linecap="round"><line x1="24" y1="24" x2="136" y2="136"/><line x1="136" y1="24" x2="24" y2="136"/></g>`;
+
+      /* S0 · sunrise walk */
+      add("s0", `<svg class="abs" style="left:0;top:0" width="1080" height="1080"><circle id="sun0" cx="820" cy="560" r="90" fill="#ffd34d" stroke="${INK}" stroke-width="7"/><rect x="0" y="560" width="1080" height="520" fill="#fff"/><path d="M0 560 H1080" stroke="${INK}" stroke-width="8"/><path d="M0 700 Q300 670 540 700 T1080 690" stroke="#8a7660" stroke-width="10" stroke-dasharray="26 16" fill="none"/></svg>`);
+      add("s0", `<div id="am0w" class="abs" style="left:0;top:0;width:1080px;height:1080px">${amina("am0", 120, 360, 200, "smile")}<div class="abs" style="left:290px;top:560px">${svgI(iCanS, 110)}</div></div>`);
+      add("s0", `<div id="tm0" class="abs" style="left:60px;top:40px"><span class="chip" style="font-size:44px">5:30 AM</span></div><div id="il0" class="abs" style="left:640px;top:50px;font-family:Hand;font-size:34px;color:${MUTED}">illustrative story</div>`);
+      add("s0", `<div id="nm0" class="abs" style="left:0;top:860px;width:1080px;text-align:center;font-family:Cap;font-weight:900;font-size:90px">MEET <span style="color:${ORANGE}">AMINA</span></div>`);
+      tl.set(["#nm0"], { opacity: 0 }, 0);
+      tl.fromTo("#sun0", { y: 160 }, { y: -180, duration: 4.5, ease: "power1.out" }, 0);
+      tl.fromTo("#am0w", { x: -260 }, { x: 420, duration: 5.2, ease: "none" }, 0.1);
+      tl.fromTo("#am0w", { y: 0 }, { y: -8, duration: 0.25, yoyo: true, repeat: 19, ease: "sine.inOut" }, 0.1);
+      pop("#tm0", 0.1); pop("#nm0", at(0, 0.05));
+
+      /* S1 · 163 million, 7 in 10 */
+      let d1 = ""; MAP.pts.forEach((p, i) => { if (i % 2 === 0) d1 += `<circle class="d1" cx="${p[0]}" cy="${p[1]}" r="8" fill="${INK}"/>`; });
+      add("s1", `<div id="m1" class="abs" style="left:260px;top:20px">${mapSvg("map1", 560, d1 + `<circle id="me1" cx="${MAP.pts[120][0]}" cy="${MAP.pts[120][1]}" r="18" fill="${ORANGE}" stroke="${INK}" stroke-width="5"/>`)}</div>`);
+      add("s1", `<div id="n1" class="abs" style="left:0;top:600px;width:1080px;text-align:center;font-family:Cap;font-weight:900;font-size:140px;line-height:1">0</div><div id="l1" class="abs label" style="left:0;top:760px;width:1080px;font-size:52px">Nigerians without safe water at home</div>` + chipAt("s1c", 860, "7 IN 10 PEOPLE", 64) + srcLine("sr1", "Source: WHO/UNICEF JMP 2025 (2024 data)"));
+      tl.set([".d1", "#l1", "#s1c"], { opacity: 0 }, T[1]);
+      tl.fromTo("#s1 .cam", focus(540 - 260 + MAP.pts[120][0] * 560 / MAP.w, 20 + MAP.pts[120][1] * 560 / MAP.h, 3.2), { ...focus(540, 500, 1.0), duration: 1.6, ease: "power2.inOut" }, T[1]);
+      tl.to(".d1", { opacity: 1, duration: 0.05, stagger: { each: 0.01, from: "random" } }, T[1] + 0.6);
+      counter("n1", 163000000, at(1, 0.1), 1.6); pop("#l1", at(1, 0.2)); pop("#s1c", at(1, 0.72), { rotation: -2 });
+
+      /* S2 · the well */
+      add("s2", `<div id="wl2" class="abs" style="left:80px;top:300px">${svgI(iWell, 380)}</div>` + amina("am2", 470, 330, 200, "smile") + glass("g2", { left: 760, top: 360, w: 240, extra: `<g id="gm2">${bacterium(60, 130, 0.6, "")}${virus(100, 175, 0.5, "")}</g>` }) + `<div id="ln2" class="abs" style="left:740px;top:400px;width:280px;height:280px"><svg viewBox="0 0 300 300" width="280" height="280"><circle cx="140" cy="140" r="110" fill="none" stroke="${INK}" stroke-width="14"/><line x1="220" y1="220" x2="290" y2="290" stroke="${INK}" stroke-width="22" stroke-linecap="round"/></svg></div>`);
+      add("s2", `<div id="c2a" class="abs" style="left:60px;top:60px"><span class="chip" style="font-size:44px">LOOKS CLEAN ✓</span></div><div id="c2b" class="abs" style="left:560px;top:60px"><span class="chip" style="font-size:44px">LOOKS CLEAR ✓</span></div>` + chipAt("c2c", 840, "BUT GERMS HIDE INSIDE ✗", 54, RED, -2));
+      tl.set(["#gm2", "#ln2", "#c2a", "#c2b", "#c2c"], { opacity: 0 }, T[2]);
+      pop("#wl2", T[2] + 0.05); pop("#am2", T[2] + 0.1); tl.set("#am2_o", { opacity: 0 }, T[2]); tl.to("#am2_o", { opacity: 1, duration: 0.2 }, T[2] + 0.2);
+      pop("#c2a", at(2, 0.05)); pop("#g2", at(2, 0.25)); pop("#c2b", at(2, 0.3));
+      tl.fromTo("#ln2", { x: 300, opacity: 0 }, { x: 0, opacity: 1, duration: 0.4 }, at(2, 0.6)); tl.to("#gm2", { opacity: 1, duration: 0.2 }, at(2, 0.72)); wiggle("#gm2 .wig", at(2, 0.72), 1.0);
+      pop("#c2c", at(2, 0.75), { rotation: -2 }); setFace(tl, "am2", "worry", at(2, 0.75));
+
+      /* S3 · cholera 2024 */
+      let ppl = ""; for (let r = 0; r < 10; r++) for (let c = 0; c < 10; c++) { const k = r * 10 + c; ppl += `<circle class="pp3 ${[23, 57, 81].includes(k) ? "rd3" : ""}" cx="${60 + c * 44}" cy="${60 + r * 44}" r="15" fill="#fff" stroke="${INK}" stroke-width="4"/>`; }
+      add("s3", `<svg id="pg3" class="abs" style="left:40px;top:300px" width="520" height="520">${ppl}</svg>`);
+      add("s3", `<div id="k3" class="abs" style="left:590px;top:300px;width:470px"><div id="k3a"><div id="n3a" style="font-family:Cap;font-weight:900;font-size:96px">0</div><div class="label" style="font-size:42px;text-align:left">cholera cases in 2024</div></div><div id="k3b" style="margin-top:26px"><div id="n3b" style="font-family:Cap;font-weight:900;font-size:96px;color:${RED}">0</div><div class="label" style="font-size:42px;text-align:left">deaths</div></div></div>` + chipAt("c3", 40, "3 IN 100 WHO GOT SICK DIED", 50, RED) + srcLine("sr3", "Source: WHO global cholera report 2024 (WER, Sep 2025)"));
+      tl.set(["#k3a", "#k3b", "#c3", ".pp3"], { opacity: 0 }, T[3]);
+      tl.set("#k3a", { opacity: 1 }, at(3, 0.08)); counter("n3a", 24841, at(3, 0.08), 1.4);
+      tl.set("#k3b", { opacity: 1 }, at(3, 0.4)); counter("n3b", 734, at(3, 0.4), 1.0);
+      tl.to(".pp3", { opacity: 1, duration: 0.05, stagger: 0.012 }, at(3, 0.55));
+      tl.to(".rd3", { attr: { fill: RED }, duration: 0.2, stagger: 0.15 }, at(3, 0.8)); pop("#c3", at(3, 0.78));
+
+      /* S4 · response */
+      add("s4", chipAt("c4", 40, "NIGERIA CDC + WHO", 60) + card("c4a", 40, 220, 310, iPlan, "contingency plans") + card("c4b", 385, 220, 310, iFlask, "more lab testing") + card("c4c", 730, 220, 310, iSyr, "emergency vaccination") + srcLine("sr4", "Source: WHO Joint External Evaluation, Nigeria 2024 · WHO WER 2025"));
+      tl.set(["#c4", "#c4a", "#c4b", "#c4c"], { opacity: 0 }, T[4]);
+      tl.fromTo("#s4 .cam", focus(540, 400, 1.06), { ...focus(540, 480, 1.0), duration: 4, ease: "none" }, T[4]);
+      pop("#c4", T[4] + 0.05); pop("#c4a", at(4, 0.4)); pop("#c4b", at(4, 0.55)); pop("#c4c", at(4, 0.72));
+
+      /* S5 · at home: no fuel, filter upkeep */
+      add("s5", amina("am5", 440, 40, 200, "worry") + `<div id="p5" class="abs" style="left:80px;top:520px;width:380px;text-align:center"><svg viewBox="0 0 160 160" width="230" height="230">${iPot}${cross}</svg><div class="label" style="font-size:52px">no fuel to spare</div></div><div id="f5" class="abs" style="left:620px;top:520px;width:380px;text-align:center"><svg viewBox="0 0 160 160" width="230" height="230">${iFilter}${cross}</svg><div class="label" style="font-size:52px">filter upkeep</div></div>`);
+      tl.set(["#p5", "#f5"], { opacity: 0 }, T[5]);
+      pop("#am5", T[5] + 0.05); pop("#p5", at(5, 0.5)); pop("#f5", at(5, 0.8));
+
+      /* S6 · AquaCore */
+      add("s6", `<div id="br6" class="abs" style="left:0;top:10px;width:1080px;text-align:center"><svg viewBox="0 0 160 160" width="110" height="110">${iAqua}</svg><span style="font-family:Cap;font-weight:900;font-size:70px;vertical-align:top;line-height:110px"> AQUA<span style="color:${BLUE}">CORE</span></span></div>`);
+      add("s6", `<div id="cn6" class="abs" style="left:80px;top:220px">${svgI(iCanS + `<text x="80" y="112" text-anchor="middle" font-family="Cap" font-weight="900" font-size="30" fill="${INK}">25 L</text>`, 260)}</div><div id="tb6" class="abs" style="left:140px;top:-120px">${svgI(iTab, 140)}</div><div id="ck6" class="abs" style="left:380px;top:240px;width:260px;text-align:center"><svg viewBox="0 0 160 160" width="200" height="200">${iClock}<line id="hd6" x1="80" y1="80" x2="80" y2="30" stroke="${BLUE}" stroke-width="10" stroke-linecap="round"/></svg><div class="chip" style="display:inline-block;font-size:40px">30 MIN</div></div>`);
+      add("s6", `<div id="kd6" class="abs" style="left:0;top:0;width:1080px;height:1080px">${figure("kd6a", { left: 720, top: 230, w: 140, prop: "glass", face: "smile" })}${figure("kd6b", { left: 880, top: 250, w: 130, prop: "glass", face: "smile" })}</div>`);
+      add("s6", chipAt("lb6", 640, "TESTED BY NATIONAL LABS ✓", 48) + `<div id="lb6c" class="abs label" style="left:0;top:750px;width:1080px;font-size:52px">E. coli · Salmonella · cholera <span style="color:${BLUE}">eliminated</span></div><div id="lb6b" class="abs" style="left:0;top:860px;width:1080px;text-align:center;font-family:Cap;font-weight:800;font-size:30px;color:${MUTED}">Centre Pasteur du Cameroun 2012 · LANSPEX Niger 2017</div>`);
+      tl.set(["#br6", "#ck6", "#kd6", "#lb6", "#lb6b", "#lb6c", "#tb6"], { opacity: 0 }, T[6]);
+      pop("#br6", T[6] + 0.05); pop("#cn6", T[6] + 0.1);
+      tl.set("#tb6", { opacity: 1 }, at(6, 0.08)); tl.fromTo("#tb6", { y: 0 }, { y: 420, duration: 0.45, ease: "power2.in" }, at(6, 0.08)); tl.to("#tb6", { opacity: 0, duration: 0.1 }, at(6, 0.08) + 0.45);
+      pop("#ck6", at(6, 0.25)); tl.fromTo("#hd6", { rotation: 0 }, { rotation: 360, svgOrigin: "80 80", duration: 1.2 }, at(6, 0.27));
+      tl.to("#kd6", { opacity: 1, duration: 0.3 }, at(6, 0.38)); tl.fromTo("#kd6a .armR, #kd6b .armR", { rotation: 0 }, { rotation: -60, svgOrigin: "100 150", duration: 0.4, yoyo: true, repeat: 1 }, at(6, 0.45));
+      pop("#lb6", at(6, 0.58)); pop("#lb6c", at(6, 0.72)); pop("#lb6b", at(6, 0.8));
+
+      /* S7 · pilot */
+      const PS = [[iBox, "we send 100 tablets", 0.2], [iFlask, "your local lab tests before &amp; after", 0.38], [iChart, "we size the program", 0.62], [iTruck, "we deploy", 0.78], [iScale, "and scale", 0.9]];
+      add("s7", chipAt("pt7", 10, "IT STARTS WITH A PILOT", 52) + PS.map(([ic, lab], k) => `<div id="ps7_${k}" class="abs" style="left:60px;top:${130 + k * 165}px;width:960px;height:150px;display:flex;align-items:center;gap:26px"><div style="width:84px;height:84px;border-radius:42px;background:${BLUE};color:#fff;font-family:Cap;font-weight:900;font-size:44px;display:flex;align-items:center;justify-content:center;flex:none">${k + 1}</div>${svgI(ic, 140)}<div class="label" style="text-align:left;font-size:54px;line-height:1.05">${lab}</div></div>`).join(""));
+      tl.set(["#pt7", ...PS.map((x, k) => `#ps7_${k}`)], { opacity: 0 }, T[7]);
+      pop("#pt7", T[7] + 0.05);
+      PS.forEach((x, k) => tl.fromTo(`#ps7_${k}`, { x: -120, opacity: 0 }, { x: 0, opacity: 1, duration: 0.35, ease: "power2.out" }, at(7, x[2]) - 0.2));
+
+      /* S8 · CTA */
+      add("s8", `<div id="m8" class="abs" style="left:340px;top:20px">${mapSvg("map8", 400)}</div><div id="w8" class="abs label" style="left:40px;top:470px;width:1000px;font-size:64px">Working on water in Nigeria?</div>` + chipAt("p8", 620, "START A PILOT", 96, BLUE, -2) + `<div id="u8" class="abs" style="left:0;top:800px;width:1080px;text-align:center;font-family:Cap;font-weight:900;font-size:50px">aquacoreglobal.com</div>`);
+      tl.set(["#w8", "#p8", "#u8"], { opacity: 0 }, T[8]);
+      pop("#m8", T[8] + 0.05); pop("#w8", at(8, 0.05)); pop("#p8", at(8, 0.5), { rotation: -2 }); pop("#u8", at(8, 0.7));
+
+      /* end card */
+      endCard("s" + (T.length - 2));
+      pop("#logo", T[T.length - 2] + 0.05);
+      tl.fromTo("#e2", { y: 30, opacity: 0 }, { y: 0, opacity: 1, duration: 0.35 }, T[T.length - 2] + 0.3);
+      /* ================= captions ================= */
+      const KEY = /^(amina|sunrise|water|million|nigerians|safe|seven|well|clean|clear|germs|cholera|thousand|deaths|hundred|died|control|testing|vaccination|fuel|filters|aquacore|tablet|litre|minutes|children|labs|coli|salmonella|pilot|scale)$/i;
+      const capsEl = document.getElementById("caps");
+      TIMED.forEach((words, li) => {
+        let chunk = [], chunks = [];
+        words.forEach((x, i) => {
+          chunk.push(x);
+          const len = chunk.map((c) => c.w).join(" ").length;
+          if (/[,.?!:]$/.test(x.w) || chunk.length >= 4 || len > 18 || i === words.length - 1) { chunks.push(chunk); chunk = []; }
+        });
+        chunks.forEach((c, ci) => {
+          const id = `c${li}_${ci}`;
+          capsEl.insertAdjacentHTML("beforeend", `<div id="${id}" class="cap">${c.map((x, wi) => `<span id="${id}_${wi}"${KEY.test(x.w.replace(/[^\w]/g, "")) ? ' class="k"' : ""}>${x.w}</span>`).join(" ")}</div>`);
+          const cs = c[0].t, ce = ci < chunks.length - 1 ? chunks[ci + 1][0].t : c[c.length - 1].t + c[c.length - 1].d + 0.15;
+          tl.fromTo(`#${id}`, { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.08 }, cs);
+          tl.set(`#${id}`, { opacity: 0 }, ce);
+          c.forEach((x, wi) => tl.fromTo(`#${id}_${wi}`, { scale: 1 }, { scale: 1.12, duration: 0.08, yoyo: true, repeat: 1, transformOrigin: "50% 60%" }, x.t));
+        });
+      });
+
+      if (document.documentElement.dataset.format === "landscape") {
+        tl.fromTo("#stage", { scale: 0.92, x: 0, transformOrigin: "0 0" }, { scale: 0.92, x: 0, duration: 0.01 }, 0);
+        tl.to("#stage", { x: 393, duration: 0.5, ease: "power2.inOut" }, 75.71);
+      }
+      tl.set({}, {}, 78.71);
+      window.__timelines = window.__timelines || {};
+      window.__timelines["main"] = tl;
+      tl.seek(0);
+    </script>
+  </body>
+</html>
