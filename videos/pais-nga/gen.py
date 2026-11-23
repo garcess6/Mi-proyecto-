@@ -137,9 +137,9 @@ SCENES = r'''
       PS.forEach((x, k) => tl.fromTo(`#ps7_${k}`, { x: -120, opacity: 0 }, { x: 0, opacity: 1, duration: 0.35, ease: "power2.out" }, at(7, x[2]) - 0.2));
 
       /* S8 · CTA */
-      add("s8", `<div id="m8" class="abs" style="left:340px;top:20px">${mapSvg("map8", 400)}</div><div id="w8" class="abs label" style="left:40px;top:470px;width:1000px;font-size:64px">Working on water in Nigeria?</div>` + chipAt("p8", 620, "START A PILOT", 96, BLUE, -2) + `<div id="u8" class="abs" style="left:0;top:800px;width:1080px;text-align:center;font-family:Cap;font-weight:900;font-size:50px">aquacoreglobal.com</div>`);
-      tl.set(["#w8", "#p8", "#u8"], { opacity: 0 }, T[8]);
-      pop("#m8", T[8] + 0.05); pop("#w8", at(8, 0.05)); pop("#p8", at(8, 0.5), { rotation: -2 }); pop("#u8", at(8, 0.7));
+      add("s8", `<div id="m8" class="abs" style="left:390px;top:10px">${mapSvg("map8", 300)}</div>` + `<div id="fw8" class="abs" style="left:0;top:330px;width:1080px;text-align:center;font-family:Cap;font-weight:900;font-size:42px;white-space:nowrap;letter-spacing:0.02em">FOR <span style="color:${BLUE}">NGOs</span> · <span style="color:${BLUE}">GOVERNMENTS</span> · <span style="color:${BLUE}">INVESTORS</span></div>` + chipAt("p8", 440, "START A PILOT", 92, BLUE, -2) + `<div id="dm8" class="abs" style="left:0;top:610px;width:1080px;text-align:center;font-family:Cap;font-weight:900;font-size:58px">DM us “PILOT”</div>` + `<div id="tg8" class="abs" style="left:140px;top:760px;width:800px;padding:22px 30px;border:7px solid ${INK};border-radius:36px;text-align:center;font-family:Hand;font-size:58px">Know one? <span style="color:${BLUE}">Tag them below</span> 👇</div>`);
+      tl.set(["#fw8", "#p8", "#dm8", "#tg8"], { opacity: 0 }, T[8]);
+      pop("#m8", T[8] + 0.05); pop("#fw8", at(8, 0.08)); pop("#p8", at(8, 0.55), { rotation: -2 }); pop("#dm8", at(8, 0.65)); pop("#tg8", at(8, 0.8));
 
       /* end card */
       endCard("s" + (T.length - 2));

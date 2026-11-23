@@ -53,3 +53,10 @@ Watch the series · How it works · Pilot · About us · Partner
 - LANSPEX Niger, 2017 (0289 y 0753/DI/17/SFR): 10,9 % ClO2; 99,9 % de eficacia contra E. coli, Vibrio cholerae, Salmonella typhi, Shigella y S. aureus en 20 min, pH 5–9, 20–40 °C, a la dosis recomendada.
 - No hay pruebas de parásitos ni de virus en agua: en los vídeos decir solo "bacterias". No mostrar imágenes ni logos de los informes; citarlos solo en texto.
 - Estudio de la competencia (trabajo de bachillerato, 2011): una pastilla de DCCNa (cloro) en agua turbia solo redujo el E. coli a la mitad. Usarlo como idea general, sin nombrar la marca.
+
+## Llamada a la acción de los vídeos por país (desde Nigeria)
+- Pantalla: "FOR NGOs · GOVERNMENTS · INVESTORS" + "START A PILOT" + "DM us 'PILOT'" + "Know one? Tag them below 👇".
+- Voz: "Are you an NGO, a government or an investor working on water in [país]? Start a pilot. Know one? Tag them below."
+- Descripción: terminar con "Know an NGO working on water in [país]? Tag them 👇".
+- Comentario fijado: "We work through NGO and government programs. Tag an organisation in your area, or DM us."
+- Medir por vídeo: visualizaciones, % visto, comentarios/etiquetas, DMs "PILOT". Replicar lo que funcione.

@@ -38,9 +38,9 @@
     </style>
   </head>
   <body>
-    <div id="root" data-composition-id="main" data-start="0" data-duration="78.71" data-width="1920" data-height="1080">
-      <audio id="vo" class="clip" src="assets/voice_en.wav" data-start="0" data-duration="78.71" data-track-index="9"></audio>
-      <div id="tag" class="clip" data-start="0" data-duration="75.71" data-track-index="8">
+    <div id="root" data-composition-id="main" data-start="0" data-duration="83.04" data-width="1920" data-height="1080">
+      <audio id="vo" class="clip" src="assets/voice_en.wav" data-start="0" data-duration="83.04" data-track-index="9"></audio>
+      <div id="tag" class="clip" data-start="0" data-duration="80.04" data-track-index="8">
         <div class="pill">COUNTRY FOCUS · <b>NIGERIA</b></div>
       </div>
       <div id="stage">
@@ -52,8 +52,8 @@
         <div id="s5" class="scene clip" data-start="39.48" data-duration="7.57" data-track-index="1"><div class="cam"></div></div>
         <div id="s6" class="scene clip" data-start="47.05" data-duration="14.45" data-track-index="1"><div class="cam"></div></div>
         <div id="s7" class="scene clip" data-start="61.5" data-duration="10.77" data-track-index="1"><div class="cam"></div></div>
-        <div id="s8" class="scene clip" data-start="72.27" data-duration="3.44" data-track-index="1"><div class="cam"></div></div>
-        <div id="s9" class="scene clip" data-start="75.71" data-duration="3.0" data-track-index="1"><div class="cam"></div></div>
+        <div id="s8" class="scene clip" data-start="72.27" data-duration="7.77" data-track-index="1"><div class="cam"></div></div>
+        <div id="s9" class="scene clip" data-start="80.04" data-duration="3.0" data-track-index="1"><div class="cam"></div></div>
       </div>
       <div id="caps"></div>
     </div>
@@ -79,7 +79,7 @@
         [39.48, 7.13, "But at home, Amina still needs a way to make her water safe. Boiling needs fuel she can't spare. Filters need upkeep."],
         [47.05, 13.99, "With AquaCore, it's one tablet in her twenty-five litre container. Thirty minutes later, her children drink safe water. In tests by national labs in Africa, it eliminated E. coli, Salmonella and cholera bacteria."],
         [61.5, 10.33, "For communities like Amina's, it starts with a pilot: we send a hundred tablets, your local lab tests the water before and after, then we size the program, deploy, and scale."],
-        [72.27, 2.94, "Working on water in Nigeria? Let's start a pilot."],
+        [72.27, 7.27, "Are you an NGO, a government or an investor working on water in Nigeria? Start a pilot. Know one? Tag them below."],
       ];
       const TIMED = LINES.map(([start, dur, text]) => {
         const words = text.split(" ");
@@ -158,7 +158,7 @@
 
 
       const TX = {"tag": "COUNTRY FOCUS · <b>NIGERIA</b>", "title": "Nigeria Water", "locale": "en-US"};
-      const T = [0, 5.74, 12.93, 17.76, 29.04, 39.48, 47.05, 61.5, 72.27, 75.71, 78.71];
+      const T = [0, 5.74, 12.93, 17.76, 29.04, 39.48, 47.05, 61.5, 72.27, 80.04, 83.04];
       const RED = "#d64545";
       const at = (li, f) => LINES[li][0] + LINES[li][1] * f;
       const iAqua = `<g stroke="${INK}" stroke-width="9" fill="none" stroke-linejoin="round"><path d="M80 14 C80 14 38 66 38 96 a42 42 0 0 0 84 0 C122 66 80 14 80 14 Z"/></g><circle cx="80" cy="96" r="18" fill="${BLUE}"/>`;
@@ -272,9 +272,9 @@
       PS.forEach((x, k) => tl.fromTo(`#ps7_${k}`, { x: -120, opacity: 0 }, { x: 0, opacity: 1, duration: 0.35, ease: "power2.out" }, at(7, x[2]) - 0.2));
 
       /* S8 · CTA */
-      add("s8", `<div id="m8" class="abs" style="left:340px;top:20px">${mapSvg("map8", 400)}</div><div id="w8" class="abs label" style="left:40px;top:470px;width:1000px;font-size:64px">Working on water in Nigeria?</div>` + chipAt("p8", 620, "START A PILOT", 96, BLUE, -2) + `<div id="u8" class="abs" style="left:0;top:800px;width:1080px;text-align:center;font-family:Cap;font-weight:900;font-size:50px">aquacoreglobal.com</div>`);
-      tl.set(["#w8", "#p8", "#u8"], { opacity: 0 }, T[8]);
-      pop("#m8", T[8] + 0.05); pop("#w8", at(8, 0.05)); pop("#p8", at(8, 0.5), { rotation: -2 }); pop("#u8", at(8, 0.7));
+      add("s8", `<div id="m8" class="abs" style="left:390px;top:10px">${mapSvg("map8", 300)}</div>` + `<div id="fw8" class="abs" style="left:0;top:330px;width:1080px;text-align:center;font-family:Cap;font-weight:900;font-size:42px;white-space:nowrap;letter-spacing:0.02em">FOR <span style="color:${BLUE}">NGOs</span> · <span style="color:${BLUE}">GOVERNMENTS</span> · <span style="color:${BLUE}">INVESTORS</span></div>` + chipAt("p8", 440, "START A PILOT", 92, BLUE, -2) + `<div id="dm8" class="abs" style="left:0;top:610px;width:1080px;text-align:center;font-family:Cap;font-weight:900;font-size:58px">DM us “PILOT”</div>` + `<div id="tg8" class="abs" style="left:140px;top:760px;width:800px;padding:22px 30px;border:7px solid ${INK};border-radius:36px;text-align:center;font-family:Hand;font-size:58px">Know one? <span style="color:${BLUE}">Tag them below</span> 👇</div>`);
+      tl.set(["#fw8", "#p8", "#dm8", "#tg8"], { opacity: 0 }, T[8]);
+      pop("#m8", T[8] + 0.05); pop("#fw8", at(8, 0.08)); pop("#p8", at(8, 0.55), { rotation: -2 }); pop("#dm8", at(8, 0.65)); pop("#tg8", at(8, 0.8));
 
       /* end card */
       endCard("s" + (T.length - 2));
@@ -302,9 +302,9 @@
 
       if (document.documentElement.dataset.format === "landscape") {
         tl.fromTo("#stage", { scale: 0.92, x: 0, transformOrigin: "0 0" }, { scale: 0.92, x: 0, duration: 0.01 }, 0);
-        tl.to("#stage", { x: 393, duration: 0.5, ease: "power2.inOut" }, 75.71);
+        tl.to("#stage", { x: 393, duration: 0.5, ease: "power2.inOut" }, 80.04);
       }
-      tl.set({}, {}, 78.71);
+      tl.set({}, {}, 83.04);
       window.__timelines = window.__timelines || {};
       window.__timelines["main"] = tl;
       tl.seek(0);
