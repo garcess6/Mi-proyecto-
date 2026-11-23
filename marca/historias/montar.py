@@ -3,6 +3,7 @@ def dur(f): return float(subprocess.check_output(["ffprobe","-v","error","-show_
 for name,n in [("about-us",5),("partner",4),("how-it-works",6),("pilot",7)]:
     vo=[f"historias/vo/{name}-{i}.wav" for i in range(1,n+1)]
     d=[max(4.0,dur(v)+1.3) for v in vo]
+    if name=="about-us": d[0]=dur(vo[0])+0.7
     starts=[0.0]
     for i in range(1,n): starts.append(starts[-1]+d[i-1]-0.5)
     total=starts[-1]+d[-1]
