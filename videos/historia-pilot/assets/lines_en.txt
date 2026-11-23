@@ -1,0 +1,7 @@
+How does a pilot work? Five steps, from a first test to full deployment.
+One: we send a hundred tablets to your country.
+Two: your local lab tests the water, before and after treatment.
+Three: we review the results together.
+Four: we size the program. How many people, how many tablets.
+Five: we deploy, with local distribution and training, and scale, region by region.
+Ready for a pilot in your region? Send us a message with the word pilot.
