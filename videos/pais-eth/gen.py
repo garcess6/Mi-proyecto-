@@ -38,6 +38,13 @@ TX = {
         "src2": "Source: WHO global cholera report 2024 (WER, Sep 2025)",
         "src3": "Source: WHO Joint External Evaluation, Ethiopia 2025",
         "srcEnd": "Sources: WHO/UNICEF JMP 2025 · WHO 2025",
+                "kills": "kills E. coli, Salmonella &amp; cholera",
+        "pilotTitle": "HOW A PILOT WORKS",
+        "p1": "we send 100 tablets",
+        "p2": "your local lab tests before &amp; after",
+        "p3": "we review results &amp; size the program",
+        "p4": "we deploy: distribution &amp; training",
+        "p5": "we scale, region by region",
         "locale": "en-US",
         "key": "fiftynine|million|ethiopia|spain|eight|safe|rural|thirty|cholera|typhoid|diarrhoea|thousand|deaths|2023|2028|vaccination|surveillance|boiling|fuel|filters|chlorine|cloudy|aquacore|dioxide|litres|minutes|fifty|cents|labs|pilot",
     },
@@ -140,28 +147,45 @@ SCENES = r'''
       /* ================= S5 · AquaCore ================= */
       add("s5", `<div id="br5" class="abs" style="left:0;top:10px;width:1080px;text-align:center"><svg viewBox="0 0 160 160" width="140" height="140">${iAqua}</svg><div style="font-family:Cap;font-weight:900;font-size:72px;letter-spacing:0.04em;margin-top:-6px">AQUA<span style="color:${BLUE}">CORE</span></div><div class="chip" style="display:inline-block;font-size:40px;margin-top:8px">ClO₂</div></div>`);
       const badge = (id, left, top, html) => `<div id="${id}" class="abs card" style="left:${left}px;top:${top}px;width:470px;height:200px;display:flex;align-items:center;justify-content:center;flex-direction:column">${html}</div>`;
-      add("s5", badge("b5a", 50, 330, `<div style="font-family:Cap;font-weight:900;font-size:44px">${TX.perL}</div>`) + badge("b5b", 560, 330, `<svg viewBox="0 0 160 160" width="110" height="110">${iClock}</svg><div class="chip" style="font-size:40px">${TX.min}</div>`) + badge("b5c", 50, 560, `<div style="font-size:80px;color:${BLUE};line-height:1">✓</div><div class="label" style="font-size:48px">${TX.cloudyOK}</div>`) + badge("b5d", 560, 560, `<div style="font-family:Cap;font-weight:900;font-size:88px;color:${BLUE};line-height:1">${TX.cost}</div><div class="label" style="font-size:42px">${TX.costSub}</div>`));
+      add("s5", badge("b5a", 50, 330, `<div style="font-family:Cap;font-weight:900;font-size:44px">${TX.perL}</div>`) + badge("b5b", 560, 330, `<svg viewBox="0 0 160 160" width="110" height="110">${iClock}</svg><div class="chip" style="font-size:40px">${TX.min}</div>`) + badge("b5c", 50, 560, `<div style="font-size:80px;color:${BLUE};line-height:1">✓</div><div class="label" style="font-size:48px">${TX.cloudyOK}</div>`) + badge("b5d", 560, 560, `<div style="font-size:80px;color:${BLUE};line-height:1">✓</div><div class="label" style="font-size:42px;line-height:1.05">${TX.kills}</div>`));
       add("s5", `<div id="lb5" class="abs" style="left:0;top:820px;width:1080px;text-align:center"><span class="chip" style="font-size:40px">${TX.labs} ✓</span></div>`);
       tl.set(["#br5", "#b5a", "#b5b", "#b5c", "#b5d", "#lb5"], { opacity: 0 }, T[5]);
       tl.fromTo("#s5 .cam", focus(540, 330, 1.08), { ...focus(540, 500, 1.0), duration: 1.6, ease: "power2.inOut" }, T[5] + 0.6);
       pop("#br5", T[5] + 0.05);
       pop("#b5a", at(5, 0.2)); pop("#b5b", at(5, 0.36)); pop("#b5c", at(5, 0.5)); pop("#b5d", at(5, 0.66)); pop("#lb5", at(5, 0.84));
 
-      /* ================= S6 · CTA ================= */
-      add("s6", `<div id="m6" class="abs" style="left:340px;top:20px">${mapSvg("map6", 400)}</div>` + sub("w6", 470, TX.working, 64) + `<div id="p6" class="abs" style="left:0;top:620px;width:1080px;text-align:center"><span class="chip" style="font-size:96px;padding:16px 50px">${TX.pilot}</span><div style="font-family:Cap;font-weight:900;font-size:50px;margin-top:30px">aquacoreglobal.com</div></div>`);
-      tl.set(["#m6", "#w6", "#p6"], { opacity: 0 }, T[6]);
-      pop("#m6", T[6] + 0.05); pop("#w6", at(6, 0.05)); pop("#p6", at(6, 0.55), { rotation: -2 });
+      /* ================= S6 · how a pilot works ================= */
+      const iBox = `<path d="M20 50 L80 22 L140 50 L140 124 L80 150 L20 124 Z" fill="#fff" stroke="${INK}" stroke-width="8" stroke-linejoin="round"/><path d="M20 50 L80 78 L140 50 M80 78 L80 150" fill="none" stroke="${BLUE}" stroke-width="7"/>`;
+      const iFlask = `<g stroke="${INK}" stroke-width="8" fill="#fff" stroke-linejoin="round" stroke-linecap="round"><path d="M60 14 L100 14 M66 14 L66 64 L22 142 L138 142 L94 64 L94 14"/></g><path d="M42 108 L118 108 L132 138 L28 138 Z" fill="${SKY}"/>`;
+      const iChart = `<g stroke="${INK}" stroke-width="7" fill="#fff"><path d="M14 146 H146" stroke-linecap="round"/><rect x="30" y="96" width="24" height="44" stroke="${BLUE}"/><rect x="68" y="66" width="24" height="74"/><rect x="106" y="36" width="24" height="104" stroke="${BLUE}"/></g>`;
+      const iTruck = `<g stroke="${INK}" stroke-width="6" fill="#fff" stroke-linejoin="round"><rect x="10" y="50" width="86" height="56" rx="6"/><path d="M96 66 H124 L146 88 V106 H96 Z"/><circle cx="38" cy="114" r="13"/><circle cx="118" cy="114" r="13"/></g>`;
+      const iScale = `<g stroke="${INK}" stroke-width="5">${[[40, 50], [80, 40], [120, 52], [52, 92], [96, 88], [72, 128], [118, 120]].map(([x, y]) => `<circle cx="${x}" cy="${y}" r="16" fill="${SKY}"/><circle cx="${x}" cy="${y}" r="6" fill="${BLUE}" stroke="none"/>`).join("")}</g>`;
+      const PSTEPS = [[iBox, TX.p1, 0.2], [iFlask, TX.p2, 0.36], [iChart, TX.p3, 0.58], [iTruck, TX.p4, 0.78], [iScale, TX.p5, 0.9]];
+      add("s6", `<div id="pt6" class="abs" style="left:0;top:10px;width:1080px;text-align:center"><span class="chip" style="font-size:50px">${TX.pilotTitle}</span></div>`);
+      add("s6", PSTEPS.map(([ic, lab], k) => `<div id="ps6_${k}" class="abs" style="left:60px;top:${130 + k * 165}px;width:960px;height:150px;display:flex;align-items:center;gap:26px">
+        <div style="width:84px;height:84px;border-radius:42px;background:${BLUE};color:#fff;font-family:Cap;font-weight:900;font-size:44px;display:flex;align-items:center;justify-content:center;flex:none">${k + 1}</div>
+        <svg viewBox="0 0 160 160" width="140" height="140" style="flex:none">${ic}</svg>
+        <div class="label" style="text-align:left;font-size:54px;line-height:1.05">${lab}</div></div>`).join(""));
+      tl.set(["#pt6", ...PSTEPS.map((x, k) => `#ps6_${k}`)], { opacity: 0 }, T[6]);
+      tl.fromTo("#s6 .cam", focus(540, 520, 1.03), { ...focus(540, 540, 1.0), duration: 4, ease: "none" }, T[6]);
+      pop("#pt6", T[6] + 0.05);
+      PSTEPS.forEach((x, k) => tl.fromTo(`#ps6_${k}`, { x: -120, opacity: 0 }, { x: 0, opacity: 1, duration: 0.35, ease: "power2.out" }, at(6, x[2]) - 0.2));
 
-      /* ================= S7 · end card ================= */
-      add("s7", `<div class="abs" style="left:0;top:60px;width:1080px;text-align:center">
+      /* ================= S7 · CTA ================= */
+      add("s7", `<div id="m6" class="abs" style="left:340px;top:20px">${mapSvg("map6", 400)}</div>` + sub("w6", 470, TX.working, 64) + `<div id="p6" class="abs" style="left:0;top:620px;width:1080px;text-align:center"><span class="chip" style="font-size:96px;padding:16px 50px">${TX.pilot}</span><div style="font-family:Cap;font-weight:900;font-size:50px;margin-top:30px">aquacoreglobal.com</div></div>`);
+      tl.set(["#m6", "#w6", "#p6"], { opacity: 0 }, T[7]);
+      pop("#m6", T[7] + 0.05); pop("#w6", at(7, 0.05)); pop("#p6", at(7, 0.55), { rotation: -2 });
+
+      /* ================= S8 · end card ================= */
+      add("s8", `<div class="abs" style="left:0;top:60px;width:1080px;text-align:center">
         <img id="logo" src="assets/logo.png" style="width:380px;height:380px" />
         <div id="e2" style="font-family:Cap;font-weight:900;font-size:56px;margin-top:10px">aquacoreglobal.com</div>
         <div id="e3" style="display:inline-block;margin-top:40px;padding:22px 40px;border:7px solid ${INK};border-radius:40px;font-family:Hand;font-size:54px">${TX.question}</div>
       </div>` + src("sr7", TX.srcEnd));
-      pop("#logo", T[7] + 0.05);
-      tl.fromTo("#e2", { y: 30, opacity: 0 }, { y: 0, opacity: 1, duration: 0.35 }, T[7] + 0.3);
-      pop("#e3", T[7] + 0.6);
-      tl.fromTo("#logo", { scale: 1 }, { scale: 1.06, duration: 0.6, yoyo: true, repeat: 1, ease: "sine.inOut" }, T[7] + 1.0);
+      pop("#logo", T[8] + 0.05);
+      tl.fromTo("#e2", { y: 30, opacity: 0 }, { y: 0, opacity: 1, duration: 0.35 }, T[8] + 0.3);
+      pop("#e3", T[8] + 0.6);
+      tl.fromTo("#logo", { scale: 1 }, { scale: 1.06, duration: 0.6, yoyo: true, repeat: 1, ease: "sine.inOut" }, T[8] + 1.0);
 
 '''
 
