@@ -1,18 +1,18 @@
 # Water News · Cholera 2026 (Reel)
 
-- **Vídeo:** `AquaCore_WaterNews_Cholera-2026_9x16.mp4` (57,6 s). Hay versión 16:9 para YouTube/LinkedIn.
+- **Vídeo:** `AquaCore_WaterNews_Cholera-2026_9x16.mp4` (56,6 s; empieza con el gancho "It can kill within hours" y lleva el presentador guía). Hay versión 16:9 para YouTube/LinkedIn.
 - **Portada:** `AquaCore_WaterNews_Cholera_portada.png`
 - **Título del Reel:** Cholera in 2026? It's still here 🦠 | Water News
 
 **Texto (caption):**
 ```
-Cholera sounds like history. But in 2026, it's still here. 🦠
+It can kill within hours. And in 2026, it's still here. 🦠
 
 📊 From January to May 2026, the World Health Organization counted 114,000+ cholera cases and 1,300+ deaths in 23 countries.
 🇰🇷 This month, South Korea reported its first local case in 10 years.
 
 How it spreads: water or food contaminated with faeces.
-What it does: severe watery diarrhoea, and without treatment it can kill within hours.
+What it does: severe watery diarrhoea that dehydrates the body fast.
 The good news: most people recover with fast rehydration (oral rehydration salts).
 
 Floods and droughts make it worse, because people lose access to safe water.
