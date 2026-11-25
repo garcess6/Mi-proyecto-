@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Carrusel Cumbre Agua</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;700;800;900&display=block" rel="stylesheet">
+<style>
+  :root {
+    --ink: #1f2933;
+    --navy: #13294b;
+    --blue: #3f7fc1;
+    --sky: #7fb2e0;
+    --mist: #e4f1fb;
+    --paper: #ffffff;
+    --muted: #5b6875;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: #d9dee3; font-family: 'Nunito', sans-serif; color: var(--ink); }
+  .slide {
+    width: 1080px; height: 1350px; position: relative; overflow: hidden;
+    background: var(--paper); margin: 0 auto 40px;
+    display: flex; flex-direction: column; align-items: center;
+    padding: 0 96px;
+  }
+  .slide.dark { background: var(--navy); color: #fff; }
+  .slide::before { /* soft top band like the account's videos */
+    content: ""; position: absolute; inset: 0 0 auto 0; height: 360px;
+    background: linear-gradient(#eef4f9, rgba(255,255,255,0));
+  }
+  .slide.dark::before { background: linear-gradient(#0c1d38, rgba(19,41,75,0)); }
+  .pill {
+    position: relative; margin-top: 92px;
+    border: 5px solid var(--ink); border-radius: 60px;
+    padding: 16px 40px; font-weight: 900; font-size: 34px; letter-spacing: 2px;
+    background: #fff; white-space: nowrap;
+  }
+  .dark .pill { border-color: #fff; background: transparent; color: #fff; }
+  .pill b { color: var(--blue); }
+  .dark .pill b { color: var(--sky); }
+  .art { position: relative; flex: 1; display: flex; align-items: center; justify-content: center; width: 100%; }
+  .text { position: relative; text-align: center; margin-bottom: 190px; width: 100%; }
+  h1 { font-weight: 900; font-size: 92px; line-height: 1.08; letter-spacing: -1px; }
+  h2 { font-weight: 900; font-size: 74px; line-height: 1.12; letter-spacing: -0.5px; }
+  p.sub { font-weight: 700; font-size: 42px; line-height: 1.35; color: var(--muted); margin-top: 28px; }
+  .dark p.sub { color: #c9d8ea; }
+  .hl { color: var(--blue); }
+  .dark .hl { color: var(--sky); }
+  .foot {
+    position: absolute; left: 96px; right: 96px; bottom: 70px;
+    display: flex; justify-content: space-between; align-items: center;
+    font-weight: 800; font-size: 32px; color: var(--muted);
+  }
+  .dark .foot { color: #c9d8ea; }
+  .brand { display: flex; align-items: center; gap: 18px; }
+  .logo { width: 64px; height: 64px; border-radius: 50%; background: var(--navy); display: grid; place-items: center; }
+  .dark .logo { background: #fff; }
+  .swipe { display: flex; align-items: center; gap: 12px; }
+  .chips { display: flex; flex-wrap: wrap; justify-content: center; gap: 22px; max-width: 880px; }
+  .chip {
+    border: 5px solid var(--ink); border-radius: 50px; padding: 18px 36px;
+    font-weight: 900; font-size: 44px; background: #fff;
+  }
+  .chip.on { background: var(--mist); }
+  .cta {
+    display: inline-block; margin-top: 40px; background: var(--sky); color: var(--navy);
+    border-radius: 70px; padding: 26px 64px; font-weight: 900; font-size: 88px; letter-spacing: 4px;
+  }
+  svg { overflow: visible; }
+</style>
+</head>
+<body>
+
+<!-- reusable logo -->
+<svg width="0" height="0" style="position:absolute">
+  <defs>
+    <symbol id="drop" viewBox="0 0 40 40">
+      <path d="M20 5 C20 5 9 18 9 25 a11 11 0 0 0 22 0 C31 18 20 5 20 5Z" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linejoin="round"/>
+      <circle cx="20" cy="26" r="4" fill="currentColor"/>
+    </symbol>
+  </defs>
+</svg>
+
+<!-- A · PREGUNTA -->
+<section class="slide" id="a1">
+  <div class="pill">AFRICA WATER BRIEF · <b>Nº 1</b></div>
+  <div class="art">
+    <svg width="560" height="520" viewBox="0 0 560 520">
+      <circle cx="280" cy="270" r="240" fill="var(--mist)"/>
+      <path d="M170 90 H390 L365 470 H195Z" fill="#fff" stroke="var(--ink)" stroke-width="18" stroke-linejoin="round"/>
+      <line x1="205" y1="125" x2="220" y2="430" stroke="var(--mist)" stroke-width="14" stroke-linecap="round"/>
+      <path d="M210 440 q20 -10 40 0 t40 0 t40 0 t25 0 L360 458 H200Z" fill="var(--sky)"/>
+      <text x="420" y="160" font-family="Nunito" font-weight="900" font-size="150" fill="var(--blue)">?</text>
+    </svg>
+  </div>
+  <div class="text" style="margin-bottom:200px">
+    <h1>¿Otra cumbre de<br><span class="hl">promesas</span> vacías?</h1>
+    <p class="sub">Lo que se juega África con el agua<br>en diciembre de 2026.</p>
+  </div>
+  <div class="foot">
+    <div class="brand"><div class="logo"><svg width="40" height="40" style="color:#fff"><use href="#drop"/></svg></div>@aquacoreglobal</div>
+    <div class="swipe" style="background:var(--navy);color:#fff;padding:14px 28px;border-radius:40px">Desliza
+      <svg width="44" height="28" viewBox="0 0 44 28"><path d="M2 14 H38 M28 4 L40 14 L28 24" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+  </div>
+</section>
+<!-- B · LISTA -->
+<section class="slide" id="a2">
+  <div class="pill">AFRICA WATER BRIEF · <b>Nº 1</b></div>
+  <div class="art">
+    <div style="position:relative;font-weight:900;font-size:440px;line-height:1;color:var(--blue);margin-top:60px">5
+      <svg width="150" height="190" viewBox="0 0 150 190" style="position:absolute;right:-120px;top:20px;width:110px;height:140px"><path d="M75 10 C75 10 15 85 15 125 a60 60 0 0 0 120 0 C135 85 75 10 75 10Z" fill="var(--mist)" stroke="var(--ink)" stroke-width="12" stroke-linejoin="round"/></svg>
+    </div>
+  </div>
+  <div class="text" style="margin-bottom:200px">
+    <h1>claves de la cumbre<br>del <span class="hl">agua</span> en África</h1>
+    <p class="sub">que tienes que saber antes de diciembre 👇</p>
+  </div>
+  <div class="foot">
+    <div class="brand"><div class="logo"><svg width="40" height="40" style="color:#fff"><use href="#drop"/></svg></div>@aquacoreglobal</div>
+    <div class="swipe" style="background:var(--navy);color:#fff;padding:14px 28px;border-radius:40px">Desliza
+      <svg width="44" height="28" viewBox="0 0 44 28"><path d="M2 14 H38 M28 4 L40 14 L28 24" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+  </div>
+</section>
+<!-- C · CONTRASTE -->
+<section class="slide dark" id="a3">
+  <div class="pill">AFRICA WATER BRIEF · <b>Nº 1</b></div>
+  <div class="art">
+    <svg width="760" height="520" viewBox="0 0 760 520">
+      <g transform="translate(20 40)">
+        <rect x="0" y="0" width="280" height="250" rx="32" fill="#fff"/>
+        <path d="M70 250 l-10 70 l80 -70Z" fill="#fff"/>
+        <line x1="50" y1="80" x2="230" y2="80" stroke="#c9d8ea" stroke-width="16" stroke-linecap="round"/>
+        <line x1="50" y1="130" x2="230" y2="130" stroke="#c9d8ea" stroke-width="16" stroke-linecap="round"/>
+        <line x1="50" y1="180" x2="160" y2="180" stroke="#c9d8ea" stroke-width="16" stroke-linecap="round"/>
+        <text x="140" y="420" text-anchor="middle" font-family="Nunito" font-weight="900" font-size="46" fill="#fff">PROMESAS</text>
+        <text x="140" y="470" text-anchor="middle" font-family="Nunito" font-weight="800" font-size="36" fill="var(--sky)">muchas</text>
+      </g>
+      <text x="390" y="200" text-anchor="middle" font-family="Nunito" font-weight="900" font-size="60" fill="#ff6b5a">VS</text>
+      <g transform="translate(470 30)">
+        <path d="M20 20 H200 L180 330 H40Z" fill="none" stroke="#fff" stroke-width="16" stroke-linejoin="round"/>
+        <path d="M37 290 q18 -10 36 0 t36 0 t36 0 t40 0 L182 322 H38Z" fill="var(--sky)"/>
+        <text x="110" y="430" text-anchor="middle" font-family="Nunito" font-weight="900" font-size="46" fill="#fff">AGUA REAL</text>
+        <text x="110" y="480" text-anchor="middle" font-family="Nunito" font-weight="800" font-size="36" fill="#ff6b5a">poca</text>
+      </g>
+    </svg>
+  </div>
+  <div class="text" style="margin-bottom:200px">
+    <h1>Muchas promesas.<br><span class="hl">Poca agua.</span></h1>
+    <p class="sub">En diciembre, África pide hechos.</p>
+  </div>
+  <div class="foot">
+    <div class="brand"><div class="logo"><svg width="40" height="40" style="color:var(--navy)"><use href="#drop"/></svg></div>@aquacoreglobal</div>
+    <div class="swipe" style="background:#fff;color:var(--navy);padding:14px 28px;border-radius:40px">Desliza
+      <svg width="44" height="28" viewBox="0 0 44 28"><path d="M2 14 H38 M28 4 L40 14 L28 24" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+  </div>
+</section>
+</body>
+</html>
