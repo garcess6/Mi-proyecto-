@@ -31,4 +31,5 @@ Basado en las referencias de @eldatomanda. Versión dinámica en `videos/reality
 4. **Secciones numeradas** ("1 · …"): su clip entra volando, su frase en una tarjeta de cita, nuestros datos como pegatinas una a una y un **veredicto** de color (✗ rojo, ⚖ naranja, ↻ azul) con la fuente.
 5. **Marcador final** con todas las afirmaciones y su veredicto, y la conclusión ("TESTED ✓ TREATED ✓").
 6. Fondo cuadriculado azul claro, ritmo de un cambio en pantalla cada ~1 s, presentador gota señalando.
+   **Sonido:** clic en cada toque del dedo, whoosh en entradas y salidas, pop en pegatinas, golpe en sellos y veredictos, ding en la pantalla de marca y el final (efectos propios en `videos/reality-raw-water/sfx/`).
 7. Clip ajeno: máx. 10-20 s, sin su audio, crédito siempre visible. En TikTok, mejor con "Stitch".

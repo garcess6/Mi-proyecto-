@@ -52,6 +52,7 @@ subprocess.run(["ffmpeg", "-y", "-loglevel", "error", *inp, "-filter_complex", f
 chol = open(CHOL).read()
 helpers = chol[chol.index("      function figure("):chol.index("      // cholera bacterium")]
 guide = chol[chol.index("      /* ================= GUIDE"):chol.index("      // S0 hook")]
+guide = guide.replace("G.fx = nx; G.fy = ny; G.fo = 1;", "G.fx = nx; G.fy = ny; G.fo = 1; sfx(\"click\", t + 0.36);")
 guide = guide.replace("const GW = 130,", "const GW = 140,").replace("const nx = tx - 33, ny = ty + 4;", "const nx = tx - 33, ny = ty + 30;")
 caps = chol[chol.index("      /* ================= captions"):chol.index("      if (document.documentElement.dataset.format")]
 caps = re.sub(r"      const KEY = .*\n", "", caps)
@@ -138,12 +139,13 @@ html = f'''<!doctype html>
       const W = (li, word, nth = 0) => {{ const m = TIMED[li].filter((x) => x.w.toLowerCase().replace(/[^\\w']/g, "") === word.toLowerCase()); return (m[nth] || m[0]).t; }};
 {helpers}
       const tl = gsap.timeline({{ paused: true }});
-      const pop = (sel, t, extra = {{}}) => tl.fromTo(sel, {{ scale: 0, opacity: 0, transformOrigin: "50% 50%" }}, {{ scale: 1, opacity: 1, duration: 0.32, ease: "back.out(2.4)", ...extra }}, t);
-      const slam = (sel, t, rot = -4) => tl.fromTo(sel, {{ scale: 2.2, opacity: 0, rotation: rot }}, {{ scale: 1, opacity: 1, rotation: rot, duration: 0.26, ease: "back.out(2.2)" }}, t);
+      const SFX = []; window.__sfx = SFX; const sfx = (k, t) => SFX.push([k, Math.max(0, +(+t).toFixed(3))]);
+      const pop = (sel, t, extra = {{}}) => sfx("pop", t) && tl.fromTo(sel, {{ scale: 0, opacity: 0, transformOrigin: "50% 50%" }}, {{ scale: 1, opacity: 1, duration: 0.32, ease: "back.out(2.4)", ...extra }}, t);
+      const slam = (sel, t, rot = -4) => sfx("thud", t + 0.12) && tl.fromTo(sel, {{ scale: 2.2, opacity: 0, rotation: rot }}, {{ scale: 1, opacity: 1, rotation: rot, duration: 0.26, ease: "back.out(2.2)" }}, t);
       const add = (id, html) => document.getElementById(id).insertAdjacentHTML("beforeend", html);
       const out = (sel, t) => tl.to(sel, {{ opacity: 0, scale: 0.9, duration: 0.14 }}, t);
       const title = (id, [a, h, b], top = 215) => `<div id="${{id}}" class="ttl" style="top:${{top}}px"><span class="w">${{a}}</span><span class="hl">${{h}}</span><span class="w">${{b}}</span></div>`;
-      const titleIn = (id, t) => {{ tl.fromTo(`#${{id}} .w, #${{id}} .hl`, {{ y: 60, opacity: 0 }}, {{ y: 0, opacity: 1, duration: 0.22, stagger: 0.08, ease: "back.out(2)" }}, t); tl.fromTo(`#${{id}} .hl`, {{ scaleX: 0, transformOrigin: "0% 50%" }}, {{ scaleX: 1, duration: 0.25, ease: "power3.out" }}, t + 0.08); }};
+      const titleIn = (id, t) => {{ sfx("whoosh", t - 0.05); tl.fromTo(`#${{id}} .w, #${{id}} .hl`, {{ y: 60, opacity: 0 }}, {{ y: 0, opacity: 1, duration: 0.22, stagger: 0.08, ease: "back.out(2)" }}, t); tl.fromTo(`#${{id}} .hl`, {{ scaleX: 0, transformOrigin: "0% 50%" }}, {{ scaleX: 1, duration: 0.25, ease: "power3.out" }}, t + 0.08); }};
       const CL = {json.dumps([[c[3], c[4], c[5], c[6], c[7], c[8]] for c in CLAIMS], ensure_ascii=False)};
 
       /* ================= HOOK: full-screen clip -> card ================= */
@@ -160,6 +162,7 @@ html = f'''<!doctype html>
       tl.fromTo("#hk", {{ x: 0, y: 0, scaleX: 1, scaleY: 1, rotation: 0, borderRadius: 0, transformOrigin: "0% 0%" }}, {{ x: 80, y: 430, scaleX: {CW} / 1080, scaleY: {CH} / 1920, rotation: -4, borderRadius: 70, duration: 0.55, ease: "power3.inOut" }}, shrink);
       tl.fromTo("#hkb", {{ opacity: 0 }}, {{ opacity: 1, duration: 0.3 }}, shrink + 0.2);
       titleIn("ht", shrink + 0.3);
+      sfx("whoosh", shrink); sfx("pop", W(0, "three") - 0.25); sfx("pop", W(0, "saved") - 0.45);
       tl.fromTo("#hl", {{ x: 300, opacity: 0, rotation: 6 }}, {{ x: 0, opacity: 1, rotation: 3, duration: 0.3, ease: "back.out(2)" }}, W(0, "three") - 0.25);
       tl.fromTo("#hv", {{ x: 300, opacity: 0, rotation: -6 }}, {{ x: 0, opacity: 1, rotation: -3, duration: 0.3, ease: "back.out(2)" }}, W(0, "saved") - 0.45);
       {{ const o = {{ v: 0 }}; tl.to(o, {{ v: 3194, duration: 0.9, ease: "power2.out", onUpdate: () => {{ document.getElementById("hvn").textContent = Math.round(o.v).toLocaleString("en-US"); }} }}, W(0, "saved") - 0.3); }}
@@ -173,6 +176,7 @@ html = f'''<!doctype html>
           <div style="font-family:Cap;font-weight:900;font-size:64px;line-height:1;margin-top:10px">REALITY</div>
           <div style="font-family:Cap;font-weight:900;font-size:64px;line-height:1;color:#fff;background:${{BLUE}};padding:4px 22px;border-radius:14px;border:5px solid ${{INK}};margin-top:6px;transform:rotate(-3deg)">CHECK</div></div>
         <div id="sp2" class="abs" style="left:0;top:1200px;width:1080px;text-align:center"><span class="sticker" style="font-size:46px">5 claims · <b>the data decides</b></span></div>`);
+      sfx("whoosh", {SPLASH} - 0.1); sfx("ding", {SPLASH} + 0.12);
       tl.fromTo("#rays", {{ rotation: 0, opacity: 0 }}, {{ rotation: 25, opacity: 1, duration: T[1] - {SPLASH}, ease: "none", svgOrigin: "540 900" }}, {SPLASH});
       tl.fromTo("#sp1", {{ scale: 0, rotation: -20 }}, {{ scale: 1, rotation: 0, duration: 0.35, ease: "back.out(2.2)" }}, {SPLASH} + 0.05);
       tl.fromTo("#sp2", {{ y: 80, opacity: 0 }}, {{ y: 0, opacity: 1, duration: 0.25 }}, {SPLASH} + 0.35);
@@ -189,10 +193,12 @@ html = f'''<!doctype html>
         titleIn("tt" + i, ts + 0.02);
         tl.set(`#card${{i}}`, {{ opacity: 0 }}, 0); tl.set(`#card${{i}}`, {{ opacity: 1 }}, ts); tl.set(`#card${{i}}`, {{ opacity: 0 }}, te);
         // clip card flies in from the left, tilts, plays; then nudges aside when the data lands
+        sfx("whoosh", ts); sfx("whoosh", te - 0.25);
         tl.fromTo(`#card${{i}}`, {{ x: -560, rotation: -14 }}, {{ x: 0, rotation: k % 2 ? 3 : -3, duration: 0.42, ease: "back.out(1.6)" }}, ts);
         pop(`#q${{i}}`, ts + 0.3, {{ rotation: k % 2 ? -2 : 2 }});
         const tr = TIMED[i].find((x, j) => j > 0 && /[?]$/.test(TIMED[i][j - 1].w)) || TIMED[i][Math.floor(TIMED[i].length / 3)];
         const span = Math.max(1.2, te - tr.t - 1.3);
+        stick.forEach((s, j) => sfx("pop", tr.t + (j * span) / stick.length));
         stick.forEach((s, j) => tl.fromTo(`#s${{i}}_${{j}}`, {{ x: 220, opacity: 0, rotation: 8 }}, {{ x: 0, opacity: 1, rotation: j % 2 ? 2 : -2, duration: 0.28, ease: "back.out(2.2)" }}, tr.t + (j * span) / stick.length));
         tl.to(`#card${{i}}`, {{ scale: 0.92, y: -10, duration: 0.3, ease: "power2.out" }}, tr.t);
         slam(`#v${{i}}`, te - 1.15, k % 2 ? 3 : -3);
@@ -211,6 +217,7 @@ html = f'''<!doctype html>
         <div id="ct" class="abs" style="left:0;top:1150px;width:1080px;text-align:center;opacity:0"><span class="verdict" style="background:${{BLUE}}">TESTED ✓ TREATED ✓</span></div>`);
       tl.set("#tc .w, #tc .hl", {{ opacity: 0 }}, 0);
       titleIn("tc", T[6] + 0.02);
+      SC.forEach((x, j) => sfx("pop", T[6] + 0.15 + j * 0.16));
       SC.forEach((x, j) => tl.fromTo(`#sc${{j}}`, {{ x: -700, opacity: 0 }}, {{ x: 0, opacity: 1, duration: 0.26, ease: "back.out(1.8)" }}, T[6] + 0.15 + j * 0.16));
       slam("#cr", W(6, "raw") - 0.1, -4);
       slam("#ct", W(6, "tested") - 0.1, 2);
@@ -222,7 +229,7 @@ html = f'''<!doctype html>
         <div id="e2" style="font-family:Cap;font-weight:800;font-size:40px;color:${{MUTED}};margin-top:8px">aquacoreglobal.com</div>
         <div id="e3" style="display:inline-block;margin-top:46px;padding:22px 42px;border:7px solid ${{INK}};border-radius:40px;font-family:Hand;font-size:58px">Would <span style="color:${{BLUE}}">you</span> drink raw water? 💬</div>
         <div id="e4" style="font-family:Cap;font-weight:800;font-size:24px;color:${{MUTED}};margin-top:40px">Original video: @erikharding.health (TikTok, Jul 2026) · Sources: CDC MMWR 2023 · US EPA</div></div>`);
-      pop("#logo", T[7] + 0.05);
+      pop("#logo", T[7] + 0.05); sfx("ding", T[7] + 0.1);
       tl.fromTo("#e1", {{ y: 30, opacity: 0 }}, {{ y: 0, opacity: 1, duration: 0.3 }}, T[7] + 0.25);
       tl.fromTo("#e2", {{ y: 30, opacity: 0 }}, {{ y: 0, opacity: 1, duration: 0.3 }}, T[7] + 0.4);
       pop("#e3", T[7] + 0.6);
@@ -260,5 +267,31 @@ html = f'''<!doctype html>
 </html>
 '''
 open(os.path.join(P, "index.html"), "w").write(html)
+
+# ---------- sound effects: read the event list from the page, mix under the voice
+js = os.path.join(HERE, "sfx_events.js")
+open(js, "w").write("""const { chromium } = require('playwright');
+(async () => { const b = await chromium.launch(); const p = await b.newPage({ viewport: { width: 1080, height: 1920 } });
+await p.goto('file://' + process.argv[2]); await p.waitForTimeout(800);
+console.log(JSON.stringify(await p.evaluate(() => window.__sfx))); await b.close(); })();""")
+ev = json.loads(subprocess.check_output(["node", js, os.path.join(P, "index.html")], cwd=HERE).decode().strip().splitlines()[-1])
+ev.sort(key=lambda e: e[1])
+keep, last = [], {}
+for k, t in ev:
+    if t - last.get(k, -9) >= 0.09 and t < END - 0.2:
+        keep.append((k, t)); last[k] = t
+VOL = {"click": 0.55, "pop": 0.32, "whoosh": 0.28, "thud": 0.55, "ding": 0.35}
+inp = ["-i", os.path.join(P, "assets", "voice.wav")]
+flt, mix = "[0:a]aresample=44100,volume=1.0[v];", "[v]"
+for n, (k, t) in enumerate(keep, 1):
+    inp += ["-i", os.path.join(P, "assets", "sfx", f"{k}.wav")]
+    ms = int(t * 1000)
+    flt += f"[{n}:a]aresample=44100,volume={VOL[k]},adelay={ms}|{ms}[s{n}];"; mix += f"[s{n}]"
+subprocess.run(["ffmpeg", "-y", "-loglevel", "error", *inp, "-filter_complex", f"{flt}{mix}amix=inputs={len(keep) + 1}:normalize=0,alimiter=limit=0.95,apad=whole_dur={END}[o]",
+                "-map", "[o]", "-ar", "44100", "-ac", "1", os.path.join(P, "assets", "mix.wav")], check=True)
+html = html.replace('src="assets/voice.wav"', 'src="assets/mix.wav"')
+open(os.path.join(P, "index.html"), "w").write(html)
+from collections import Counter
+print("sfx", len(keep), dict(Counter(k for k, _ in keep)))
 json.dump({"id": "reality-raw-water-v2", "name": "reality-raw-water-v2"}, open(os.path.join(P, "meta.json"), "w"))
 print("END", END, "T", T, "SPLASH", SPLASH)
