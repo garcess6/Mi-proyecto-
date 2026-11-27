@@ -1,7 +1,7 @@
 # Reality Check · Raw Water
 
-- **Vídeo:** `AquaCore_RealityCheck_RawWater_9x16.mp4` (46,9 s)
-- **Portada:** `AquaCore_RealityCheck_RawWater_portada.png` (fotograma del segundo 6: "LIVE LONGER?" con 20,6 K likes y 3.194 guardados)
+- **Vídeo:** `AquaCore_RealityCheck_RawWater_v3_9x16.mp4` (47,2 s, versión dinámica con efectos de sonido)
+- **Portada:** `AquaCore_RealityCheck_RawWater_portada.png` ("“LIVE longer”? 🤔", su vídeo en tarjeta, 20,6 K likes, 3.194 guardados y "✗ THE DATA SAYS NO")
 - **Vídeo original:** @erikharding.health, TikTok, 11 jul 2026 (clip de 13 s, sin su audio)
 
 ## Instagram
