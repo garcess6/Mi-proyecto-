@@ -22,3 +22,13 @@
 
 ## Dónde está el código
 - `videos/wn-colera/index.html`: primer vídeo con el gancho y el presentador. Las funciones `gAt` (colocar), `gPoint` (señalar) y `gTalk` (hablar) del bloque "GUIDE" se pueden copiar a cualquier episodio.
+
+## Formato "Reality Check" (vídeos que rebaten un clip ajeno)
+Basado en las referencias de @eldatomanda. Versión dinámica en `videos/reality-raw-water/build2.py`.
+1. **0-3 s:** el clip a pantalla completa con su frase y un sello rojo con la pregunta ("LIVE LONGER?").
+2. **El clip se encoge** en una tarjeta inclinada; el título va cambiando arriba (palabra clave en un recuadro azul) y salen pegatinas con datos (likes, guardados, cita).
+3. **Pantalla de marca** (rayos que giran + "REALITY CHECK") justo antes de empezar a rebatir.
+4. **Secciones numeradas** ("1 · …"): su clip entra volando, su frase en una tarjeta de cita, nuestros datos como pegatinas una a una y un **veredicto** de color (✗ rojo, ⚖ naranja, ↻ azul) con la fuente.
+5. **Marcador final** con todas las afirmaciones y su veredicto, y la conclusión ("TESTED ✓ TREATED ✓").
+6. Fondo cuadriculado azul claro, ritmo de un cambio en pantalla cada ~1 s, presentador gota señalando.
+7. Clip ajeno: máx. 10-20 s, sin su audio, crédito siempre visible. En TikTok, mejor con "Stitch".
