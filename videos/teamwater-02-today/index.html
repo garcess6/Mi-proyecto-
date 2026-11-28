@@ -1,0 +1,335 @@
+<!doctype html>
+<html lang="en" data-resolution="portrait" data-format="portrait">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <title>Water Today</title>
+    <script src="assets/vendor/gsap.min.js"></script>
+    <style>
+      @font-face { font-family: "Hand"; src: url("assets/fonts/patrick-hand-latin-400-normal.woff2") format("woff2"); font-weight: 400; }
+      @font-face { font-family: "Cap"; src: url("assets/fonts/nunito-latin-900-normal.woff2") format("woff2"); font-weight: 900; }
+      @font-face { font-family: "Cap"; src: url("assets/fonts/nunito-latin-800-normal.woff2") format("woff2"); font-weight: 800; }
+      :root { --ink: #111418; --blue: #1e7fd8; --sky: #dff2fc; --muted: #8b96a3; --red: #d64545; --yel: #ffd34d; }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { width: 1080px; height: 1920px; overflow: hidden; background: #f6fafe; }
+      #root { position: relative; width: 1080px; height: 1920px; overflow: hidden; font-family: "Hand", sans-serif; color: var(--ink);
+        background-color: #f6fafe; background-image: linear-gradient(#e3eef8 2px, transparent 2px), linear-gradient(90deg, #e3eef8 2px, transparent 2px); background-size: 54px 54px; }
+      .abs { position: absolute; }
+      svg { overflow: visible; }
+      .fv { position: absolute; left: 0; top: 0; width: 100%; height: 100%; object-fit: cover; }
+      .cardw { left: 80px; top: 430px; width: 400px; height: 722px; border: 8px solid var(--ink); border-radius: 26px; overflow: hidden; background: #000; box-shadow: 14px 14px 0 rgba(17,20,24,0.18); }
+      .cred { position: absolute; left: 10px; bottom: 10px; font-family: Cap; font-weight: 800; font-size: 20px; color: #fff; background: rgba(0,0,0,0.55); padding: 4px 10px; border-radius: 8px; }
+      .pill { white-space: nowrap; display: inline-flex; align-items: center; gap: 14px; padding: 10px 28px; border: 5px solid var(--ink); border-radius: 999px; font-family: "Cap"; font-weight: 900; font-size: 34px; letter-spacing: 0.04em; background: #fff; }
+      .pill b { color: var(--blue); }
+      .ttl { position: absolute; left: 0; width: 1080px; top: 215px; text-align: center; font-family: Cap; font-weight: 900; font-size: 74px; line-height: 1; white-space: nowrap; }
+      .ttl .hl { display: inline-block; background: var(--blue); color: #fff; padding: 2px 18px 8px; border-radius: 14px; border: 5px solid var(--ink); margin: 0 10px; transform: rotate(-2deg); }
+      .ttl span.w { display: inline-block; }
+      .sticker { display: inline-block; font-family: Cap; font-weight: 800; font-size: 34px; background: #fff; border: 5px solid var(--ink); border-radius: 16px; padding: 10px 18px; box-shadow: 6px 6px 0 rgba(17,20,24,0.15); white-space: nowrap; }
+      .sticker b { color: var(--blue); }
+      .quote { position: absolute; left: 520px; top: 430px; width: 500px; background: #fff; border: 6px solid var(--ink); border-radius: 22px; padding: 18px 22px; box-shadow: 8px 8px 0 rgba(17,20,24,0.15); }
+      .quote .who { font-family: Cap; font-weight: 900; font-size: 22px; color: var(--muted); letter-spacing: 0.06em; }
+      .quote .q { font-family: Cap; font-weight: 800; font-size: 36px; line-height: 1.15; margin-top: 6px; }
+      .verdict { display: inline-block; font-family: Cap; font-weight: 900; font-size: 54px; color: #fff; border: 7px solid var(--ink); border-radius: 20px; padding: 10px 30px; white-space: nowrap; }
+      .src { font-family: Cap; font-weight: 800; font-size: 24px; color: var(--muted); }
+      .their { position: absolute; left: 60px; width: 960px; top: 1460px; text-align: center; opacity: 0; }
+      .their span { display: inline-block; font-family: Cap; font-weight: 900; font-size: 56px; color: #fff; background: rgba(17,20,24,0.85); padding: 8px 26px; border-radius: 16px; }
+      #caps { position: absolute; left: 60px; width: 960px; top: 1440px; height: 200px; }
+      .cap { position: absolute; left: 0; right: 0; top: 50%; transform: translateY(-50%); text-align: center; font-family: "Cap"; font-weight: 900; font-size: 68px; line-height: 1.1; color: var(--ink); opacity: 0; }
+      .cap span { display: inline-block; margin: 0 0.06em; }
+      .cap span.k { color: var(--blue); }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="54.03" data-width="1080" data-height="1920">
+      <audio id="vo" class="clip" src="assets/mix.wav" data-start="0" data-duration="54.03"></audio>
+      <div id="tag" class="abs" style="left:0;top:95px;width:1080px;text-align:center;z-index:3"><div class="pill"><img src="assets/logo-drop.png" style="height:46px;width:auto" />WATER NEWS · <b>#TEAMWATER</b></div></div>
+      <div id="hk" class="abs" style="left:0;top:0;width:1080px;height:1920px;overflow:hidden;z-index:2">
+        <video id="hv0" class="clip fv" src="assets/clip.mp4" data-start="0.1" data-duration="2.4" data-media-start="0.0" muted playsinline></video>
+        <img id="hfz" class="clip fv" src="assets/fr_2.35.jpg" data-start="2.5" data-duration="6.4" />
+        <div id="hkb" style="position:absolute;inset:0;border:22px solid #111418;border-radius:70px;opacity:0"></div>
+        <div class="cred" style="font-size:24px;bottom:auto;top:200px;left:30px">Video: @MrBeast &amp; @MarkRober · #TeamWater launch · Aug 2025</div>
+      </div>
+      <div id="hov" class="abs" style="left:0;top:0;width:1080px;height:1920px;z-index:4"></div>
+      <div id="splash" class="clip abs" data-start="7.25" data-duration="1.65" style="left:0;top:0;width:1080px;height:1920px;z-index:6"></div>
+      <div id="card1" class="abs cardw" style="opacity:0">
+        <video id="vid1_0" class="clip fv" src="assets/clip.mp4" data-start="8.9" data-duration="1.9" data-media-start="18.53" muted playsinline></video>
+        <img id="frz1_0" class="clip fv" src="assets/fr_20.4.jpg" data-start="10.8" data-duration="5.65" />
+        <div class="cred">@MrBeast · launch video · Aug 2025</div>
+      </div>
+      <div id="card2" class="abs cardw" style="opacity:0">
+        <video id="vid2_0" class="clip fv" src="assets/clip.mp4" data-start="16.45" data-duration="1.7" data-media-start="24.33" muted playsinline></video>
+        <img id="frz2_0" class="clip fv" src="assets/fr_26.0.jpg" data-start="18.15" data-duration="9.2" />
+        <div class="cred">@MrBeast · launch video · Aug 2025</div>
+      </div>
+      <div id="card3" class="abs cardw" style="opacity:0">
+        <video id="vid3_0" class="clip fv" src="assets/clip.mp4" data-start="27.35" data-duration="1.5" data-media-start="2.4" muted playsinline></video>
+        <img id="frz3_0" class="clip fv" src="assets/fr_3.85.jpg" data-start="28.85" data-duration="6.28" />
+        <div class="cred">@MrBeast · launch video · Aug 2025</div>
+      </div>
+      <div id="card4" class="abs cardw" style="opacity:0">
+        <video id="vid4_0" class="clip fv" src="assets/clip.mp4" data-start="35.13" data-duration="1.85" data-media-start="28.6" muted playsinline></video>
+        <img id="frz4_0" class="clip fv" src="assets/fr_30.4.jpg" data-start="36.98" data-duration="7.38" />
+        <div class="cred">AquaCore</div>
+      </div>
+      <div id="ov" class="abs" style="left:0;top:0;width:1080px;height:1920px;z-index:3"></div>
+      <div id="concl" class="clip abs" data-start="44.36" data-duration="6.47" style="left:0;top:0;width:1080px;height:1920px;z-index:3"></div>
+      <div id="endc" class="clip abs" data-start="50.83" data-duration="3.2" style="left:0;top:0;width:1080px;height:1920px;background:#fff;z-index:7"></div>
+      <div id="guideLayer" class="abs" style="left:0;top:0;width:1080px;height:1920px;z-index:8"></div>
+      <div id="theirs" class="abs" style="left:0;top:0;width:1080px;height:1920px;z-index:9"></div>
+      <div id="capbg" class="abs" style="left:40px;top:1440px;width:1000px;height:200px;background:rgba(255,255,255,0.92);border:5px solid #111418;border-radius:28px;z-index:8;opacity:0"></div>
+      <div id="caps" style="z-index:9"></div>
+    </div>
+    <script>
+      const INK = "#111418", BLUE = "#1e7fd8", SKY = "#dff2fc", MUTED = "#8b96a3", RED = "#d64545", YEL = "#ffd34d", GREEN = "#2e9e5b", ORANGE = "#e08a1e";
+      const LINES = [[2.65, 5.9, "Forty million dollars to give two million people safe water. But when does the water actually arrive?"], [10.9, 4.85, "The promise: one dollar, one year of clean water. Two million people, for decades."], [18.25, 8.4, "But wells, pipes and permits take time. The first communities are expected online in 2026 and 2027."], [28.95, 5.48, "Meanwhile, families still need safe water today. Boiling needs fuel. Filters need upkeep."], [37.08, 6.58, "AquaCore's chlorine dioxide tablets treat twenty-five litres in thirty minutes, with no construction at all."], [44.51, 5.42, "Infrastructure for tomorrow, safe water for today. It's not one or the other. It's both."]];
+      const T = [0.0, 8.9, 16.45, 27.35, 35.13, 44.36, 50.83, 54.03];
+      const SEC = [{"start": 8.9, "end": 16.45, "vo": 10.9, "segs": [[8.9, 18.53, 20.43, "fr_20.4.jpg"]]}, {"start": 16.45, "end": 27.35, "vo": 18.25, "segs": [[16.45, 24.33, 26.03, "fr_26.0.jpg"]]}, {"start": 27.35, "end": 35.13, "vo": 28.95, "segs": [[27.35, 2.4, 3.9, "fr_3.85.jpg"]]}, {"start": 35.13, "end": 44.36, "vo": 37.08, "segs": [[35.13, 28.6, 30.45, "fr_30.4.jpg"]]}];
+      const TIMED = LINES.map(([start, dur, text]) => {
+        const words = text.split(" ");
+        const wts = words.map((w) => w.replace(/[^\w']/g, "").length + 3 + (/\d/.test(w) ? 6 : 0) + (/[.?!…]$/.test(w) ? 7 : /[,:]$/.test(w) ? 4 : 0));
+        const total = wts.reduce((a, b) => a + b, 0);
+        let t = start + 0.1; const span = dur - 0.25;
+        return words.map((w, i) => { const d = (wts[i] / total) * span; const o = { w, t, d }; t += d; return o; });
+      });
+      const W = (li, word, nth = 0) => { const m = TIMED[li].filter((x) => x.w.toLowerCase().replace(/[^\w']/g, "") === word.toLowerCase()); return (m[nth] || m[0]).t; };
+      function figure(id, { left, top, w, prop = "", face = "smile" }) {
+        const h = w * 1.8;
+        const propSvg =
+          prop === "glass"
+            ? `<g class="prop"><path d="M136 188 L172 188 L167 236 L141 236 Z" fill="#fff" stroke="${INK}" stroke-width="6" stroke-linejoin="round"/><path d="M139 204 L169 204 L167 236 L141 236 Z" fill="${SKY}" stroke="none"/><path d="M139 204 Q154 198 169 204" stroke="${BLUE}" stroke-width="5" fill="none"/></g>`
+            : "";
+        const show = (n) => (n === face ? 1 : 0);
+        return `<div id="${id}" class="abs" style="left:${left}px;top:${top}px;width:${w}px;height:${h}px">
+        <svg viewBox="0 0 200 360" width="${w}" height="${h}">
+          <g fill="none" stroke="${INK}" stroke-width="8" stroke-linecap="round" stroke-linejoin="round">
+            <path class="hdrop" d="M100 0 C94 12 86 20 86 28 a14 14 0 0 0 28 0 C114 20 106 12 100 0 Z" fill="${BLUE}" stroke-width="5"/>
+            <line x1="100" y1="126" x2="100" y2="240"/>
+            <line x1="100" y1="240" x2="66" y2="340"/><line x1="100" y1="240" x2="134" y2="340"/>
+            <g class="armL"><line x1="100" y1="150" x2="56" y2="210"/></g>
+            <g class="armR"><line x1="100" y1="150" x2="144" y2="210"/>${propSvg}</g>
+            <circle cx="100" cy="80" r="46" fill="#fff"/>
+            <g class="eyes" stroke="none" fill="${INK}"><circle cx="84" cy="76" r="6.5"/><circle cx="116" cy="76" r="6.5"/></g>
+            <g class="f-smile" opacity="${show("smile")}"><path d="M84 98 Q100 114 116 98"/></g>
+            <g class="f-o" opacity="${show("o")}"><circle cx="100" cy="104" r="9"/><path d="M72 58 L92 52 M108 52 L128 58" stroke-width="6"/></g>
+            <g class="f-hmm" opacity="${show("hmm")}"><path d="M88 106 L114 100"/><path d="M74 60 L92 58 M108 54 L126 50" stroke-width="6"/></g>
+            <g class="f-worry" opacity="${show("worry")}"><path d="M84 108 Q92 99 100 105 Q108 111 116 102"/><path d="M74 56 L92 63 M108 63 L126 56" stroke-width="6"/><path class="sweat" d="M146 54 C142 62 138 66 138 71 a8 8 0 0 0 16 0 C154 66 150 62 146 54 Z" fill="${SKY}" stroke="${BLUE}" stroke-width="4"/></g>
+            <g class="f-sick" opacity="${show("sick")}"><path d="M76 70 L92 80 M92 70 L76 80 M108 70 L124 80 M124 70 L108 80" stroke-width="6"/><path d="M84 108 Q92 99 100 105 Q108 111 116 102"/></g>
+          </g>
+        </svg></div>`;
+      }
+      function setFace(tl, id, face, t) {
+        ["smile", "o", "hmm", "worry", "sick"].forEach((f) => tl.set(`#${id} .f-${f}`, { opacity: f === face ? 1 : 0 }, t));
+        tl.set(`#${id} .eyes`, { opacity: face === "sick" ? 0 : 1 }, t);
+      }
+      function glass(id, { left, top, w, extra = "" }) {
+        const h = w * 1.375;
+        return `<div id="${id}" class="abs" style="left:${left}px;top:${top}px;width:${w}px;height:${h}px">
+        <svg viewBox="0 0 160 220" width="${w}" height="${h}">
+          <path d="M26 66 L134 66 L124 206 L36 206 Z" fill="${SKY}"/>
+          <path class="wave" d="M26 66 Q53 56 80 66 T134 66" stroke="${BLUE}" stroke-width="6" fill="none" stroke-linecap="round"/>
+          <g class="inside">${extra}</g>
+          <path d="M18 10 L142 10 L126 210 L34 210 Z" fill="none" stroke="${INK}" stroke-width="8" stroke-linejoin="round"/>
+          <path d="M40 28 L50 190" stroke="#fff" stroke-width="7" stroke-linecap="round"/>
+        </svg></div>`;
+      }
+
+      const tl = gsap.timeline({ paused: true });
+      const SFX = []; window.__sfx = SFX; const sfx = (k, t) => SFX.push([k, Math.max(0, +(+t).toFixed(3))]);
+      const pop = (sel, t, extra = {}) => sfx("pop", t) && tl.fromTo(sel, { scale: 0, opacity: 0, transformOrigin: "50% 50%" }, { scale: 1, opacity: 1, duration: 0.32, ease: "back.out(2.4)", ...extra }, t);
+      const slam = (sel, t, rot = -4) => sfx("thud", t + 0.12) && tl.fromTo(sel, { scale: 2.2, opacity: 0, rotation: rot }, { scale: 1, opacity: 1, rotation: rot, duration: 0.26, ease: "back.out(2.2)" }, t);
+      const add = (id, html) => document.getElementById(id).insertAdjacentHTML("beforeend", html);
+      const out = (sel, t) => tl.to(sel, { opacity: 0, scale: 0.9, duration: 0.14 }, t);
+      const title = (id, [a, h, b], top = 215) => `<div id="${id}" class="ttl" style="top:${top}px"><span class="w">${a}</span><span class="hl">${h}</span><span class="w">${b}</span></div>`;
+      const titleIn = (id, t) => { sfx("whoosh", t - 0.05); tl.fromTo(`#${id} .w, #${id} .hl`, { y: 60, opacity: 0 }, { y: 0, opacity: 1, duration: 0.22, stagger: 0.08, ease: "back.out(2)" }, t); tl.fromTo(`#${id} .hl`, { scaleX: 0, transformOrigin: "0% 50%" }, { scaleX: 1, duration: 0.25, ease: "power3.out" }, t + 0.08); };
+      const CL = [[["1 ·", "$1", "= 1 year"], "$1 gives one person clean water for a year", ["<b>$40M</b> raised", "<b>2M</b> people", "for <b>decades</b>"], "✓ BIG GOAL", "#2e9e5b", "TeamWater donation page", false, "#TEAMWATER"], [["2 ·", "WHEN", "does it arrive?"], "First communities online in 2026–2027", ["⛏️ drilling", "📄 pipes &amp; <b>permits</b>", "💧 first water: <b>2026–27</b>"], "⏳ IT TAKES YEARS", "#1e7fd8", "teamwater.org project timeline", false, "#TEAMWATER TIMELINE"], [["3 ·", "MEANWHILE", "?"], "What can a family do today?", ["🔥 boiling: <b>fuel</b>", "🧪 filters: <b>upkeep</b>", "💊 tablets: <b>no works</b>"], "🏠 TREAT AT HOME", "#e08a1e", "", false, "THE QUESTION"], [["4 ·", "AQUACORE", "today"], "One tablet. 25 litres. 30 minutes.", ["1 tablet = <b>25 L</b>", "ready in <b>30 min</b>", "<b>no</b> construction"], "⚡ SAFE WATER TODAY", "#2e9e5b", "", false, "AQUACORE"]];
+
+      /* their own words, as captions while their clip plays */
+      [].forEach(([a, b, txt], n) => {
+        add("theirs", `<div id="th${n}" class="their"><span>“${txt}”</span></div>`);
+        tl.fromTo(`#th${n}`, { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.1 }, a); tl.set(`#th${n}`, { opacity: 0 }, b);
+      });
+
+      /* ================= HOOK ================= */
+      add("hov", `<div id="hs" class="abs" style="left:0;top:1060px;width:1080px;text-align:center;opacity:0"><span class="verdict" style="background:${RED};font-size:90px">WHEN? ⏳</span></div>`);
+      add("hov", title("ht", ["", "WHEN", "does water arrive?"]));
+      add("hov", `<div id="hl" class="abs" style="left:540px;top:520px;opacity:0"><span class="sticker" style="font-size:44px">💧 <b id="hvn">$0</b></span></div>
+        <div id="hv" class="abs" style="left:540px;top:640px;opacity:0"><span class="sticker" style="font-size:40px;background:${YEL}">🎯 <b>2M</b> people</span></div>
+        <div id="hq" class="abs" style="left:540px;top:780px;width:470px;opacity:0"><div class="quote" style="position:relative;left:0;top:0;width:470px"><div class="who">MRBEAST &amp; MARK ROBER</div><div class="q">“which water would you drink?” 🥤</div></div></div>`);
+      tl.set("#ht .w, #ht .hl", { opacity: 0 }, 0);
+      tl.fromTo("#hk", { scale: 1.0 }, { scale: 1.06, duration: 1.4, ease: "none", transformOrigin: "50% 40%" }, 0);
+      slam("#hs", 0.7, -4);
+      tl.to("#hs", { opacity: 0, scale: 0.6, duration: 0.2 }, 3.85 - 0.1);
+      sfx("whoosh", 3.85);
+      tl.fromTo("#hk", { x: 0, y: 0, scaleX: 1.06, scaleY: 1.06, rotation: 0, borderRadius: 0, transformOrigin: "0% 0%" }, { x: 80, y: 430, scaleX: 400 / 1080, scaleY: 722 / 1920, rotation: -4, borderRadius: 70, duration: 0.55, ease: "power3.inOut" }, 3.85);
+      tl.fromTo("#hkb", { opacity: 0 }, { opacity: 1, duration: 0.3 }, 3.85 + 0.2);
+      titleIn("ht", 3.85 + 0.3);
+      const tLikes = W(0, "forty") - 0.2;
+      sfx("pop", tLikes); sfx("pop", tLikes + 0.9);
+      tl.fromTo("#hl", { x: 300, opacity: 0, rotation: 6 }, { x: 0, opacity: 1, rotation: 3, duration: 0.3, ease: "back.out(2)" }, tLikes);
+      tl.fromTo("#hv", { x: 300, opacity: 0, rotation: -6 }, { x: 0, opacity: 1, rotation: -3, duration: 0.3, ease: "back.out(2)" }, tLikes + 0.9);
+      { const o = { v: 0 }; tl.to(o, { v: 40, duration: 0.9, ease: "power2.out", onUpdate: () => { document.getElementById("hvn").textContent = "$" + Math.round(o.v) + ",000,000"; } }, tLikes); }
+      pop("#hq", tLikes + 1.0, { rotation: 2 });
+      tl.set("#hk", { opacity: 1 }, 0); tl.set("#hk", { opacity: 0 }, 7.25);
+      tl.set("#capbg", { opacity: 1 }, 2.65 - 0.05); tl.to("#capbg", { opacity: 0, duration: 0.2 }, 3.85 + 0.4); tl.set("#hov", { opacity: 1 }, 0); tl.set("#hov", { opacity: 0 }, 7.25 + 0.2);
+
+      /* ================= SPLASH ================= */
+      let rays = ""; for (let k = 0; k < 16; k++) rays += `<path d="M540 900 L${540 + Math.cos((k * 2 * Math.PI) / 16 - 0.1) * 1400} ${900 + Math.sin((k * 2 * Math.PI) / 16 - 0.1) * 1400} L${540 + Math.cos((k * 2 * Math.PI) / 16 + 0.1) * 1400} ${900 + Math.sin((k * 2 * Math.PI) / 16 + 0.1) * 1400} Z" fill="${k % 2 ? "#cfe6fa" : "#e9f4fd"}"/>`;
+      add("splash", `<div class="abs" style="left:0;top:0;width:1080px;height:1920px;background:#f6fafe"></div><svg id="rays" class="abs" style="left:0;top:0" width="1080" height="1920">${rays}</svg>
+        <div id="sp1" class="abs" style="left:290px;top:650px;width:500px;height:500px;border-radius:250px;background:#fff;border:12px solid ${INK};display:flex;flex-direction:column;align-items:center;justify-content:center">
+          <img src="assets/logo-drop.png" style="height:150px;width:auto" />
+          <div style="font-family:Cap;font-weight:900;font-size:64px;line-height:1;margin-top:10px">WATER</div>
+          <div style="font-family:Cap;font-weight:900;font-size:64px;line-height:1;color:#fff;background:${BLUE};padding:4px 22px;border-radius:14px;border:5px solid ${INK};margin-top:6px;transform:rotate(-3deg)">TODAY</div></div>
+        <div id="sp2" class="abs" style="left:0;top:1200px;width:1080px;text-align:center"><span class="sticker" style="font-size:46px">tomorrow vs <b>today</b></span></div>`);
+      sfx("whoosh", 7.25 - 0.1); sfx("ding", 7.25 + 0.12);
+      tl.fromTo("#rays", { rotation: 0, opacity: 0 }, { rotation: 25, opacity: 1, duration: T[1] - 7.25, ease: "none", svgOrigin: "540 900" }, 7.25);
+      tl.fromTo("#sp1", { scale: 0, rotation: -20 }, { scale: 1, rotation: 0, duration: 0.35, ease: "back.out(2.2)" }, 7.25 + 0.05);
+      tl.fromTo("#sp2", { y: 80, opacity: 0 }, { y: 0, opacity: 1, duration: 0.25 }, 7.25 + 0.35);
+
+      /* ================= SECTIONS ================= */
+      CL.forEach(([ttl, quote, stick, verdict, vcol, srcT, hasGlass, who], k) => {
+        const i = k + 1, S = SEC[k], ts = S.start, te = S.end, vo = S.vo, voEnd = vo + LINES[i][1];
+        add("ov", title("tt" + i, ttl));
+        add("ov", `<div id="q${i}" class="quote" style="opacity:0"><div class="who">${who}</div><div class="q">“${quote}”</div></div>`);
+        const top0 = hasGlass ? 900 : 720;
+        add("ov", stick.map((s, j) => `<div id="s${i}_${j}" class="abs" style="left:${530 + (j % 2) * 20}px;top:${top0 + j * 104}px;opacity:0"><span class="sticker">${s}</span></div>`).join(""));
+        if (hasGlass) {
+          let bub = ""; for (let b = 0; b < 14; b++) bub += `<circle class="bb${i}" cx="${40 + ((b * 37) % 80)}" cy="${200 - ((b * 53) % 120)}" r="${3 + (b % 3)}" fill="#fff" stroke="${MUTED}" stroke-width="1.5"/>`;
+          add("ov", `<svg id="gl${i}" class="abs" style="left:640px;top:600px;opacity:0" width="200" height="275" viewBox="0 0 160 220"><path d="M26 30 L134 30 L124 206 L36 206 Z" fill="${SKY}"/><rect id="milk${i}" x="20" y="30" width="120" height="178" fill="#ffffff" opacity="0.92"/>${bub}<path d="M18 10 L142 10 L126 210 L34 210 Z" fill="none" stroke="${INK}" stroke-width="8" stroke-linejoin="round"/></svg>`);
+        }
+        add("ov", `<div id="v${i}" class="abs" style="left:0;top:1215px;width:1080px;text-align:center;opacity:0"><span class="verdict" style="background:${vcol}">${verdict}</span></div>`);
+        if (srcT) add("ov", `<div id="src${i}" class="abs src" style="left:0;top:1338px;width:1080px;text-align:center;opacity:0">Source: ${srcT}</div>`);
+        tl.set(`#tt${i} .w, #tt${i} .hl`, { opacity: 0 }, 0);
+        titleIn("tt" + i, ts + 0.02);
+        tl.set(`#card${i}`, { opacity: 0 }, 0); tl.set(`#card${i}`, { opacity: 1 }, ts); tl.set(`#card${i}`, { opacity: 0 }, te);
+        sfx("whoosh", ts); sfx("whoosh", te - 0.25);
+        tl.fromTo(`#card${i}`, { x: -560, rotation: -14 }, { x: 0, rotation: k % 2 ? 3 : -3, duration: 0.42, ease: "back.out(1.6)" }, ts);
+        pop(`#q${i}`, ts + 0.3, { rotation: k % 2 ? -2 : 2 });
+        const span = Math.max(1.4, voEnd - vo - 1.2);
+        stick.forEach((s, j) => sfx("pop", vo + 0.9 + (j * span) / stick.length));
+        stick.forEach((s, j) => tl.fromTo(`#s${i}_${j}`, { x: 220, opacity: 0, rotation: 8 }, { x: 0, opacity: 1, rotation: j % 2 ? 2 : -2, duration: 0.28, ease: "back.out(2.2)" }, vo + 0.9 + (j * span) / stick.length));
+        if (hasGlass) {
+          pop(`#gl${i}`, vo + 0.6);
+          tl.fromTo(`#milk${i}`, { attr: { height: 178 } }, { attr: { height: 0 }, duration: 2.6, ease: "power1.inOut" }, vo + 1.5);
+          tl.fromTo(`.bb${i}`, { y: 0, opacity: 1 }, { y: -170, opacity: 0, duration: 1.6, stagger: 0.08, ease: "power1.in" }, vo + 1.2);
+        }
+        tl.to(`#card${i}`, { scale: 0.92, y: -10, duration: 0.3, ease: "power2.out" }, vo);
+        tl.to(`#card${i}`, { scale: 1, y: 0, duration: 0.3, ease: "power2.out" }, voEnd + 0.1);
+        slam(`#v${i}`, Math.min(te - 1.0, voEnd - 0.6), k % 2 ? 3 : -3);
+        if (srcT) tl.to(`#src${i}`, { opacity: 1, duration: 0.2 }, Math.min(te - 0.8, voEnd - 0.4));
+        out([`#tt${i}`, `#q${i}`, ...stick.map((s, j) => `#s${i}_${j}`), `#v${i}`, ...(srcT ? [`#src${i}`] : []), ...(hasGlass ? [`#gl${i}`] : [])], te - 0.14);
+        tl.to(`#card${i}`, { x: 900, rotation: 16, duration: 0.2, ease: "power2.in" }, te - 0.2);
+      });
+
+      /* ================= SCORE ================= */
+      add("concl", title("tc", ["THE", "SCORE", ""]));
+      const SC = [["$40M raised", "✓", GREEN], ["Wells &amp; pipes: 2026–27", "⏳", BLUE], ["Families waiting today", "?", RED], ["Treat water at home", "✓", GREEN]];
+      add("concl", SC.map(([n, ic, c], j) => `<div id="sc${j}" class="abs" style="left:110px;top:${380 + j * 120}px;width:860px;height:100px;background:#fff;border:6px solid ${INK};border-radius:20px;display:flex;align-items:center;gap:24px;padding:0 24px;opacity:0">
+        <div style="width:60px;height:60px;border-radius:30px;background:${c};color:#fff;font-family:Cap;font-weight:900;font-size:38px;display:flex;align-items:center;justify-content:center;border:4px solid ${INK}">${ic}</div>
+        <div style="font-family:Cap;font-weight:800;font-size:40px">${n}</div></div>`).join(""));
+      add("concl", `<div id="ca" class="abs" style="left:0;top:900px;width:1080px;text-align:center;opacity:0"><span class="verdict" style="background:${BLUE};font-size:44px">TOMORROW: INFRASTRUCTURE 🏗️</span></div>
+        <div id="cw" class="abs" style="left:0;top:1030px;width:1080px;text-align:center;opacity:0"><span class="verdict" style="background:${GREEN};font-size:44px">TODAY: SAFE WATER AT HOME 💧</span></div>
+        <div id="ctip" class="abs" style="left:0;top:1170px;width:1080px;text-align:center;opacity:0"><span class="sticker" style="font-size:38px">not either-or: <b>both</b> 🤝</span></div>`);
+      tl.set("#tc .w, #tc .hl", { opacity: 0 }, 0);
+      titleIn("tc", T[5] + 0.02);
+      SC.forEach((x, j) => sfx("pop", T[5] + 0.15 + j * 0.18));
+      SC.forEach((x, j) => tl.fromTo(`#sc${j}`, { x: -700, opacity: 0 }, { x: 0, opacity: 1, duration: 0.26, ease: "back.out(1.8)" }, T[5] + 0.15 + j * 0.18));
+      slam("#ca", W(5, "tomorrow") - 0.1, -3);
+      slam("#cw", W(5, "today") - 0.1, 2);
+      pop("#ctip", W(5, "both") - 0.2, { rotation: -2 });
+
+      /* ================= END CARD ================= */
+      add("endc", `<div class="abs" style="left:0;top:330px;width:1080px;text-align:center">
+        <img id="logo" src="assets/logo-horizontal.png" style="width:760px;height:auto" />
+        <div id="e1" style="font-family:Cap;font-weight:900;font-size:56px;margin-top:40px">SAFE WATER: <span style="color:${BLUE}">TODAY</span></div>
+        <div id="e2" style="font-family:Cap;font-weight:800;font-size:40px;color:${MUTED};margin-top:8px">aquacoreglobal.com</div>
+        <div id="e3" style="display:inline-block;margin-top:46px;padding:22px 42px;border:7px solid ${INK};border-radius:40px;font-family:Hand;font-size:44px">How long should a family <span style="color:${BLUE}">wait</span> for safe water? 💬</div>
+        <div id="e4" style="font-family:Cap;font-weight:800;font-size:23px;color:${MUTED};margin-top:40px;padding:0 40px">Clips: @MrBeast &amp; @MarkRober, #TeamWater launch (Aug 2025) · Sources: teamwater.org · AquaCore</div></div>`);
+      pop("#logo", T[6] + 0.05); sfx("ding", T[6] + 0.1);
+      tl.fromTo("#e1", { y: 30, opacity: 0 }, { y: 0, opacity: 1, duration: 0.3 }, T[6] + 0.25);
+      tl.fromTo("#e2", { y: 30, opacity: 0 }, { y: 0, opacity: 1, duration: 0.3 }, T[6] + 0.4);
+      pop("#e3", T[6] + 0.6);
+
+      /* ================= GUIDE: presenter + pointing finger ================= */
+      const GW = 140, GS = GW / 200;
+      document.getElementById("guideLayer").insertAdjacentHTML("beforeend", figure("guide", { left: 0, top: 0, w: GW, face: "smile" }) +
+        `<div id="finger" class="abs" style="left:0;top:0;width:84px;height:116px;opacity:0"><svg width="84" height="116" viewBox="0 0 84 116"><path d="M24 10 a9 9 0 0 1 18 0 L42 52 L46 48 a8 8 0 0 1 13 5 L59 56 a8 8 0 0 1 13 5 L72 64 a8 8 0 0 1 11 7 L83 92 C83 106 72 114 58 114 L40 114 C30 114 22 107 18 99 L4 72 a9 9 0 0 1 14 -9 L24 72 Z" fill="#fff" stroke="${INK}" stroke-width="6" stroke-linejoin="round"/><path d="M42 52 L42 74 M59 56 L59 76 M72 64 L72 80" stroke="${INK}" stroke-width="4" stroke-linecap="round"/></svg></div>`);
+      const G = { x: 0, y: 0, rl: 0, rr: 0, fx: 540, fy: 1200, fo: 0, base: "smile" };
+      const gFaces = ["smile", "o", "hmm", "worry", "sick"];
+      const gFace = (face, t) => { gFaces.forEach((f) => tl.set(`#guide .f-${f}`, { opacity: f === face ? 1 : 0 }, t)); };
+      const gArms = (rl, rr, t, d = 0.3) => {
+        tl.fromTo("#guide .armL", { rotation: G.rl }, { rotation: rl, svgOrigin: "100 150", duration: d, ease: "power2.out" }, t);
+        tl.fromTo("#guide .armR", { rotation: G.rr }, { rotation: rr, svgOrigin: "100 150", duration: d, ease: "power2.out" }, t);
+        G.rl = rl; G.rr = rr;
+      };
+      // place the guide at a scene start (jump cut + little bounce)
+      const gAt = (x, y, t, base = "smile") => {
+        if (G.fo) { tl.fromTo("#finger", { opacity: 1 }, { opacity: 0, duration: 0.12 }, t - 0.12); G.fo = 0; }
+        tl.set("#guide", { x, y }, t);
+        tl.fromTo("#guide", { scaleY: 0.85, transformOrigin: "50% 100%" }, { scaleY: 1, duration: 0.25, ease: "back.out(3)" }, t);
+        G.x = x; G.y = y; G.base = base; gFace(base, t); gArms(0, 0, t, 0.01);
+      };
+      // point an arm and the finger at a stage point (tx, ty)
+      const gPoint = (tx, ty, t) => {
+        const sx = G.x + 100 * GS, sy = G.y + 150 * GS;
+        const ang = (Math.atan2(ty - sy, tx - sx) * 180) / Math.PI;
+        if (tx >= sx) gArms(0, ang - 53.7, t); else gArms(ang - 126.3, 0, t);
+        const nx = tx - 33, ny = ty + 30;
+        tl.fromTo("#finger", { x: G.fx, y: G.fy, opacity: G.fo }, { x: nx, y: ny, opacity: 1, duration: 0.35, ease: "power2.out" }, t);
+        tl.fromTo("#finger svg", { scale: 1 }, { scale: 0.82, transformOrigin: "40% 0%", duration: 0.09, yoyo: true, repeat: 1 }, t + 0.35);
+        G.fx = nx; G.fy = ny; G.fo = 1; sfx("click", t + 0.36);
+      };
+      const gHideFinger = (t) => { tl.fromTo("#finger", { opacity: G.fo, x: G.fx, y: G.fy }, { opacity: 0, x: G.fx, y: G.fy, duration: 0.2 }, t); G.fo = 0; };
+      // talking: mouth opens on each word of a line, then returns to the base face
+      const gTalk = (li) => TIMED[li].forEach((x) => { gFace("o", x.t); gFace(G.base, x.t + x.d * 0.55); });
+      const gBase = (face, t) => { G.base = face; gFace(face, t); };
+
+
+      const GX = 910, GY = 1130;
+      gAt(GX, GY, 0, "o"); gTalk(0);
+      gPoint(540, 1200, 0.75);
+      gPoint(760, 600, W(0, "forty"));
+      CL.forEach((c, k) => {
+        const i = k + 1, S = SEC[k], voEnd = S.vo + LINES[i][1];
+        gAt(GX, GY, S.start, k === 1 ? "smile" : "hmm"); gTalk(i);
+        gPoint(280, 1150, S.start + 0.3);
+        if (c[6]) gPoint(740, 900, S.vo + 1.6);
+        gPoint(540, 1300, Math.min(S.end - 1.0, voEnd - 0.6) + 0.2);
+      });
+      gAt(GX, GY, T[5], "smile"); gTalk(5);
+      gPoint(420, 990, W(5, "tomorrow"));
+      gPoint(420, 1115, W(5, "today"));
+      gHideFinger(T[6] - 0.15);
+      gAt(470, 1450, T[6], "smile");
+      tl.fromTo("#guide .armR", { rotation: 0 }, { rotation: -150, svgOrigin: "100 150", duration: 0.3 }, T[6] + 0.2);
+      tl.fromTo("#guide .armR", { rotation: -150 }, { rotation: -110, svgOrigin: "100 150", duration: 0.25, yoyo: true, repeat: 7, ease: "sine.inOut" }, T[6] + 0.5);
+      tl.set("#caps", { opacity: 1 }, 0); tl.set("#caps", { opacity: 0 }, T[6]);
+      tl.set("#guideLayer", { opacity: 1 }, 0); tl.set("#guideLayer", { opacity: 0 }, 7.25); tl.set("#guideLayer", { opacity: 1 }, T[1]);
+
+      const KEY = /^(forty|million|two|arrive|promise|dollar|year|decades|wells|pipes|permits|time|2026|2027|meanwhile|today|fuel|upkeep|aquacore|tablets|twentyfive|litres|thirty|minutes|construction|tomorrow|both)$/i;
+      /* ================= captions ================= */
+      const capsEl = document.getElementById("caps");
+      TIMED.forEach((words, li) => {
+        let chunk = [], chunks = [];
+        words.forEach((x, i) => {
+          chunk.push(x);
+          const len = chunk.map((c) => c.w).join(" ").length;
+          if (/[,.?!:]$/.test(x.w) || chunk.length >= 4 || len > 18 || i === words.length - 1) { chunks.push(chunk); chunk = []; }
+        });
+        chunks.forEach((c, ci) => {
+          const id = `c${li}_${ci}`;
+          capsEl.insertAdjacentHTML("beforeend", `<div id="${id}" class="cap">${c.map((x, wi) => `<span id="${id}_${wi}"${KEY.test(x.w.replace(/[^\w]/g, "")) ? ' class="k"' : ""}>${x.w}</span>`).join(" ")}</div>`);
+          const cs = c[0].t, ce = ci < chunks.length - 1 ? chunks[ci + 1][0].t : c[c.length - 1].t + c[c.length - 1].d + 0.15;
+          tl.fromTo(`#${id}`, { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.08 }, cs);
+          tl.set(`#${id}`, { opacity: 0 }, ce);
+          c.forEach((x, wi) => tl.fromTo(`#${id}_${wi}`, { scale: 1 }, { scale: 1.12, duration: 0.08, yoyo: true, repeat: 1, transformOrigin: "50% 60%" }, x.t));
+        });
+      });
+
+
+      tl.set({}, {}, 54.03);
+      window.__timelines = window.__timelines || {};
+      window.__timelines["main"] = tl;
+      tl.seek(0);
+    </script>
+  </body>
+</html>
