@@ -1,0 +1,230 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>AquaCore Reel</title>
+<style>
+  :root{
+    --bg:#f1ede4; --ink:#141414; --muted:#8b857a; --line:#d9d3c6;
+    --a1:#0a6fd6; --a2:#12b5c9; --a3:#f26b3a; --a4:#e83e8c; --a5:#f2a93b; --a6:#1d2b3a;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{width:540px;height:960px;overflow:hidden;background:var(--bg);
+    font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;color:var(--ink)}
+  #stage{position:relative;width:540px;height:960px;overflow:hidden;
+    background:radial-gradient(120% 80% at 50% 30%,#f7f4ee 0%,var(--bg) 60%,#e7e1d4 100%)}
+  .bignum{position:absolute;right:-30px;bottom:120px;font-size:420px;font-weight:900;
+    color:rgba(0,0,0,.035);letter-spacing:-20px;line-height:1}
+  .hdr{position:absolute;top:70px;left:28px;right:28px;display:flex;justify-content:space-between;
+    font-size:10px;font-weight:700;letter-spacing:1.4px;text-transform:uppercase}
+  .brand{position:absolute;top:36px;left:28px;font-size:13px;font-weight:800;letter-spacing:.5px;
+    display:flex;align-items:center;gap:6px}
+  .brand i{width:14px;height:14px;border-radius:50% 50% 50% 0;transform:rotate(-45deg);
+    background:linear-gradient(135deg,var(--a2),var(--a1));display:inline-block}
+  .scene{position:absolute;left:0;top:100px;width:540px;height:520px;opacity:0}
+  /* bars */
+  .bar{position:absolute;left:0;height:52px;border-radius:0 6px 6px 0;
+    box-shadow:0 8px 18px rgba(0,0,0,.12), inset 0 -6px 0 rgba(0,0,0,.12)}
+  .bar .lbl{position:absolute;right:-150px;top:6px;width:140px;font-size:12px;color:var(--muted)}
+  .bar .lbl b{display:block;font-size:22px;color:var(--ink);letter-spacing:-.5px}
+  .bar .ico{position:absolute;right:8px;top:8px;width:36px;height:36px;border-radius:8px;
+    background:#fff;display:grid;place-items:center;font-size:20px;box-shadow:0 2px 6px rgba(0,0,0,.2)}
+  /* drops grid */
+  .drop{position:absolute;width:22px;height:22px;border-radius:50% 50% 50% 0;transform:rotate(-45deg);
+    background:var(--line)}
+  .pill{position:absolute;padding:10px 16px;border-radius:12px;font-weight:800;font-size:20px;color:#fff;
+    box-shadow:0 12px 24px rgba(0,0,0,.2)}
+  .card{position:absolute;background:#fff;border-radius:14px;box-shadow:0 14px 30px rgba(0,0,0,.14);padding:14px}
+  .tag{display:inline-block;background:var(--a1);color:#fff;font-weight:800;padding:2px 8px;border-radius:6px}
+  /* captions */
+  #cap{position:absolute;left:28px;right:28px;top:640px;font-size:36px;font-weight:800;
+    letter-spacing:-1px;line-height:1.08}
+  #cap span{opacity:0;display:inline-block;margin-right:9px;transform:translateY(8px)}
+  #cap span.hl{background:var(--a1);color:#fff;padding:0 6px;border-radius:4px}
+  #cap span.ol{color:transparent;-webkit-text-stroke:1.4px var(--ink)}
+  /* timeline */
+  .tl{position:absolute;left:28px;right:28px;top:820px;height:40px}
+  .tl .track{position:absolute;top:10px;left:0;right:0;height:3px;background:var(--line)}
+  .tl .fill{position:absolute;top:10px;left:0;height:3px;background:var(--ink)}
+  .tl .knob{position:absolute;top:3px;width:17px;height:17px;border-radius:50%;background:var(--ink);
+    margin-left:-8px;box-shadow:0 0 0 4px var(--bg)}
+  .tl .ticks{position:absolute;top:22px;left:0;right:0;display:flex;justify-content:space-between;
+    font-size:9px;color:var(--muted)}
+  .tl .foot{position:absolute;top:34px;left:0;right:0;display:flex;justify-content:space-between;
+    font-size:8px;color:var(--muted)}
+</style>
+</head>
+<body>
+<div id="stage">
+  <div class="bignum" id="bignum">01</div>
+  <div class="brand"><i></i>AquaCore Global</div>
+  <div class="hdr"><span id="htitle">Litros por persona al día</span><span id="hday">Día 01</span></div>
+
+  <!-- Scene 1: bar chart -->
+  <div class="scene" id="s1"></div>
+
+  <!-- Scene 2: drops grid + pill -->
+  <div class="scene" id="s2"></div>
+
+  <!-- Scene 3: comparison -->
+  <div class="scene" id="s3"></div>
+
+  <!-- Scene 4: CTA -->
+  <div class="scene" id="s4"></div>
+
+  <div id="cap"></div>
+
+  <div class="tl">
+    <div class="track"></div><div class="fill" id="fill"></div><div class="knob" id="knob"></div>
+    <div class="ticks"><span>01</span><span>03</span><span>05</span><span>07</span><span>09</span><span>11</span><span>13</span></div>
+    <div class="foot"><span>Valores ilustrativos</span><span id="dayof">Día 1 de 14</span></div>
+  </div>
+</div>
+
+<script>
+// ---------- helpers ----------
+const clamp=(x,a=0,b=1)=>Math.max(a,Math.min(b,x));
+const ease=x=>1-Math.pow(1-clamp(x),3);
+const back=x=>{x=clamp(x);const c=1.70158;return 1+(c+1)*Math.pow(x-1,3)+c*Math.pow(x-1,2)};
+const prog=(t,a,b)=>clamp((t-a)/(b-a));
+const $=id=>document.getElementById(id);
+
+// ---------- content (edit here) ----------
+const BARS=[
+  {v:85,  t:"Ducha (8 min)",      c:"var(--a1)", ico:"🚿"},
+  {v:60,  t:"Inodoro",            c:"var(--a2)", ico:"🚽"},
+  {v:40,  t:"Lavadora",           c:"var(--a4)", ico:"🧺"},
+  {v:22,  t:"Cocina y lavaplatos",c:"var(--a5)", ico:"🍳"},
+  {v:12,  t:"Fugas invisibles",   c:"var(--a3)", ico:"💧"},
+];
+// Captions: [start, end, words]; *word* = highlighted, _word_ = outline
+const CAPS=[
+  [0.2, 2.6, "Tu casa gasta"],
+  [2.6, 4.6, "*219* litros por persona"],
+  [4.6, 7.0, "y _casi_ nadie lo nota."],
+  [7.0, 9.8, "Con AquaCore *filtras* y *ahorras*"],
+  [9.8, 12.4, "hasta *30%* menos agua"],
+  [12.4, 15.0, "Empieza hoy. Link en bio."],
+];
+const SCENES=[ // [id, in, out, header, day]
+  ["s1",0,4.6,"Litros por persona al día",1],
+  ["s2",4.6,7.0,"Cada gota cuenta",3],
+  ["s3",7.0,12.4,"Antes vs. con AquaCore",7],
+  ["s4",12.4,15.2,"AquaCore Global",13],
+];
+const DURATION=15;
+
+// ---------- build DOM ----------
+const s1=$("s1");
+BARS.forEach((b,i)=>{
+  const el=document.createElement("div");el.className="bar";
+  el.style.top=(40+i*78)+"px";el.style.background=b.c;
+  el.innerHTML=`<div class="ico">${b.ico}</div><div class="lbl"><b data-v="${b.v}">0 L</b>${b.t}</div>`;
+  s1.appendChild(el);
+});
+const s2=$("s2");
+for(let r=0;r<9;r++)for(let c=0;c<14;c++){
+  const d=document.createElement("div");d.className="drop";
+  d.style.left=(40+c*33)+"px";d.style.top=(30+r*36)+"px";d.dataset.i=r*14+c;s2.appendChild(d);
+}
+s2.insertAdjacentHTML("beforeend",
+ `<div class="pill" id="pill" style="left:120px;top:160px;background:var(--a3)">≈ 6.500 L / mes</div>`);
+$("s3").innerHTML=`
+  <div class="card" id="c1" style="left:28px;top:40px;width:230px">
+    <div style="font-size:11px;color:var(--muted);font-weight:700;letter-spacing:1px">SIN AQUACORE</div>
+    <div style="font-size:54px;font-weight:900;letter-spacing:-2px" id="n1">219 L</div>
+    <div style="height:12px;background:var(--a3);border-radius:6px;margin-top:8px"></div>
+  </div>
+  <div class="card" id="c2" style="left:282px;top:40px;width:230px">
+    <div style="font-size:11px;color:var(--muted);font-weight:700;letter-spacing:1px">CON AQUACORE</div>
+    <div style="font-size:54px;font-weight:900;letter-spacing:-2px;color:var(--a1)" id="n2">219 L</div>
+    <div id="b2" style="height:12px;background:var(--a1);border-radius:6px;margin-top:8px;width:100%"></div>
+  </div>
+  <div class="pill" id="p3" style="left:150px;top:230px;background:var(--a1);font-size:44px">−30%</div>
+  <div class="card" id="c3" style="left:60px;top:340px;width:420px;font-size:15px;line-height:1.4">
+    <span class="tag">Filtrado</span> agua limpia en casa &nbsp; <span class="tag" style="background:var(--a2)">Ahorro</span> menos desperdicio
+  </div>`;
+$("s4").innerHTML=`
+  <div style="position:absolute;left:0;right:0;top:90px;text-align:center" id="logo">
+    <div style="width:110px;height:110px;margin:0 auto;border-radius:50% 50% 50% 0;transform:rotate(-45deg);
+      background:linear-gradient(135deg,var(--a2),var(--a1));box-shadow:0 20px 40px rgba(10,111,214,.35)"></div>
+    <div style="margin-top:40px;font-size:42px;font-weight:900;letter-spacing:-1.5px">AquaCore Global</div>
+    <div style="margin-top:8px;font-size:16px;color:var(--muted)">Agua limpia. Menos desperdicio.</div>
+  </div>`;
+
+// captions DOM
+const cap=$("cap");
+function setCaption(t){
+  const c=CAPS.find(c=>t>=c[0]&&t<c[1]);
+  if(!c){cap.innerHTML="";cap.dataset.k="";return}
+  if(cap.dataset.k!==String(c[0])){
+    cap.dataset.k=String(c[0]);
+    cap.innerHTML=c[2].split(" ").map(w=>{
+      let cls="";if(/^\*.*\*/.test(w)){cls="hl";w=w.replace(/\*/g,"")}
+      else if(/^_.*_/.test(w)){cls="ol";w=w.replace(/_/g,"")}
+      return `<span class="${cls}">${w}</span>`}).join("");
+  }
+  [...cap.children].forEach((s,i)=>{
+    const p=ease(prog(t,c[0]+i*0.14,c[0]+i*0.14+0.25));
+    s.style.opacity=p;s.style.transform=`translateY(${(1-p)*10}px)`;
+  });
+}
+
+// ---------- render(t) — deterministic, called per frame ----------
+window.render=function(t){
+  // scenes visibility + slide
+  let cur=SCENES[0];
+  SCENES.forEach(([id,a,b,h,d])=>{
+    const el=$(id);
+    const pin=ease(prog(t,a,a+0.4)), pout=ease(prog(t,b-0.3,b));
+    const vis=t>=a&&t<b+0.01;
+    el.style.opacity=vis?pin*(1-pout):0;
+    el.style.transform=`translateX(${(1-pin)*60-pout*60}px)`;
+    if(t>=a)cur=[id,a,b,h,d];
+  });
+  $("htitle").textContent=cur[3];
+  $("hday").textContent="Día "+String(cur[4]).padStart(2,"0");
+  $("bignum").textContent=String(cur[4]).padStart(2,"0");
+  // timeline
+  const day=1+12*clamp(t/(DURATION-1));
+  const x=(day-1)/12*484;
+  $("knob").style.left=x+"px";$("fill").style.width=x+"px";
+  $("dayof").textContent=`Día ${Math.round(day)} de 14`;
+
+  // s1 bars grow
+  const max=BARS[0].v;
+  [...s1.children].forEach((el,i)=>{
+    const p=back(prog(t,0.3+i*0.18,1.3+i*0.18));
+    el.style.width=(40+300*BARS[i].v/max)*p+"px";
+    const lb=el.querySelector("b");lb.textContent=Math.round(BARS[i].v*clamp(p))+" L";
+  });
+  // s2 drops fill in
+  const lit=Math.floor(126*ease(prog(t,4.8,6.2)));
+  s2.querySelectorAll(".drop").forEach(d=>{
+    const i=+d.dataset.i;d.style.background=i<lit?["var(--a1)","var(--a2)","var(--a4)","var(--a5)","var(--a3)"][i%5]:"var(--line)";
+  });
+  const pp=back(prog(t,5.6,6.1));
+  $("pill").style.transform=`scale(${pp}) rotate(-4deg)`;
+  // s3 counter + bar shrink + pill pop
+  const sp=ease(prog(t,8.0,9.6));
+  $("n2").textContent=Math.round(219-66*sp)+" L";
+  $("b2").style.width=(100-30*sp)+"%";
+  $("c1").style.transform=`translateY(${(1-ease(prog(t,7.1,7.6)))*40}px)`;
+  $("c2").style.transform=`translateY(${(1-ease(prog(t,7.3,7.8)))*40}px)`;
+  $("p3").style.transform=`scale(${back(prog(t,9.6,10.0))}) rotate(3deg)`;
+  $("c3").style.opacity=ease(prog(t,10.2,10.7));
+  // s4 logo
+  const lp=back(prog(t,12.5,13.1));
+  $("logo").style.transform=`scale(${0.6+0.4*lp})`;$("logo").style.opacity=clamp(lp);
+
+  setCaption(t);
+};
+window.DURATION=DURATION;
+// live preview when opened in a browser
+if(!location.search.includes("render")){
+  const t0=performance.now();
+  (function loop(){window.render(((performance.now()-t0)/1000)%DURATION);requestAnimationFrame(loop)})();
+}
+</script>
+</body>
+</html>
