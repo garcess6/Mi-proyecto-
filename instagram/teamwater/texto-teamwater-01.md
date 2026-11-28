@@ -1,8 +1,8 @@
 # Reality Check · #TeamWater 01: "$40M, where did it go?"
 
-- **Vídeo:** `AquaCore_RealityCheck_TeamWater_01_9x16.mp4` (54 s)
+- **Vídeo:** `AquaCore_RealityCheck_TeamWater_01_9x16.mp4` (55 s, versión 2: clip de @bxclipped e imagen de MrBeast)
 - **Portada:** `AquaCore_RealityCheck_TeamWater_01_portada.png`
-- **Clip:** @inthemixnetwork (TikTok, ago. 2026): directo de Adin Ross reaccionando a la actualización de un año de MrBeast
+- **Clips:** @bxclipped (TikTok, nov. 2026) y @inthemixnetwork (ago. 2026), directos de Adin Ross; imagen del vídeo de @MrBeast "Help us raise $40,000,000" (ago. 2025)
 - ⚠️ Antes de publicar, comprobar las cifras en teamwater.org (desde aquí no se pudo abrir). La de ~225.000 personas viene de la actualización de MrBeast, según UNILAD Tech.
 
 ## Instagram
@@ -20,7 +20,7 @@ A public, independent audit would settle the debate.
 
 💬 Should #TeamWater publish a full audit?
 
-Original clip: @inthemixnetwork (Adin Ross stream)
+Clips: @bxclipped & @inthemixnetwork (Adin Ross stream) · @MrBeast
 Sources: TeamWater · TikTok Newsroom (Aug 2025) · MrBeast one-year update via UNILAD Tech & Dexerto (Aug 2026)
 #TeamWater #MrBeast #AdinRoss #WaterAid #RealityCheck #SafeWater #AquaCore
 ```

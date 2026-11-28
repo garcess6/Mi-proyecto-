@@ -10,23 +10,23 @@ dur = lambda f: float(subprocess.check_output(["ffprobe", "-v", "error", "-show_
 LINES = [l.strip() for l in open(os.path.join(HERE, "lines.txt")) if l.strip()]
 VD = [dur(os.path.join(P, "assets", "vo", f"v{i}.wav")) for i in range(len(LINES))]
 GREEN, ORANGE, RED, BLUE = "#2e9e5b", "#e08a1e", "#d64545", "#1e7fd8"
-CREDIT = "@inthemixnetwork · TikTok · Aug 2026 (Adin Ross stream)"
+CREDIT = "@bxclipped · TikTok · Nov 2026 (Adin Ross stream)"
 
 SECTIONS = [
     dict(title=["1 ·", "$40M", "raised?"], quote="you have millions for water", who="ADIN ROSS, ON STREAM",
-         segs=[(5.65, 7.05, "fr_7.0.jpg")],
+         segs=[(61.0, 62.5, "fr_61.4.jpg")], cred="@MrBeast · TikTok · Aug 2025",
          stick=["<b>$40M+</b> in one month", "via <b>WaterAid</b>", "goal: <b>2M</b> people"],
          verdict="✓ TRUE", col=GREEN, src="TeamWater · TikTok Newsroom, Aug 2025", glass=False),
     dict(title=["2 ·", "WATER", "park?"], quote="I'm expecting a water park", who="ADIN ROSS, ON STREAM",
-         segs=[(9.68, 11.05, "fr_11.0.jpg")],
+         segs=[(5.0, 6.5, "fr_6.45.jpg")], cred="@bxclipped · TikTok · Nov 2026",
          stick=["$1 = <b>1 year</b> of water", "goal: <b>2M</b> people", "for <b>decades</b>"],
          verdict="↻ NOT A PARK", col=ORANGE, src="TeamWater donation page", glass=False),
     dict(title=["3 ·", "HOW MANY", "so far?"], quote="How was the $40M allocated?", who="THE QUESTION",
-         segs=[(23.49, 24.95, "fr_24.9.jpg")],
+         segs=[(38.82, 40.28, "fr_40.2.jpg")], cred="@inthemixnetwork · TikTok · Aug 2026",
          stick=["<b>~225,000</b> people", "goal: <b>2,000,000</b>", "<b>≈ 11 %</b> after 1 year"],
          verdict="⏳ IN PROGRESS", col=BLUE, src="MrBeast one-year update, via UNILAD Tech (Aug 2026)", glass=False),
     dict(title=["4 ·", "WHAT", "got built?"], quote="Show me what was built.", who="THE QUESTION",
-         segs=[(31.2, 32.65, "fr_32.6.jpg")],
+         segs=[(46.53, 47.98, "fr_47.9.jpg")], cred="@inthemixnetwork · TikTok · Aug 2026",
          stick=["🇹🇿 <b>75,000 L</b>/day", "🇧🇷 water <b>filters</b>", "🇷🇼 pipes <b>in progress</b>"],
          verdict="✓ REAL PROJECTS", col=GREEN, src="MrBeast one-year update, via UNILAD Tech / Dexerto", glass=False),
 ]
@@ -34,8 +34,8 @@ SECTIONS = [
 # ---------- schedule
 VO_AT, CLIPS = [], []          # VO start times; (t, a, b) clip audio placements
 t = 0.1
-CLIPS.append((t, 0.0, 2.47)); HOOK_SEG = (t, 0.0, 2.47)
-VO_AT.append(round(t + 2.47 + 0.15, 2))
+CLIPS.append((t, 0.0, 3.0)); HOOK_SEG = (t, 0.0, 3.0)
+VO_AT.append(round(t + 3.0 + 0.15, 2))
 SHRINK = round(VO_AT[0] + 1.2, 2)
 SPLASH = round(VO_AT[0] + VD[0] - 1.3, 2)
 T = [0.0]
@@ -71,7 +71,7 @@ for k, sec in enumerate(SEC, 1):
         nxt = sec["segs"][j + 1][0] if j + 1 < len(sec["segs"]) else sec["end"]
         media += f'        <video id="vid{k}_{j}" class="clip fv" src="assets/clip.mp4" data-start="{ts}" data-duration="{round(b - a, 2)}" data-media-start="{a}" muted playsinline></video>\n'
         media += f'        <img id="frz{k}_{j}" class="clip fv" src="assets/{fr}" data-start="{round(ts + b - a, 2)}" data-duration="{round(nxt - ts - (b - a), 2)}" />\n'
-    media += '        <div class="cred">' + CREDIT + '</div>\n      </div>\n'
+    media += '        <div class="cred">' + SECTIONS[k - 1]["cred"] + '</div>\n      </div>\n'
 
 # the lines the creators say, shown as their own captions (white, on dark) during clip playback
 THEIR = []
@@ -128,7 +128,7 @@ html = f'''<!doctype html>
       <div id="tag" class="abs" style="left:0;top:95px;width:1080px;text-align:center;z-index:3"><div class="pill"><img src="assets/logo-drop.png" style="height:46px;width:auto" />REALITY CHECK · <b>#TEAMWATER</b></div></div>
       <div id="hk" class="abs" style="left:0;top:0;width:1080px;height:1920px;overflow:hidden;z-index:2">
         <video id="hv0" class="clip fv" src="assets/clip.mp4" data-start="{HOOK_SEG[0]}" data-duration="{round(HOOK_SEG[2] - HOOK_SEG[1], 2)}" data-media-start="{HOOK_SEG[1]}" muted playsinline></video>
-        <img id="hfz" class="clip fv" src="assets/fr_3.4.jpg" data-start="{round(HOOK_SEG[0] + HOOK_SEG[2] - HOOK_SEG[1], 2)}" data-duration="{round(T[1] - HOOK_SEG[0] - (HOOK_SEG[2] - HOOK_SEG[1]), 2)}" />
+        <img id="hfz" class="clip fv" src="assets/fr_2.95.jpg" data-start="{round(HOOK_SEG[0] + HOOK_SEG[2] - HOOK_SEG[1], 2)}" data-duration="{round(T[1] - HOOK_SEG[0] - (HOOK_SEG[2] - HOOK_SEG[1]), 2)}" />
         <div id="hkb" style="position:absolute;inset:0;border:22px solid #111418;border-radius:70px;opacity:0"></div>
         <div class="cred" style="font-size:24px;bottom:auto;top:200px;left:30px">Video: {CREDIT}</div>
       </div>
@@ -173,7 +173,7 @@ html = f'''<!doctype html>
       }});
 
       /* ================= HOOK ================= */
-      add("hov", `<div id="hs" class="abs" style="left:0;top:820px;width:1080px;text-align:center;opacity:0"><span class="verdict" style="background:${{RED}};font-size:96px">AUDIT? 🧐</span></div>`);
+      add("hov", `<div id="hs" class="abs" style="left:0;top:1060px;width:1080px;text-align:center;opacity:0"><span class="verdict" style="background:${{RED}};font-size:96px">AUDIT? 🧐</span></div>`);
       add("hov", title("ht", ["", "$40M", "where did it go?"]));
       add("hov", `<div id="hl" class="abs" style="left:540px;top:520px;opacity:0"><span class="sticker" style="font-size:44px">💧 <b id="hvn">$0</b></span></div>
         <div id="hv" class="abs" style="left:540px;top:640px;opacity:0"><span class="sticker" style="font-size:40px;background:${{YEL}}">🎯 <b>2M</b> people goal</span></div>
@@ -266,7 +266,7 @@ html = f'''<!doctype html>
         <div id="e1" style="font-family:Cap;font-weight:900;font-size:56px;margin-top:40px">REALITY CHECK: <span style="color:${{BLUE}}">#TEAMWATER</span></div>
         <div id="e2" style="font-family:Cap;font-weight:800;font-size:40px;color:${{MUTED}};margin-top:8px">aquacoreglobal.com</div>
         <div id="e3" style="display:inline-block;margin-top:46px;padding:22px 42px;border:7px solid ${{INK}};border-radius:40px;font-family:Hand;font-size:56px">Should <span style="color:${{BLUE}}">#TeamWater</span> publish a full audit? 💬</div>
-        <div id="e4" style="font-family:Cap;font-weight:800;font-size:23px;color:${{MUTED}};margin-top:40px;padding:0 40px">Original video: {CREDIT} · Sources: TeamWater · TikTok Newsroom (Aug 2025) · MrBeast one-year update via UNILAD Tech &amp; Dexerto (Aug 2026)</div></div>`);
+        <div id="e4" style="font-family:Cap;font-weight:800;font-size:23px;color:${{MUTED}};margin-top:40px;padding:0 40px">Clips: @bxclipped &amp; @inthemixnetwork (Adin Ross stream) · @MrBeast · Sources: TeamWater · TikTok Newsroom (Aug 2025) · MrBeast one-year update via UNILAD Tech &amp; Dexerto (Aug 2026)</div></div>`);
       pop("#logo", T[6] + 0.05); sfx("ding", T[6] + 0.1);
       tl.fromTo("#e1", {{ y: 30, opacity: 0 }}, {{ y: 0, opacity: 1, duration: 0.3 }}, T[6] + 0.25);
       tl.fromTo("#e2", {{ y: 30, opacity: 0 }}, {{ y: 0, opacity: 1, duration: 0.3 }}, T[6] + 0.4);
@@ -275,7 +275,7 @@ html = f'''<!doctype html>
 {guide}
       const GX = 910, GY = 1130;
       gAt(GX, GY, 0, "o"); gTalk(0);
-      gPoint(540, 960, 0.75);
+      gPoint(540, 1200, 0.75);
       gPoint(760, 600, W(0, "forty"));
       CL.forEach((c, k) => {{
         const i = k + 1, S = SEC[k], voEnd = S.vo + LINES[i][1];
@@ -305,7 +305,7 @@ html = f'''<!doctype html>
 </html>
 '''
 open(os.path.join(P, "index.html"), "w").write(html)
-json.dump({"id": "reality-teamwater-1", "name": "reality-teamwater-1"}, open(os.path.join(P, "meta.json"), "w"))
+json.dump({"id": "reality-teamwater-1b", "name": "reality-teamwater-1"}, open(os.path.join(P, "meta.json"), "w"))
 
 # ---------- audio: our VO + their clip audio + SFX
 js = os.path.join(HERE, "sfx_events.js")
@@ -324,7 +324,7 @@ inp, flt, mix, n = [], "", "", 0
 for i, s in enumerate(VO_AT):
     inp += ["-i", os.path.join(P, "assets", "vo", f"v{i}.wav")]; ms = int(s * 1000)
     flt += f"[{n}:a]aresample=44100,adelay={ms}|{ms}[a{n}];"; mix += f"[a{n}]"; n += 1
-for (tt, a, b) in CLIPS:
+for (tt, a, b) in [c for c in CLIPS if c[1] < 60]:
     inp += ["-i", os.path.join(P, "assets", "clipaudio.wav")]; ms = int(tt * 1000)
     flt += f"[{n}:a]atrim={a}:{b},asetpts=PTS-STARTPTS,afade=t=in:d=0.05,afade=t=out:st={round(b - a - 0.08, 2)}:d=0.08,volume=1.0,adelay={ms}|{ms}[a{n}];"; mix += f"[a{n}]"; n += 1
 for (k, tt) in keep:
